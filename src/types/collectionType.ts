@@ -1,26 +1,18 @@
-// get all collections res
-export interface IGetAllCollectionsRes {
+interface IGroupPass {
   id: string;
   name: string;
   star: boolean;
+  data: string; //to group
 }
 
-// get collection by id res
-export interface IGetCollectionByIdRes {
-  id: string;
-  name: string;
-  star: boolean;
-  passwords: string;
-}
+/* ----------------  Get all user groups res  ---------------- */
+export interface IGetAllGroups_Res extends Omit<IGroupPass, 'data'> {}
 
-// create collection req
-export interface ICreateCollectionReq {
-  name: string;
-}
+/* ----------------  Get by id user group res  ---------------- */
+export interface IGetByIdGroups_Res extends IGroupPass {}
 
-// edit info collection req
-export interface IEditInfoCollection {
-  passCollectionId: string;
-  name: string;
-  star: boolean;
-}
+/* ----------------  Create group res ---------------- */
+export interface ICreateGroups_Req extends Pick<IGroupPass, 'name'> {}
+
+/* ----------------  Edit info group req  ---------------- */
+// export interface IEditGroups_Res extends Omit<IGroupPass, 'data'> {}

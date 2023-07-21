@@ -2,13 +2,13 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATH_COLLECTION, PATH_MAIN } from '../../routes/paths';
 import { collectionService } from '../../services/collectionServices';
-import { ICreateCollectionReq } from '../../types/collectionType';
+import { ICreateGroups_Req } from '../../types/collectionType';
 
 // ----------------------------------------------------------------------
 
 export default function CollectionCreatePage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<ICreateCollectionReq>({
+  const [formData, setFormData] = useState<ICreateGroups_Req>({
     name: '',
   });
 

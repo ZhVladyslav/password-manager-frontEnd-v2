@@ -20,3 +20,10 @@ export interface IRegistrationReq {
 export interface IRefreshRes {
   accessToken: string;
 }
+
+// ----------------------------------------------------------------------
+
+export interface IAccessToken {
+  sessionId: string;
+  exp: number;
+}

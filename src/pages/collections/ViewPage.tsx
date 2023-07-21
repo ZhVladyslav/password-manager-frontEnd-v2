@@ -2,13 +2,13 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { PATH_COLLECTION, PATH_ERROR, PATH_MAIN } from '../../routes/paths';
 import { collectionService } from '../../services/collectionServices';
-import { IGetCollectionByIdRes } from '../../types/collectionType';
+import { IGetByIdGroups_Res } from '../../types/collectionType';
 import CryptoJS from 'crypto-js';
 
 // ----------------------------------------------------------------------
 
 export default function CollectionViewPage() {
-  const [collection, setCollection] = useState<IGetCollectionByIdRes>();
+  const [collection, setCollection] = useState<IGetByIdGroups_Res>();
   const [originPasswords, setOriginPasswords] = useState('');
   const [encryptedPasswords, setEncryptedPasswords] = useState('');
   const [decryptedPasswords, setDecryptedPasswords] = useState('');
@@ -35,20 +35,6 @@ export default function CollectionViewPage() {
     setCollection({ ...collection, star: !collection.star });
   };
 
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setPasswordsToEncrypt(e.target.value);
-  // };
-
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   if (!collection) return;
-
-  //   // Perform form validation or other checks here
-  //   const data = await collectionService.editPasswords(collection.id, passwordsEncode);
-  //   if (data.err) return;
-  //   setCollection({ ...collection, passwords: passwordsEncode });
-  // };
-
   useEffect(() => {
     getCollection();
   }, []);
@@ -65,15 +51,15 @@ export default function CollectionViewPage() {
     const encrypted = CryptoJS.AES.encrypt(originPasswords, password).toString();
     setEncryptedPasswords(encrypted);
 
-    const data = await collectionService.editPasswords(collection.id, encrypted);
+    const data = await collectionService.editData(collection.id, encrypted);
     if (data.err) return;
-    setCollection({ ...collection, passwords: encrypted });
+    setCollection({ ...collection, data: encrypted });
   };
 
   const decryptData = () => {
     if (!collection) return;
 
-    const decrypted = CryptoJS.AES.decrypt(collection?.passwords, password).toString(CryptoJS.enc.Utf8);
+    const decrypted = CryptoJS.AES.decrypt(collection?.data, password).toString(CryptoJS.enc.Utf8);
     setDecryptedPasswords(decrypted);
   };
 
@@ -100,7 +86,7 @@ export default function CollectionViewPage() {
         <br />
         <span>
           <b>{`passwords: `}</b>
-          {`${collection?.passwords}`}
+          {`${collection?.data}`}
         </span>
         <br />
         <br />

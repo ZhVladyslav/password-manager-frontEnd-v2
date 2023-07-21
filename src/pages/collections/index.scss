@@ -1,0 +1,138 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  height: 100vh;
+}
+
+.listGroups {
+  background-color: #0d1117;
+  border-right: 1px solid #21262d;
+  padding: 25px;
+  overflow: auto;
+
+  .inner-listGroups {
+    width: 100%;
+
+    .groupButton {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      width: 100%;
+      margin-bottom: 5px;
+      padding-left: 10px;
+      border-radius: 8px;
+      background-color: #24292e;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #3b434b;
+      }
+    }
+  }
+}
+
+.viewGroup {
+  background-color: #010409;
+  padding: 25px;
+  overflow: auto;
+
+  .inner-viewGroup {
+    width: 100%;
+
+    .viewGroupName {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 50px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      border-bottom: 1px solid #21262d;
+
+      span {
+        font-weight: 600;
+        text-transform: lowercase;
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+
+      .buttonBlock {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        height: 100%;
+        min-width: 60px;
+
+        .button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 35px;
+          height: 35px;
+          margin: 5px;
+          border-radius: 50%;
+          background-color: #238636;
+          font-size: 25px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #2ea043;
+          }
+        }
+      }
+    }
+
+    .viewRecordNameContainer {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 50px;
+      background-color: #0d1117;
+      border-radius: 8px;
+      border: 1px solid #21262d;
+      padding-left: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #24292e;
+      }
+    }
+  }
+}
+
+.viewRecordInGroup {
+  background-color: #010409;
+  padding: 25px;
+  overflow: auto;
+
+  .inner-viewRecordInGroup {
+    width: 100%;
+
+    .recordName {
+      display: flex;
+      align-items: center;
+      height: 25px;
+      width: 100%;
+
+      span {
+        font-size: 14px;
+        color: #7d8590;
+      }
+    }
+
+    .recordData {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      width: 100%;
+      margin-bottom: 10px;
+      background-color: #0d1117;
+      border: 1px solid #21262d;
+      padding-left: 10px;
+      border-radius: 8px;
+      cursor: copy;
+    }
+  }
+}

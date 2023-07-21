@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from '../../redux/store';
 import { IStore } from '../../types/storeType';
 
-// consts
+// const
 import { PATH_MAIN } from '../../routes/paths';
 
 // components
@@ -18,11 +18,11 @@ interface iGuestGuard {
 // ----------------------------------------------------------------------
 
 export const GuestGuard = (props: iGuestGuard) => {
-  // get userIsLoading and accesToken from store
+  // get userIsLoading and accessToken from store
   const isLoading = useSelector((state: IStore) => state.user.isLoading);
   const accessToken = useSelector((state: IStore) => state.session.access);
 
-  // if accesToken is present, redirect to home page
+  // if accessToken is present, redirect to home page
   if (accessToken) {
     return <Navigate to={PATH_MAIN.home} />;
   }

@@ -58,6 +58,7 @@ export const AuthLayout = Loadable(lazy(() => import('../layouts/AuthLayout')));
 
 // Main
 export const HomePage = Loadable(lazy(() => import('../pages/HomePage')));
+export const Main = Loadable(lazy(() => import('../pages/collections')));
 
 // Auth
 export const LoginPage = Loadable(lazy(() => import('../pages/auth/LoginPage')));

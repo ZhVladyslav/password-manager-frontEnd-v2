@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from '../../redux/store';
 import { IStore } from '../../types/storeType';
 
-// consts
+// const
 import { PATH_AUTH } from '../../routes/paths';
 
 // components
@@ -22,7 +22,7 @@ export const AuthGuard = (props: iAuthGuard) => {
   const isLoading = useSelector((state: IStore) => state.user.isLoading);
   const accessToken = useSelector((state: IStore) => state.session.access);
 
-  // if accesToken is not present, redirect to login page
+  // if accessToken is not present, redirect to login page
   if (!accessToken) {
     return <Navigate to={PATH_AUTH.login} />;
   }

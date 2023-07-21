@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PATH_COLLECTION, PATH_MAIN } from '../../routes/paths';
 import { collectionService } from '../../services/collectionServices';
-import { IEditInfoCollection, IGetAllCollectionsRes } from '../../types/collectionType';
+import { IGetAllGroups_Res } from '../../types/collectionType';
 
 // ----------------------------------------------------------------------
 
 export default function CollectionListPage() {
-  const [collectionList, setCollectionList] = useState<IGetAllCollectionsRes[]>([]);
+  const [collectionList, setCollectionList] = useState<IGetAllGroups_Res[]>([]);
 
   const getCollections = async () => {
     const data = await collectionService.getAll();

@@ -1,19 +1,14 @@
 import axios from '../modules/axios';
 import { API } from '../config/config';
 import { IError, IMessageRes } from '../types/helpTypes';
-import {
-  ICreateCollectionReq,
-  IEditInfoCollection,
-  IGetAllCollectionsRes,
-  IGetCollectionByIdRes,
-} from '../types/collectionType';
+import { ICreateGroups_Req, IGetAllGroups_Res, IGetByIdGroups_Res } from '../types/collectionType';
 
 // ----------------------------------------------------------------------
 class CollectionService {
   async getAll() {
     try {
-      const res = await axios.get(`${API}/passCollection/All`);
-      return { res: res.data as IGetAllCollectionsRes[] };
+      const res = await axios.get(`${API}/collection/All`);
+      return { res: res.data as IGetAllGroups_Res[] };
     } catch (error) {
       const err = error as IError;
       return { err: err.response };
@@ -22,17 +17,17 @@ class CollectionService {
 
   async getById(id: string) {
     try {
-      const res = await axios.get(`${API}/passCollection/${id}`);
-      return { res: res.data as IGetCollectionByIdRes };
+      const res = await axios.get(`${API}/collection/byId/${id}`);
+      return { res: res.data as IGetByIdGroups_Res };
     } catch (error) {
       const err = error as IError;
       return { err: err.response };
     }
   }
 
-  async create(data: ICreateCollectionReq) {
+  async create(data: ICreateGroups_Req) {
     try {
-      const res = await axios.post(`${API}/passCollection/create`, data);
+      const res = await axios.post(`${API}/collection/create`, data);
       return { res: res.data as IMessageRes };
     } catch (error) {
       const err = error as IError;
@@ -40,9 +35,9 @@ class CollectionService {
     }
   }
 
-  async editPasswords(id: string, passwords: string) {
+  async editData(id: string, data: string) {
     try {
-      const res = await axios.put(`${API}/passCollection/passwords`, { passCollectionId: id, passwords });
+      const res = await axios.put(`${API}/collection/data`, { id, data });
       return { res: res.data as IMessageRes };
     } catch (error) {
       const err = error as IError;
@@ -50,9 +45,10 @@ class CollectionService {
     }
   }
 
-  async editInfo(data: IEditInfoCollection) {
+  // to fix
+  async editInfo(data: any) {
     try {
-      const res = await axios.put(`${API}/passCollection/info`, data);
+      const res = await axios.put(`${API}/collection/info`, data);
       return { res: res.data as IMessageRes };
     } catch (error) {
       const err = error as IError;
@@ -62,7 +58,7 @@ class CollectionService {
 
   async delete(id: string) {
     try {
-      const res = await axios.delete(`${API}/passCollection/${id}`);
+      const res = await axios.delete(`${API}/collection/${id}`);
       return { res: res.data as IMessageRes };
     } catch (error) {
       const err = error as IError;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 
-// consts
+// const
 import { PATH_ERROR, PATH_MAIN } from './paths';
 
 // components
@@ -18,10 +18,11 @@ import {
   CollectionListPage,
   RegistrationPage,
   CollectionCreatePage,
+  Main,
 } from './imports';
 import { GuestGuard } from '../modules/guards/GuestGuard';
 import { AuthGuard } from '../modules/guards/AuthGuard';
-// import { AuthGuard } from '../modules/guards/AuthGuard';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 // ----------------------------------------------------------------------
 
@@ -65,11 +66,11 @@ export default function Router() {
       path: 'collection',
       element: (
         <AuthGuard>
-          <AuthLayout />
+          <DashboardLayout />
         </AuthGuard>
       ),
       children: [
-        { path: 'list', element: <CollectionListPage /> },
+        { path: 'list', element: <Main /> },
         { path: 'view/:id', element: <CollectionViewPage /> },
         { path: 'create', element: <CollectionCreatePage /> },
       ],
