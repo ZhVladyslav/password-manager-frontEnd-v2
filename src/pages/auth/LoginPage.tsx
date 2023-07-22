@@ -1,25 +1,26 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Form from '../../components/Form';
+import Input, { EnumTypes } from '../../components/Input';
 import { sessionActions } from '../../redux/slices/sessionSlice';
 import { PATH_AUTH } from '../../routes/paths';
 import { authService } from '../../services/authServices';
 import { ILoginReq } from '../../types/authType';
 
+import './AuthStyle.scss';
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
   const [formData, setFormData] = useState<ILoginReq>({
-    login: 'UserLogin',
+    login: 'Demo user',
     password: 'P@ssword1234',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     // Perform form validation or other checks here
     const data = await authService.login(formData);
     if (data.err) return;
@@ -27,25 +28,19 @@ export default function LoginPage() {
   };
 
   return (
-    <>
-      <code>login:UserLogin</code> <br />
-      <code>password:P@ssword1234</code> <br />
-      <hr />
-      <form onSubmit={handleSubmit}>
-        <label>
-          login:
-          <input type="text" name="login" value={formData.login} onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          password:
-          <input type="text" name="password" value={formData.password} onChange={handleChange} />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-      <hr />
-      <Link to={PATH_AUTH.registration}>registration</Link>
-    </>
+    <div className="authContainer">
+      <Form submit={handleSubmit} buttonName="Login">
+        <Input type={EnumTypes.text} name={'login'} onChange={handleChange} value={formData.login} label={'Login'} />
+        <Input
+          type={EnumTypes.password}
+          name={'password'}
+          onChange={handleChange}
+          value={formData.password}
+          label={'Password'}
+        />
+
+        <Link to={PATH_AUTH.registration}>registration</Link>
+      </Form>
+    </div>
   );
 }

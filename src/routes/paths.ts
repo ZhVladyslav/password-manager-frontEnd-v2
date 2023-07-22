@@ -12,7 +12,7 @@ const ROOT_ERROR = '/error';
 // ----------------------------------------------------------------------
 
 export const PATH_MAIN = {
-  home: path(ROOT_MAIN, '/Home'),
+  home: path(ROOT_COLLECTION, '/list'),
 };
 
 // ----------------------------------------------------------------------

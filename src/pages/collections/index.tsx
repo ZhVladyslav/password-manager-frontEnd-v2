@@ -16,17 +16,27 @@ export default function Main() {
   const [group, setGroup] = useState<IGetByIdGroups_Res | null>(null);
   const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null);
   const [viewDecryptData, setViewDecryptData] = useState<IDecryptGroutRecord | null>(null);
+  const [decryptPassword, setDecryptPassword] = useState('');
 
   return (
     <>
       <div className="gridContainer">
-        <ViewAllGroup allGroups={allGroups} setAllGroups={setAllGroups} setGroup={setGroup} />
+        <ViewAllGroup
+          allGroups={allGroups}
+          setAllGroups={setAllGroups}
+          setGroup={setGroup}
+          setDecryptGroup={setDecryptGroup}
+          setViewDecryptData={setViewDecryptData}
+          setDecryptPassword={setDecryptPassword}
+        />
         <ViewDecryptData
           group={group}
           setGroup={setGroup}
           decryptGroup={decryptGroup}
           setDecryptGroup={setDecryptGroup}
           setViewDecryptData={setViewDecryptData}
+          decryptPassword={decryptPassword}
+          setDecryptPassword={setDecryptPassword}
         />
         <ViewRecordData
           viewDecryptData={viewDecryptData}
@@ -34,6 +44,8 @@ export default function Main() {
           setViewDecryptData={setViewDecryptData}
           decryptGroup={decryptGroup}
           group={group}
+          decryptPassword={decryptPassword}
+          setDecryptPassword={setDecryptPassword}
         />
       </div>
     </>

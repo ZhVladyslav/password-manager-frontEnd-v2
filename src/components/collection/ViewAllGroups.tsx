@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { collectionService } from '../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
+import { IDecryptGrout, IDecryptGroutRecord } from '../../types/decryptGroupType';
+import Form from '../Form';
+import Input, { EnumTypes } from '../Input';
+import Header from './Header';
 
 // ----------------------------------------------------------------------
 
@@ -8,11 +12,22 @@ interface IProps {
   allGroups: IGetAllGroups_Res[] | null;
   setAllGroups: (data: IGetAllGroups_Res[] | []) => void;
   setGroup: (data: IGetByIdGroups_Res | null) => void;
+
+  setDecryptGroup: (data: IDecryptGrout | null) => void;
+  setViewDecryptData: (data: IDecryptGroutRecord | null) => void;
+  setDecryptPassword: (data: string) => void;
 }
 
 // ----------------------------------------------------------------------
 
-export default function ViewAllGroup({ allGroups, setAllGroups, setGroup }: IProps) {
+export default function ViewAllGroup({
+  allGroups,
+  setAllGroups,
+  setGroup,
+  setDecryptGroup,
+  setViewDecryptData,
+  setDecryptPassword,
+}: IProps) {
   const [nameNewGroup, setNameNewGroup] = useState('');
   const [addGroup, setAddGroup] = useState(false);
   // Get user groups when loading component
@@ -38,11 +53,13 @@ export default function ViewAllGroup({ allGroups, setAllGroups, setGroup }: IPro
 
   const clickOnGroup = async (id: string) => {
     setGroup(null);
+    setDecryptGroup(null);
+    setViewDecryptData(null);
+    setDecryptPassword('');
     getGroupById(id);
   };
 
-  const createGroup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const createGroup = async () => {
     const result = await collectionService.create({ name: nameNewGroup });
     if (result.err) return;
     setAddGroup(false);
@@ -55,14 +72,9 @@ export default function ViewAllGroup({ allGroups, setAllGroups, setGroup }: IPro
 
   const createGroupForm = () => {
     return (
-      <form onSubmit={createGroup}>
-        <label>
-          name:
-          <input type="text" name="name" value={nameNewGroup} onChange={handleChange} />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+      <Form submit={createGroup}>
+        <Input type={EnumTypes.text} name={'GroupName'} onChange={handleChange} value={nameNewGroup} label={'Name'} />
+      </Form>
     );
   };
 
@@ -70,7 +82,8 @@ export default function ViewAllGroup({ allGroups, setAllGroups, setGroup }: IPro
     <>
       <div className="listGroups">
         <div className="inner-listGroups">
-          {!addGroup && <div onClick={() => setAddGroup(!addGroup)}>Add</div>}
+          <Header name={'Add group'} onClick={() => setAddGroup(!addGroup)} status={addGroup} />
+
           {addGroup && createGroupForm()}
           {allGroups &&
             !addGroup &&

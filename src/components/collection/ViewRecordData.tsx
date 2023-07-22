@@ -3,6 +3,9 @@ import { collectionService } from '../../services/collectionServices';
 import { IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout, IDecryptGroutRecord, IUserFields } from '../../types/decryptGroupType';
 import CryptoJS from 'crypto-js';
+import Header from './Header';
+import Input, { EnumTypes } from '../Input';
+import Form from '../Form';
 
 // ----------------------------------------------------------------------
 
@@ -12,6 +15,8 @@ interface IProps {
   group: IGetByIdGroups_Res | null;
   setDecryptGroup: (data: IDecryptGrout | null) => void;
   setViewDecryptData: (data: IDecryptGroutRecord | null) => void;
+  decryptPassword: string;
+  setDecryptPassword: (data: string) => void;
 }
 
 // ----------------------------------------------------------------------
@@ -22,8 +27,9 @@ export default function ViewRecordData({
   group,
   setViewDecryptData,
   setDecryptGroup,
+  decryptPassword,
+  setDecryptPassword,
 }: IProps) {
-  const [decryptPassword, setDecryptPassword] = useState('');
   const [addRecord, setAddRecord] = useState(false);
 
   const [newRecordName, setNewRecordName] = useState('');
@@ -83,16 +89,34 @@ export default function ViewRecordData({
     <>
       <div className="viewRecordInGroup">
         <div className="inner-viewRecordInGroup">
-          {viewDecryptData && !addRecord && <div onClick={() => setAddRecord(!addRecord)}>Add</div>}
+          {viewDecryptData && (
+            <Header name={viewDecryptData.name} onClick={() => setAddRecord(!addRecord)} status={addRecord} />
+          )}
 
           {addRecord && (
-            <div>
-              <div>add record</div>
-              <input type="text" name="name" onChange={changeNameNewNewRecord} value={newRecordName} />
-              <input type="text" name="password" onChange={changeNameToCreateNewRecord} value={newRecordData} />
-              <input type="text" name="password" onChange={changePassword} value={decryptPassword} />
-              <div onClick={clickAddRecord}>Add</div>
-            </div>
+            <Form submit={clickAddRecord}>
+              <Input
+                type={EnumTypes.text}
+                name={'FieldName'}
+                onChange={changeNameNewNewRecord}
+                value={newRecordName}
+                label={'Name'}
+              />
+              <Input
+                type={EnumTypes.password}
+                name={'FieldPassword'}
+                onChange={changeNameToCreateNewRecord}
+                value={newRecordData}
+                label={'Data'}
+              />
+              <Input
+                type={EnumTypes.password}
+                name={'GroupPassword'}
+                onChange={changePassword}
+                value={decryptPassword}
+                label={'Password to group'}
+              />
+            </Form>
           )}
 
           {viewDecryptData &&

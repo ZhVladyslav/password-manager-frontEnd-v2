@@ -1,10 +1,13 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Form from '../../components/Form';
+import Input, { EnumTypes } from '../../components/Input';
 import { sessionActions } from '../../redux/slices/sessionSlice';
 import { PATH_AUTH } from '../../routes/paths';
 import { authService } from '../../services/authServices';
 import { IRegistrationReq } from '../../types/authType';
 
+import './AuthStyle.scss';
 // ----------------------------------------------------------------------
 
 export default function RegistrationPage() {
@@ -14,13 +17,11 @@ export default function RegistrationPage() {
     password: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     // Perform form validation or other checks here
     const dataRegistration = await authService.registration(formData);
     if (dataRegistration.err) return;
@@ -30,27 +31,20 @@ export default function RegistrationPage() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" name="name" value={formData.name} onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          login:
-          <input type="login" name="login" value={formData.login} onChange={handleChange} />
-        </label>
-        <br />
-        <label>
-          password:
-          <input type="password" name="password" value={formData.password} onChange={handleChange} />
-        </label>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+    <div className="authContainer">
+      <Form submit={handleSubmit} buttonName="Registration">
+        <Input type={EnumTypes.text} name={'name'} onChange={handleChange} value={formData.name} label={'Name'} />
+        <Input type={EnumTypes.text} name={'login'} onChange={handleChange} value={formData.login} label={'Login'} />
+        <Input
+          type={EnumTypes.password}
+          name={'password'}
+          onChange={handleChange}
+          value={formData.password}
+          label={'Password'}
+        />
 
-      <Link to={PATH_AUTH.login}>login</Link>
-    </>
+        <Link to={PATH_AUTH.login}>Login</Link>
+      </Form>
+    </div>
   );
 }
