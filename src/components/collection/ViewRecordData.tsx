@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { collectionService } from '../../services/collectionServices';
 import { IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout, IDecryptGroutRecord, IUserFields } from '../../types/decryptGroupType';
 import CryptoJS from 'crypto-js';
-import Header from './Header';
+import { Header2 } from '../headers';
 import Input, { EnumTypes } from '../Input';
 import Form from '../Form';
+import './ViewRecordInGroup.scss';
+import { ButtonSvg } from '../buttons';
+import { SvgClose, SvgPlus } from '../../assets';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +20,8 @@ interface IProps {
   setViewDecryptData: (data: IDecryptGroutRecord | null) => void;
   decryptPassword: string;
   setDecryptPassword: (data: string) => void;
+  popupStatus: boolean;
+  setPopupStatus: (data: boolean) => void;
 }
 
 // ----------------------------------------------------------------------
@@ -29,8 +34,11 @@ export default function ViewRecordData({
   setDecryptGroup,
   decryptPassword,
   setDecryptPassword,
+  popupStatus,
+  setPopupStatus,
 }: IProps) {
   const [addRecord, setAddRecord] = useState(false);
+  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
 
   const [newRecordName, setNewRecordName] = useState('');
   const [newRecordData, setNewRecordData] = useState('');
@@ -85,54 +93,114 @@ export default function ViewRecordData({
     }
   };
 
-  return (
-    <>
-      <div className="viewRecordInGroup">
-        <div className="inner-viewRecordInGroup">
-          {viewDecryptData && (
-            <Header name={viewDecryptData.name} onClick={() => setAddRecord(!addRecord)} status={addRecord} />
-          )}
+  useEffect(() => {
+    function handleResize() {
+      setWindowInnerWidth(window.innerWidth);
+      if (window.innerWidth > 700) setPopupStatus(false);
+    }
 
-          {addRecord && (
-            <Form submit={clickAddRecord}>
-              <Input
-                type={EnumTypes.text}
-                name={'FieldName'}
-                onChange={changeNameNewNewRecord}
-                value={newRecordName}
-                label={'Name'}
-              />
-              <Input
-                type={EnumTypes.password}
-                name={'FieldPassword'}
-                onChange={changeNameToCreateNewRecord}
-                value={newRecordData}
-                label={'Data'}
-              />
-              <Input
-                type={EnumTypes.password}
-                name={'GroupPassword'}
-                onChange={changePassword}
-                value={decryptPassword}
-                label={'Password to group'}
-              />
-            </Form>
-          )}
+    window.addEventListener('resize', handleResize);
 
-          {viewDecryptData &&
-            !addRecord &&
-            viewDecryptData.userFields.map((item, i) => (
-              <div key={i}>
-                <div className="recordName">
-                  <span>{item.name}</span>
-                </div>
-                <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
-                  {item.text}
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
-    </>
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // ----------------------------------------------------------------------
+
+  const JsxAddRecord = () => (
+    <Form submit={clickAddRecord}>
+      <Input
+        type={EnumTypes.text}
+        name={'FieldName'}
+        onChange={changeNameNewNewRecord}
+        value={newRecordName}
+        label={'Name'}
+      />
+      <Input
+        type={EnumTypes.password}
+        name={'FieldPassword'}
+        onChange={changeNameToCreateNewRecord}
+        value={newRecordData}
+        label={'Data'}
+      />
+      <Input
+        type={EnumTypes.password}
+        name={'GroupPassword'}
+        onChange={changePassword}
+        value={decryptPassword}
+        label={'Password to group'}
+      />
+    </Form>
   );
+
+  const desktopUI = () => (
+    <div className="viewRecordInGroup-desktop">
+      <div className="inner-viewRecordInGroup">
+        <Header2
+          name={viewDecryptData ? viewDecryptData.name : 'Decrypt to view'}
+          buttons={[
+            viewDecryptData && <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />,
+          ]}
+        />
+
+        {addRecord && JsxAddRecord()}
+
+        {viewDecryptData &&
+          !addRecord &&
+          viewDecryptData.userFields.map((item, i) => (
+            <div key={i}>
+              <div className="recordName">
+                <span>{item.name}</span>
+              </div>
+              <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
+                {item.text}
+              </div>
+            </div>
+          ))}
+      </div>
+    </div>
+  );
+
+  const mobileUI = () => {
+    if (!popupStatus) return <></>;
+
+    return (
+      <>
+        <div className="viewRecordInGroupContainer-mobile" onClick={() => setPopupStatus(false)}>
+          <div
+            className="viewRecordInGroup-mobile"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+          >
+            <div className="inner-viewRecordInGroup">
+              <Header2
+                name={viewDecryptData ? viewDecryptData.name : 'Decrypt to view'}
+                buttons={[
+                  viewDecryptData && <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />,
+                  <ButtonSvg key={2} svg={<SvgClose />} onClick={() => setPopupStatus(false)} />,
+                ]}
+              />
+
+              {addRecord && JsxAddRecord()}
+
+              {viewDecryptData &&
+                !addRecord &&
+                viewDecryptData.userFields.map((item, i) => (
+                  <div key={i}>
+                    <div className="recordName">
+                      <span>{item.name}</span>
+                    </div>
+                    <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
+                      {item.text}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  return <>{windowInnerWidth <= 700 ? mobileUI() : desktopUI()}</>;
 }

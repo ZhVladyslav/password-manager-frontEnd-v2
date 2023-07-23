@@ -4,33 +4,58 @@
   height: 100vh;
 }
 
-.listGroups {
-  background-color: #0d1117;
-  border-right: 1px solid #21262d;
-  padding: 25px;
-  overflow: auto;
+//
+// .listGroups-menuContainer {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: rgba(1, 4, 9, 0.7);
+// }
 
-  .inner-listGroups {
-    width: 100%;
+// .listGroups {
+//   background-color: #0d1117;
+//   border-right: 1px solid #21262d;
+//   padding: 25px;
+//   overflow: auto;
+// }
 
-    .groupButton {
-      display: flex;
-      align-items: center;
-      height: 40px;
-      width: 100%;
-      margin-bottom: 5px;
-      padding-left: 10px;
-      border-radius: 8px;
-      background-color: #24292e;
-      cursor: pointer;
+// .listGroups-menu {
+//   display: none;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   min-width: 300px;
+//   background-color: #0d1117;
+//   border-right: 1px solid #21262d;
+//   border-top-right-radius: 16px;
+//   border-bottom-right-radius: 16px;
+//   overflow: auto;
+// }
 
-      &:hover {
-        background-color: #3b434b;
-      }
-    }
-  }
-}
+// .inner-listGroups {
+//   width: 100%;
 
+//   .groupButton {
+//     display: flex;
+//     align-items: center;
+//     height: 40px;
+//     width: 100%;
+//     margin-bottom: 5px;
+//     padding-left: 10px;
+//     border-radius: 8px;
+//     background-color: #24292e;
+//     cursor: pointer;
+
+//     &:hover {
+//       background-color: #3b434b;
+//     }
+//   }
+// }
+
+//
 .viewGroup {
   background-color: #010409;
   padding: 25px;
@@ -58,6 +83,10 @@
   }
 }
 
+//
+.viewRecordInGroup-popupContainer-disable {
+  background-color: #010409;
+}
 .viewRecordInGroup {
   background-color: #010409;
   padding: 25px;
@@ -90,5 +119,52 @@
       border-radius: 8px;
       cursor: copy;
     }
+  }
+}
+
+//
+//
+//
+
+@media all and (max-width: 700px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+// @media all and (max-width: 700px) {
+//   .listGroups {
+//     display: none;
+//   }
+//   .listGroups-menu {
+//     display: flex;
+//   }
+// }
+
+@media all and (max-width: 700px) {
+  .viewRecordInGroup {
+    display: none;
+  }
+  .viewRecordInGroup-popupContainer-hidden {
+    display: none;
+  }
+  .viewRecordInGroup-popupContainer {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(1, 4, 9, 0.596);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .viewRecordInGroup-popup {
+    display: flex;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    width: 400px;
+    height: 500px;
   }
 }

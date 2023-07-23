@@ -37,7 +37,7 @@ class AuthService {
 
   async logout() {
     try {
-      const res = await axios.post(`${API}/auth/logout`);
+      const res = await axios.post(`${API}/session/logout`);
       return { res: res.data as IMessageRes };
     } catch (error) {
       const err = error as IError;

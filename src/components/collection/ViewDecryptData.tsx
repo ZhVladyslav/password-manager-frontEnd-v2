@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout, IDecryptGroutRecord, IUserFields } from '../../types/decryptGroupType';
 import CryptoJS from 'crypto-js';
 import { collectionService } from '../../services/collectionServices';
-import Header from './Header';
+import { Header2 } from '../headers';
 import Input, { EnumTypes, IInputValue } from '../Input';
 import Form from '../Form';
+import { ButtonSvg } from '../buttons';
+import { SvgPlus } from '../../assets';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +19,8 @@ interface IProps {
   setViewDecryptData: (data: IDecryptGroutRecord | null) => void;
   decryptPassword: string;
   setDecryptPassword: (data: string) => void;
+
+  popupFunc: () => void;
 }
 
 // ----------------------------------------------------------------------
@@ -29,8 +33,10 @@ export default function ViewDecryptData({
   setViewDecryptData,
   decryptPassword,
   setDecryptPassword,
+  popupFunc,
 }: IProps) {
   const [addRecord, setAddRecord] = useState(false);
+  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
   const [newRecordName, setNewRecordName] = useState<IInputValue>({
     value: '',
     blur: false,
@@ -105,22 +111,6 @@ export default function ViewDecryptData({
     decrypt();
   };
 
-  // JSX form decrypt group
-  const decryptForm = () => {
-    if (!group) return <></>;
-    return (
-      <Form submit={() => clickDecrypt(group.id)} buttonName={group.data === '' ? 'Generate group' : 'Decrypt'}>
-        <Input
-          type={EnumTypes.password}
-          name={'GroupPassword'}
-          onChange={changePasswordToDecrypt}
-          value={decryptPassword}
-          label={'Password'}
-        />
-      </Form>
-    );
-  };
-
   // ----------------------------------------------------------------------
 
   const clickAddNewRecord = async (id: string) => {
@@ -144,29 +134,6 @@ export default function ViewDecryptData({
     }
   };
 
-  // JSX add record
-  const addRecordForm = () => {
-    if (!group) return <></>;
-    return (
-      <Form submit={() => clickAddNewRecord(group.id)}>
-        <Input
-          type={EnumTypes.text}
-          name={'GroupName'}
-          onChange={changeNameToCreateNewRecord}
-          value={newRecordName}
-          label={'Name'}
-        />
-        <Input
-          type={EnumTypes.password}
-          name={'GroupPassword'}
-          onChange={changePasswordToDecrypt}
-          value={decryptPassword}
-          label={'Password to group'}
-        />
-      </Form>
-    );
-  };
-
   // ----------------------------------------------------------------------
 
   const toViewData = (id: number) => {
@@ -175,32 +142,75 @@ export default function ViewDecryptData({
     setViewDecryptData(decryptGroup.collectionData[id]);
   };
 
-  // JSX view decrypt data
-  const decryptView = () => {
-    if (!decryptGroup || !group) return <></>;
-    return (
-      <div>
-        {decryptGroup.collectionData.map((item, i) => (
-          <div key={i} className="viewRecordNameContainer" onClick={() => toViewData(i)}>
-            {item.name}
-          </div>
-        ))}
-      </div>
-    );
-  };
+  useEffect(() => {
+    function handleResize() {
+      setWindowInnerWidth(window.innerWidth);
+      if (window.innerWidth > 700) popupFunc();
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // ----------------------------------------------------------------------
 
   return (
-    <>
-      <div className="viewGroup">
-        <div className="inner-viewGroup">
-          {group && <Header name={group.name} onClick={toggleAddRecord} status={addRecord} />}
-          {group && !decryptGroup && decryptForm()}
-          {!addRecord && group && decryptGroup && decryptView()}
-          {addRecord && group && decryptGroup && addRecordForm()}
-        </div>
+    <div className="viewGroup">
+      <div className="inner-viewGroup">
+        <Header2
+          name={group ? group.name : 'Decrypt to view'}
+          buttons={[decryptGroup && <ButtonSvg key={1} svg={<SvgPlus />} onClick={toggleAddRecord} />]}
+        />
+
+        {group && !decryptGroup && (
+          <Form submit={() => clickDecrypt(group.id)} buttonName={group.data === '' ? 'Generate group' : 'Decrypt'}>
+            <Input
+              type={EnumTypes.password}
+              name={'GroupPassword'}
+              onChange={changePasswordToDecrypt}
+              value={decryptPassword}
+              label={'Password'}
+            />
+          </Form>
+        )}
+        {!addRecord && group && decryptGroup && (
+          <div>
+            {decryptGroup.collectionData.map((item, i) => (
+              <div
+                key={i}
+                className="viewRecordNameContainer"
+                onClick={() => {
+                  toViewData(i);
+                  if (windowInnerWidth <= 700) popupFunc();
+                }}
+              >
+                {item.name}
+              </div>
+            ))}
+          </div>
+        )}
+        {addRecord && group && decryptGroup && (
+          <Form submit={() => clickAddNewRecord(group.id)}>
+            <Input
+              type={EnumTypes.text}
+              name={'GroupName'}
+              onChange={changeNameToCreateNewRecord}
+              value={newRecordName}
+              label={'Name'}
+            />
+            <Input
+              type={EnumTypes.password}
+              name={'GroupPassword'}
+              onChange={changePasswordToDecrypt}
+              value={decryptPassword}
+              label={'Password to group'}
+            />
+          </Form>
+        )}
       </div>
-    </>
+    </div>
   );
 }

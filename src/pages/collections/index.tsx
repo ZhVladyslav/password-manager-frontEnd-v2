@@ -3,10 +3,11 @@ import { collectionService } from '../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 
 import './index.scss';
-import { IDecryptGrout, IDecryptGroutRecord, IUserFields } from '../../types/decryptGroupType';
+import { IDecryptGrout, IDecryptGroutRecord } from '../../types/decryptGroupType';
 import ViewAllGroup from '../../components/collection/ViewAllGroups';
 import ViewDecryptData from '../../components/collection/ViewDecryptData';
 import ViewRecordData from '../../components/collection/ViewRecordData';
+import { Header1 } from '../../components/headers';
 
 // ----------------------------------------------------------------------
 
@@ -18,8 +19,23 @@ export default function Main() {
   const [viewDecryptData, setViewDecryptData] = useState<IDecryptGroutRecord | null>(null);
   const [decryptPassword, setDecryptPassword] = useState('');
 
+  const [menuStatus, setMenuStatus] = useState(false);
+  const [popupStatus, setPopupStatus] = useState(false);
+
+  const close = () => {
+    setGroup(null);
+    setDecryptGroup(null);
+    setViewDecryptData(null);
+    setDecryptPassword('');
+
+    setPopupStatus(false);
+    setMenuStatus(false);
+  };
+
   return (
     <>
+      <Header1 sidebarMenu={() => setMenuStatus(!menuStatus)} close={close} />
+
       <div className="gridContainer">
         <ViewAllGroup
           allGroups={allGroups}
@@ -28,6 +44,8 @@ export default function Main() {
           setDecryptGroup={setDecryptGroup}
           setViewDecryptData={setViewDecryptData}
           setDecryptPassword={setDecryptPassword}
+          menuStatus={menuStatus}
+          setMenuStatus={setMenuStatus}
         />
         <ViewDecryptData
           group={group}
@@ -37,6 +55,7 @@ export default function Main() {
           setViewDecryptData={setViewDecryptData}
           decryptPassword={decryptPassword}
           setDecryptPassword={setDecryptPassword}
+          popupFunc={() => setPopupStatus(!popupStatus)}
         />
         <ViewRecordData
           viewDecryptData={viewDecryptData}
@@ -46,6 +65,8 @@ export default function Main() {
           group={group}
           decryptPassword={decryptPassword}
           setDecryptPassword={setDecryptPassword}
+          popupStatus={popupStatus}
+          setPopupStatus={setPopupStatus}
         />
       </div>
     </>
