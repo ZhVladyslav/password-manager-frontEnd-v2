@@ -6,7 +6,7 @@ import './ButtonSvg.scss';
 interface IProps {
   svg: React.ReactNode;
   bigSvg?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void | (() => void);
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => unknown;
   [key: symbol]: (e: React.MouseEvent<HTMLDivElement>) => void | (() => void);
 }
 

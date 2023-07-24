@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { IGetByIdGroups_Res } from '../../types/collectionType';
-import { IDecryptGrout } from '../../types/decryptGroupType';
+import { IGetByIdGroups_Res } from '../../../types/collectionType';
+import { IDecryptGrout } from '../../../types/decryptGroupType';
 import CryptoJS from 'crypto-js';
-import { collectionService } from '../../services/collectionServices';
-import { Header2 } from '../headers';
-import Form from '../form/formContainers/Form';
-import Input, { EnumTypes } from '../form/inputs/Input';
-import { ButtonSvg } from '../buttons';
-import { SvgDotHorizontal, SvgPlus } from '../../assets';
-import { IGroupId } from '../../pages/collections';
-import { IInputValue } from '../form/inputs/Input';
+import { collectionService } from '../../../services/collectionServices';
+import { Header2 } from '../../headers';
+import Form from '../../form/formContainers/Form';
+import Input, { EnumTypes } from '../../form/inputs/Input';
+import { ButtonSvg } from '../../buttons';
+import { SvgDotHorizontal, SvgPlus } from '../../../assets';
+import { IInputValue } from '../../form/inputs/Input';
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +23,8 @@ interface IProps {
   decryptPassword: string;
   setDecryptPassword: (data: string) => void;
   // id
-  groupId: IGroupId | null;
-  setGroupId: (data: IGroupId | null) => void;
+  groupId: number | null;
+  setGroupId: (data: number | null) => void;
   // UI
   setPopupStatus: (data: boolean) => void;
   windowInnerWidth: number;
@@ -42,7 +41,7 @@ const defaultInputData: IInputValue = {
 };
 // ----------------------------------------------------------------------
 
-export default function ViewDecryptData({
+export default function Group({
   // encrypt
   group,
   setGroup,
@@ -94,8 +93,8 @@ export default function ViewDecryptData({
         {
           name: 'Main email',
           userFields: [
-            { name: 'Email', text: 'Hello@gmail.com', visible: false },
-            { name: 'Password', text: '1111', visible: false },
+            { name: 'Email', text: 'Hello@gmail.com' },
+            { name: 'Password', text: '1111' },
           ],
         },
       ],
@@ -138,10 +137,7 @@ export default function ViewDecryptData({
     if (windowInnerWidth <= 700) {
       setPopupStatus(true);
     }
-    setGroupId({
-      collectionId: id,
-      fieldId: -1,
-    });
+    setGroupId(id);
   };
 
   /* ----------------  Functions to input data  ---------------- */

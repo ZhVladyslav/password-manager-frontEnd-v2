@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { SvgClose, SvgDotHorizontal, SvgPlus } from '../../assets';
-import { collectionService } from '../../services/collectionServices';
-import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
-import { ButtonSvg } from '../buttons';
-import { Header2 } from '../headers';
-import './ViewAllGroups.scss';
-import { IDecryptGrout } from '../../types/decryptGroupType';
-import { IGroupId } from '../../pages/collections';
-import Form from '../form/formContainers/Form';
-import Input, { EnumTypes } from '../form/inputs/Input';
+import { SvgClose, SvgDotHorizontal, SvgPlus } from '../../../assets';
+import { collectionService } from '../../../services/collectionServices';
+import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../../types/collectionType';
+import { ButtonSvg } from '../../buttons';
+import { Header2 } from '../../headers';
+import './Collection.scss';
+import { IDecryptGrout } from '../../../types/decryptGroupType';
+import Form from '../../form/formContainers/Form';
+import Input, { EnumTypes } from '../../form/inputs/Input';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +20,7 @@ interface IProps {
   // by id
   setGroup: (data: IGetByIdGroups_Res | null) => void;
   // id
-  setGroupId: (data: IGroupId | null) => void;
+  setGroupId: (data: number | null) => void;
   // UI
   windowInnerWidth: number;
   menuStatus: boolean;
@@ -30,7 +29,7 @@ interface IProps {
 
 // ----------------------------------------------------------------------
 
-export default function ViewAllGroup({
+export default function Collection({
   allGroups,
   setAllGroups,
   windowInnerWidth,

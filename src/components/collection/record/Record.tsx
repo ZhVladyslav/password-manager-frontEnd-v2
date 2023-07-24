@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { collectionService } from '../../services/collectionServices';
-import { IGetByIdGroups_Res } from '../../types/collectionType';
-import { IDecryptGrout } from '../../types/decryptGroupType';
+import React, { ChangeEvent, useState } from 'react';
+import { collectionService } from '../../../services/collectionServices';
+import { IGetByIdGroups_Res } from '../../../types/collectionType';
+import { IDecryptGrout, IUserFields } from '../../../types/decryptGroupType';
 import CryptoJS from 'crypto-js';
-import { Header2 } from '../headers';
-import Form from '../form/formContainers/Form';
-import Input, { EnumTypes } from '../form/inputs/Input';
-import './ViewRecordInGroup.scss';
-import { ButtonSvg } from '../buttons';
-import { SvgClose, SvgPlus } from '../../assets';
-import { IGroupId } from '../../pages/collections';
+import { Header2 } from '../../headers';
+import Form from '../../form/formContainers/Form';
+import Input, { EnumTypes } from '../../form/inputs/Input';
+import './Record.scss';
+import { ButtonSvg } from '../../buttons';
+import { SvgClose, SvgEdit, SvgPlus, SvgSave } from '../../../assets';
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +23,8 @@ interface IProps {
   decryptPassword: string;
   setDecryptPassword: (data: string) => void;
   // id
-  groupId: IGroupId | null;
-  setGroupId: (data: IGroupId | null) => void;
+  groupId: number | null;
+  setGroupId: (data: number | null) => void;
   // UI
   windowInnerWidth: number;
   popupStatus: boolean;
@@ -34,7 +33,7 @@ interface IProps {
 
 // ----------------------------------------------------------------------
 
-export default function ViewRecordData({
+export default function Record({
   // encrypt
   group,
   setGroup,
@@ -53,6 +52,10 @@ export default function ViewRecordData({
   setPopupStatus,
 }: IProps) {
   const [newRecord, setNewRecord] = useState({ name: '', data: '' });
+  const [editFieldsStatus, setEditFieldsStatus] = useState(false);
+  const [popupEditFieldsStatus, setPopupEditFieldsStatus] = useState(false);
+  const [updateFields, setUpdateFields] = useState<IUserFields[] | null>(null);
+
   const [editName, setEditName] = useState({
     status: false,
     position: -1,
@@ -75,10 +78,9 @@ export default function ViewRecordData({
     try {
       CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
       const decryptGroupState = decryptGroup;
-      decryptGroupState.collectionData[groupId.collectionId].userFields.push({
+      decryptGroupState.collectionData[groupId].userFields.push({
         name: newRecord.name,
         text: newRecord.data,
-        visible: false,
       });
       const encryptUpGroup: string = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
       const result = await collectionService.editData(group.id, encryptUpGroup);
@@ -106,21 +108,38 @@ export default function ViewRecordData({
   };
 
   /* ----------------  Edit name record  ---------------- */
-  const editNameSubmit = async () => {
-    if (!group || !decryptGroup || decryptPassword === '' || !groupId) return;
-    if (editName.position === -1) return;
+
+  const clickEdit = () => {
+    if (groupId === null || !decryptGroup) return;
+    setEditFieldsStatus(true);
+    setUpdateFields(decryptGroup.collectionData[groupId].userFields);
+  };
+
+  const changeEdit = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    if (!updateFields) return;
+    //
+    setUpdateFields((prevUpdateFields) => {
+      if (!prevUpdateFields) return updateFields;
+      const updatedFields = [...prevUpdateFields];
+      updatedFields[id] = { ...updatedFields[id], [e.target.name]: e.target.value };
+      return updatedFields;
+    });
+  };
+
+  const saveEdit = async () => {
+    if (!group || !decryptGroup || decryptPassword === '' || groupId === null || !updateFields) return;
     try {
       CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
       const decryptGroupState = decryptGroup;
-      decryptGroupState.collectionData[groupId.collectionId].userFields[editName.position].name = editName.name.new;
-      decryptGroupState.collectionData[groupId.collectionId].userFields[editName.position].text = editName.data.new;
+      decryptGroupState.collectionData[groupId].userFields = updateFields;
       const encryptUpGroup = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
       const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
       if (result.err) return;
       setGroup({ ...group, data: encryptUpGroup });
       setDecryptGroup(decryptGroupState);
-      setEditName({ status: false, position: -1, name: { old: '', new: '' }, data: { old: '', new: '' } });
       setDecryptPassword('');
+      setEditFieldsStatus(false);
+      setPopupEditFieldsStatus(false);
     } catch (err) {
       console.error('error decrypt');
     }
@@ -147,40 +166,46 @@ export default function ViewRecordData({
       <div className="viewRecordInGroup-desktop">
         <div className="inner-viewRecordInGroup">
           <Header2
-            name={decryptGroup && groupId ? decryptGroup.collectionData[groupId.collectionId].name : 'Decrypt to view'}
+            name={decryptGroup && groupId !== null ? decryptGroup.collectionData[groupId].name : 'Decrypt to view'}
             buttons={[
-              groupId && decryptGroup && (
-                <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />
+              !editFieldsStatus && groupId !== null && <ButtonSvg key={2} svg={<SvgEdit />} onClick={clickEdit} />,
+              editFieldsStatus && groupId !== null && (
+                <ButtonSvg key={3} svg={<SvgSave />} onClick={() => setPopupEditFieldsStatus(true)} bigSvg />
               ),
+              editFieldsStatus && <ButtonSvg key={4} svg={<SvgClose />} onClick={() => setEditFieldsStatus(false)} />,
+              groupId !== null && decryptGroup && !editFieldsStatus ? (
+                <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />
+              ) : null,
             ]}
           />
 
           {addRecord && groupId && decryptGroup && JsxAddRecord()}
 
-          {decryptGroup &&
-            groupId &&
-            !addRecord &&
-            decryptGroup.collectionData[groupId.collectionId].userFields.map((item, i) => (
-              <div key={i}>
-                <div
-                  className="recordName"
-                  onClick={() =>
-                    setEditName({
-                      ...editName,
-                      name: { old: item.name, new: item.name },
-                      data: { old: item.text, new: item.text },
-                      position: i,
-                      status: true,
-                    })
-                  }
-                >
-                  <span>{item.name}</span>
+          {decryptGroup && groupId !== null && !addRecord && !editFieldsStatus
+            ? decryptGroup.collectionData[groupId].userFields.map((item, i) => (
+                <div key={`${i}view`}>
+                  <div className="recordName">
+                    <span>{item.name}</span>
+                  </div>
+                  <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
+                    {item.text}
+                  </div>
                 </div>
-                <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
-                  {item.text}
+              ))
+            : null}
+
+          {decryptGroup && groupId !== null && !addRecord && editFieldsStatus && updateFields
+            ? updateFields.map((item, i) => (
+                <div key={`${i}edit`}>
+                  <div className="recordName">
+                    <input type="text" value={updateFields[i].name} name="name" onChange={(e) => changeEdit(e, i)} />
+                  </div>
+                  <div className="recordData">
+                    <input type="text" value={updateFields[i].text} name="text" onChange={(e) => changeEdit(e, i)} />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            : null}
         </div>
       </div>
 
@@ -188,25 +213,11 @@ export default function ViewRecordData({
       {/*  */}
       {/*  */}
 
-      {editName.status && (
+      {popupEditFieldsStatus && (
         <>
-          <div className="globalPopupClose" onClick={() => setEditName({ ...editName, status: false })}></div>
+          <div className="globalPopupClose" onClick={() => setPopupEditFieldsStatus(false)}></div>
           <div className="globalPopupContainer">
-            <Form submit={editNameSubmit} buttonName="Edit name">
-              <Input
-                label={`Edit name record: ${editName.name.old}`}
-                name="newName"
-                type={EnumTypes.text}
-                value={editName.name.new}
-                onChange={(e) => setEditName({ ...editName, name: { new: e.target.value, old: editName.name.old } })}
-              />
-              <Input
-                label={`Edit name record: ${editName.name.old}`}
-                name="newData"
-                type={EnumTypes.text}
-                value={editName.data.new}
-                onChange={(e) => setEditName({ ...editName, data: { new: e.target.value, old: editName.data.old } })}
-              />
+            <Form submit={saveEdit} buttonName="Confirm edit">
               <Input
                 label="Password to group"
                 name="groupKey"
@@ -233,9 +244,7 @@ export default function ViewRecordData({
           >
             <div className="inner-viewRecordInGroup">
               <Header2
-                name={
-                  decryptGroup && groupId ? decryptGroup.collectionData[groupId.collectionId].name : 'Decrypt to view'
-                }
+                name={decryptGroup && groupId ? decryptGroup.collectionData[groupId].name : 'Decrypt to view'}
                 buttons={[
                   groupId && <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />,
                   <ButtonSvg key={2} svg={<SvgClose />} onClick={() => setPopupStatus(false)} />,
@@ -247,7 +256,7 @@ export default function ViewRecordData({
               {decryptGroup &&
                 groupId &&
                 !addRecord &&
-                decryptGroup.collectionData[groupId.collectionId].userFields.map((item, i) => (
+                decryptGroup.collectionData[groupId].userFields.map((item, i) => (
                   <div key={i}>
                     <div className="recordName">
                       <span>{item.name}</span>

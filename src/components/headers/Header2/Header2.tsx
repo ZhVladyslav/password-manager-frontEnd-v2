@@ -15,12 +15,17 @@ export default function Header2({ name, buttons }: IProps) {
     <div className="header2">
       <div className="inner-header2">
         <div className="logo">
-          <span className='logo-span'>{name}</span>
+          <span className="logo-span">{name}</span>
         </div>
         <div className="buttonBlock">
-          {buttons.map((item, i) => (
-            <span key={i} className='buttonBlock-span'>{item}</span>
-          ))}
+          {buttons.map((item, i) => {
+            if (!item) return null;
+            return (
+              <span key={i} className="buttonBlock-span">
+                {item}
+              </span>
+            );
+          })}
         </div>
       </div>
     </div>

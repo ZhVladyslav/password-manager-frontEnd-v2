@@ -16,5 +16,4 @@ export interface IDecryptGroutRecord {
 export interface IUserFields {
   name: string;
   text: string;
-  visible: boolean;
 }

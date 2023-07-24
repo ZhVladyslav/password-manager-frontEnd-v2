@@ -2,19 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 import './index.scss';
 import { IDecryptGrout } from '../../types/decryptGroupType';
-import ViewAllGroup from '../../components/collection/ViewAllGroups';
-import ViewDecryptData from '../../components/collection/ViewDecryptData';
-import ViewRecordData from '../../components/collection/ViewRecordData';
+import Collection from '../../components/collection/collection/Collection';
+import Group from '../../components/collection/group/Group';
+import Record from '../../components/collection/record/Record';
 import { Header1 } from '../../components/headers';
-import Form from '../../components/form/formContainers/Form';
-import Input, { EnumTypes } from '../../components/form/inputs/Input';
-
-// ----------------------------------------------------------------------
-
-export interface IGroupId {
-  collectionId: number;
-  fieldId: number;
-}
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +13,7 @@ export default function Main() {
   const [allGroups, setAllGroups] = useState<IGetAllGroups_Res[]>([]); // save all user groups
   const [group, setGroup] = useState<IGetByIdGroups_Res | null>(null); // save user group by id
   const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null); // save decrypt group
-  const [groupId, setGroupId] = useState<IGroupId | null>(null); // id to view, edit and delete
+  const [groupId, setGroupId] = useState<number | null>(null); // id to view, edit and delete
   const [decryptPassword, setDecryptPassword] = useState(''); // password to decrypt group
   // UI states
   const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
@@ -59,7 +50,7 @@ export default function Main() {
       <Header1 sidebarMenu={() => setMenuStatus(!menuStatus)} close={close} />
 
       <div className="gridContainer">
-        <ViewAllGroup
+        <Collection
           // all
           allGroups={allGroups}
           setAllGroups={setAllGroups}
@@ -75,7 +66,7 @@ export default function Main() {
           setMenuStatus={setMenuStatus}
         />
 
-        <ViewDecryptData
+        <Group
           // encrypt
           group={group}
           setGroup={setGroup}
@@ -92,7 +83,7 @@ export default function Main() {
           windowInnerWidth={windowInnerWidth}
           setPopupStatus={setPopupStatus}
         />
-        <ViewRecordData
+        <Record
           // encrypt
           group={group}
           setGroup={setGroup}
