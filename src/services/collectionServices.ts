@@ -45,10 +45,9 @@ class CollectionService {
     }
   }
 
-  // to fix
-  async editInfo(data: any) {
+  async editName(id: string, name: string) {
     try {
-      const res = await axios.put(`${API}/collection/info`, data);
+      const res = await axios.put(`${API}/collection/name`, { id, name });
       return { res: res.data as IMessageRes };
     } catch (error) {
       const err = error as IError;

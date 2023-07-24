@@ -1,59 +1,8 @@
 .gridContainer {
   display: grid;
   grid-template-columns: 1fr 1fr 1.5fr;
-  height: 100vh;
+  height: calc(100vh - 50px);
 }
-
-//
-// .listGroups-menuContainer {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   background-color: rgba(1, 4, 9, 0.7);
-// }
-
-// .listGroups {
-//   background-color: #0d1117;
-//   border-right: 1px solid #21262d;
-//   padding: 25px;
-//   overflow: auto;
-// }
-
-// .listGroups-menu {
-//   display: none;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   min-width: 300px;
-//   background-color: #0d1117;
-//   border-right: 1px solid #21262d;
-//   border-top-right-radius: 16px;
-//   border-bottom-right-radius: 16px;
-//   overflow: auto;
-// }
-
-// .inner-listGroups {
-//   width: 100%;
-
-//   .groupButton {
-//     display: flex;
-//     align-items: center;
-//     height: 40px;
-//     width: 100%;
-//     margin-bottom: 5px;
-//     padding-left: 10px;
-//     border-radius: 8px;
-//     background-color: #24292e;
-//     cursor: pointer;
-
-//     &:hover {
-//       background-color: #3b434b;
-//     }
-//   }
-// }
 
 //
 .viewGroup {
@@ -67,14 +16,28 @@
     .viewRecordNameContainer {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       width: 100%;
       height: 50px;
       background-color: #0d1117;
       border-radius: 8px;
       border: 1px solid #21262d;
       padding-left: 10px;
+      padding-right: 10px;
       margin-bottom: 5px;
       cursor: pointer;
+
+      .name {
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+
+      .buttonContainer {
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
 
       &:hover {
         background-color: #24292e;

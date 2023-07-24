@@ -7,7 +7,6 @@ import { PATH_ERROR, PATH_MAIN } from './paths';
 // components
 import {
   AuthLayout,
-  CollectionViewPage,
   Error400Page,
   Error401Page,
   Error403Page,
@@ -15,9 +14,7 @@ import {
   Error500Page,
   HomePage,
   LoginPage,
-  CollectionListPage,
   RegistrationPage,
-  CollectionCreatePage,
   Main,
 } from './imports';
 import { GuestGuard } from '../modules/guards/GuestGuard';
@@ -69,11 +66,7 @@ export default function Router() {
           <DashboardLayout />
         </AuthGuard>
       ),
-      children: [
-        { path: 'list', element: <Main /> },
-        { path: 'view/:id', element: <CollectionViewPage /> },
-        { path: 'create', element: <CollectionCreatePage /> },
-      ],
+      children: [{ path: 'list', element: <Main /> }],
     },
 
     //

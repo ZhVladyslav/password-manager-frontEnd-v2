@@ -1,33 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { collectionService } from '../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
-
 import './index.scss';
-import { IDecryptGrout, IDecryptGroutRecord } from '../../types/decryptGroupType';
+import { IDecryptGrout } from '../../types/decryptGroupType';
 import ViewAllGroup from '../../components/collection/ViewAllGroups';
 import ViewDecryptData from '../../components/collection/ViewDecryptData';
 import ViewRecordData from '../../components/collection/ViewRecordData';
 import { Header1 } from '../../components/headers';
+import Form from '../../components/form/formContainers/Form';
+import Input, { EnumTypes } from '../../components/form/inputs/Input';
+
+// ----------------------------------------------------------------------
+
+export interface IGroupId {
+  collectionId: number;
+  fieldId: number;
+}
 
 // ----------------------------------------------------------------------
 
 export default function Main() {
-  // save all user groups
-  const [allGroups, setAllGroups] = useState<IGetAllGroups_Res[]>([]);
-  const [group, setGroup] = useState<IGetByIdGroups_Res | null>(null);
-  const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null);
-  const [viewDecryptData, setViewDecryptData] = useState<IDecryptGroutRecord | null>(null);
-  const [decryptPassword, setDecryptPassword] = useState('');
-
+  const [allGroups, setAllGroups] = useState<IGetAllGroups_Res[]>([]); // save all user groups
+  const [group, setGroup] = useState<IGetByIdGroups_Res | null>(null); // save user group by id
+  const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null); // save decrypt group
+  const [groupId, setGroupId] = useState<IGroupId | null>(null); // id to view, edit and delete
+  const [decryptPassword, setDecryptPassword] = useState(''); // password to decrypt group
+  // UI states
+  const [windowInnerWidth, setWindowInnerWidth] = useState(window.innerWidth);
   const [menuStatus, setMenuStatus] = useState(false);
   const [popupStatus, setPopupStatus] = useState(false);
 
+  /* ----------------  Effect to look edit window width  ---------------- */
+  useEffect(() => {
+    function handleResize() {
+      setWindowInnerWidth(window.innerWidth);
+      if (window.innerWidth > 700) setMenuStatus(false);
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  //
   const close = () => {
     setGroup(null);
     setDecryptGroup(null);
-    setViewDecryptData(null);
+    setGroupId(null);
     setDecryptPassword('');
-
+    // UI
     setPopupStatus(false);
     setMenuStatus(false);
   };
@@ -38,33 +60,53 @@ export default function Main() {
 
       <div className="gridContainer">
         <ViewAllGroup
+          // all
           allGroups={allGroups}
           setAllGroups={setAllGroups}
-          setGroup={setGroup}
+          // decrypt
           setDecryptGroup={setDecryptGroup}
-          setViewDecryptData={setViewDecryptData}
-          setDecryptPassword={setDecryptPassword}
+          // by
+          setGroup={setGroup}
+          // id
+          setGroupId={setGroupId}
+          // UI
+          windowInnerWidth={windowInnerWidth}
           menuStatus={menuStatus}
           setMenuStatus={setMenuStatus}
         />
+
         <ViewDecryptData
+          // encrypt
           group={group}
           setGroup={setGroup}
+          // decrypt
           decryptGroup={decryptGroup}
           setDecryptGroup={setDecryptGroup}
-          setViewDecryptData={setViewDecryptData}
+          // pass
           decryptPassword={decryptPassword}
           setDecryptPassword={setDecryptPassword}
-          popupFunc={() => setPopupStatus(!popupStatus)}
+          // id
+          groupId={groupId}
+          setGroupId={setGroupId}
+          // UI
+          windowInnerWidth={windowInnerWidth}
+          setPopupStatus={setPopupStatus}
         />
         <ViewRecordData
-          viewDecryptData={viewDecryptData}
-          setDecryptGroup={setDecryptGroup}
-          setViewDecryptData={setViewDecryptData}
-          decryptGroup={decryptGroup}
+          // encrypt
           group={group}
+          setGroup={setGroup}
+          // decrypt
+          decryptGroup={decryptGroup}
+          setDecryptGroup={setDecryptGroup}
+          // password
           decryptPassword={decryptPassword}
           setDecryptPassword={setDecryptPassword}
+          // id
+          groupId={groupId}
+          setGroupId={setGroupId}
+          // UI
+          windowInnerWidth={windowInnerWidth}
           popupStatus={popupStatus}
           setPopupStatus={setPopupStatus}
         />

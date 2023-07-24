@@ -10,13 +10,27 @@
   .groupButton {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 40px;
     width: 100%;
     margin-bottom: 5px;
     padding-left: 10px;
+    padding-right: 10px;
     border-radius: 8px;
     background-color: #24292e;
     cursor: pointer;
+
+    .name {
+      display: flex;
+      height: 100%;
+      align-items: center;
+    }
+
+    .buttonContainer {
+      display: flex;
+      height: 100%;
+      align-items: center;
+    }
 
     &:hover {
       background-color: #3b434b;
@@ -84,4 +98,27 @@
       }
     }
   }
+}
+
+//
+//
+//
+
+.globalPopupClose {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(110, 118, 129, 0.4);
+}
+
+.globalPopupContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-width: 300px;
+  max-width: 400px;
+  margin: 70px auto;
 }

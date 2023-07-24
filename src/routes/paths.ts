@@ -4,7 +4,6 @@ const path = (root: string, sublink: string): string => {
 
 // ----------------------------------------------------------------------
 
-const ROOT_MAIN = '';
 const ROOT_AUTH = '/auth';
 const ROOT_COLLECTION = '/collection';
 const ROOT_ERROR = '/error';

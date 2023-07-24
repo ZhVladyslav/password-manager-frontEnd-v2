@@ -1,5 +1,5 @@
 import React from 'react';
-import { SvgBurgerMenu, SvgLock, SvgLogout, SvgProtect } from '../../../assets';
+import { SvgBurgerMenu, SvgLogout, SvgProtect } from '../../../assets';
 import { sessionActions } from '../../../redux/slices/sessionSlice';
 import { authService } from '../../../services/authServices';
 import { ButtonSvg } from '../../buttons';

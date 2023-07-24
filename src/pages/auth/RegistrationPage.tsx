@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Form from '../../components/Form';
-import Input, { EnumTypes } from '../../components/Input';
+import Form from '../../components/form/formContainers/Form';
+import Input, { EnumTypes } from '../../components/form/inputs/Input';
 import { sessionActions } from '../../redux/slices/sessionSlice';
 import { PATH_AUTH } from '../../routes/paths';
 import { authService } from '../../services/authServices';

@@ -5,3 +5,5 @@ export { ReactComponent as SvgLogout } from './logout.svg';
 
 export { ReactComponent as SvgLock } from './lock.svg';
 export { ReactComponent as SvgProtect } from './protect.svg';
+
+export { ReactComponent as SvgDotHorizontal } from './dotHorizontal.svg';

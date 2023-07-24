@@ -64,11 +64,6 @@ export const Main = Loadable(lazy(() => import('../pages/collections')));
 export const LoginPage = Loadable(lazy(() => import('../pages/auth/LoginPage')));
 export const RegistrationPage = Loadable(lazy(() => import('../pages/auth/RegistrationPage')));
 
-// Auth
-export const CollectionListPage = Loadable(lazy(() => import('../pages/collections/ListPage')));
-export const CollectionViewPage = Loadable(lazy(() => import('../pages/collections/ViewPage')));
-export const CollectionCreatePage = Loadable(lazy(() => import('../pages/collections/CreatePage')));
-
 // Error
 export const Error400Page = Loadable(lazy(() => import('../pages/errors/Error400Page')));
 export const Error401Page = Loadable(lazy(() => import('../pages/errors/Error401Page')));
