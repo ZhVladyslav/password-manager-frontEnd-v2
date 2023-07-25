@@ -176,7 +176,7 @@ export default function Record({
     }
   };
 
-  return (
+  const desktopUI = () => (
     <>
       <div className="Record-desktopUI">
         <div className="inner-Record-desktopUI">
@@ -365,4 +365,18 @@ export default function Record({
       )}
     </>
   );
+
+  const mobileUI = () => (
+    <>
+      {popupStatus && (
+        <div className="Record-mobileUI" onClick={() => setPopupStatus(false)}>
+          <div className="inner-Record-mobileUI" onClick={(e) => e.stopPropagation()}>
+            {desktopUI()}
+          </div>
+        </div>
+      )}
+    </>
+  );
+
+  return <>{windowInnerWidth <= 700 ? mobileUI() : desktopUI()}</>;
 }

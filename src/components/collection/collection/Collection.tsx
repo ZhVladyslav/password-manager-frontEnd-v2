@@ -191,41 +191,7 @@ export default function Collection({
         <div className="listGroups-mobile-close" onClick={() => setMenuStatus(false)}></div>
 
         <div className="listGroups-mobile">
-          <div className="inner-listGroups">
-            <Header2
-              name="Groups"
-              buttons={[
-                <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddGroup(!addGroup)} />,
-                <ButtonSvg key={2} svg={<SvgClose />} onClick={() => setMenuStatus(false)} />,
-              ]}
-            />
-
-            {addGroup && (
-              <Form submit={createGroup}>
-                <Input
-                  type={EnumTypes.text}
-                  name={'GroupName'}
-                  onChange={handleChange}
-                  value={nameNewGroup}
-                  label={'Name'}
-                />
-              </Form>
-            )}
-            {allGroups &&
-              !addGroup &&
-              allGroups.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => {
-                    clickOnGroup(item.id);
-                    setMenuStatus(false);
-                  }}
-                  className="groupButton"
-                >
-                  {item.name}
-                </div>
-              ))}
-          </div>
+          <div className="inner-listGroups">{desktopUI()}</div>
         </div>
       </>
     );

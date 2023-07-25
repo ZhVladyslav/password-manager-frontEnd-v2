@@ -65,38 +65,8 @@
   padding: 25px;
   overflow: auto;
 
-  .inner-listGroups {
-    width: 100%;
-
-    .listGroupsHeader {
-      width: 100%;
-      height: 50px;
-      margin-bottom: 10px;
-
-      .inner-listGroupsHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .groupButton {
-      display: flex;
-      align-items: center;
-      height: 40px;
-      width: 100%;
-      margin-bottom: 5px;
-      padding-left: 10px;
-      border-radius: 8px;
-      background-color: #24292e;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #3b434b;
-      }
-    }
+  .listGroups-desktop {
+    border: none;
   }
 }
 
