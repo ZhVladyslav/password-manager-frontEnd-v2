@@ -4,7 +4,7 @@ import { useSelector } from '../../redux/store';
 import { IStore } from '../../types/storeType';
 
 // const
-import { PATH_MAIN } from '../../routes/paths';
+import { PATH_COLLECTION } from '../../routes/paths';
 
 // components
 import Loading from '../../pages/loading/LoadingPage';
@@ -24,7 +24,7 @@ export const GuestGuard = (props: iGuestGuard) => {
 
   // if accessToken is present, redirect to home page
   if (accessToken) {
-    return <Navigate to={PATH_MAIN.home} />;
+    return <Navigate to={PATH_COLLECTION.view} />;
   }
 
   return (

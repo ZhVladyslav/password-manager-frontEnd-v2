@@ -212,21 +212,6 @@ export default function Group({
               {decryptGroup.collectionData.map((item, i) => (
                 <div key={i} className="viewRecordNameContainer" onClick={() => toViewData(i)}>
                   <span className="name">{item.name}</span>
-                  <div className="buttonContainer">
-                    <ButtonSvg
-                      svg={<SvgDotHorizontal />}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setEditName({
-                          ...editName,
-                          status: true,
-                          id: decryptGroup.id,
-                          oldName: item.name,
-                          position: i,
-                        });
-                      }}
-                    />
-                  </div>
                 </div>
               ))}
             </div>

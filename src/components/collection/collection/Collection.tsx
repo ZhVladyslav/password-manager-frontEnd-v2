@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SvgClose, SvgDotHorizontal, SvgPlus } from '../../../assets';
+import { SvgClose, SvgDotHorizontal, SvgPlus, SvgTrash } from '../../../assets';
 import { collectionService } from '../../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../../types/collectionType';
 import { ButtonSvg } from '../../buttons';
@@ -104,6 +104,15 @@ export default function Collection({
     setEditName({ id: '', newName: '', oldName: '', status: false });
   };
 
+  const deleteCollection = async (id: string) => {
+    if (!allGroups) return;
+    const result = await collectionService.delete(id);
+    if (result.err) return;
+    const allGroupsState = allGroups;
+    const updateAllGroups = allGroupsState.filter((item) => item.id !== id);
+    setAllGroups(updateAllGroups);
+  };
+
   /* ----------------  UI  ---------------- */
 
   const desktopUI = () => (
@@ -132,6 +141,13 @@ export default function Collection({
               <div key={item.id} onClick={() => clickOnGroup(item.id)} className="groupButton">
                 <span className="name">{item.name}</span>
                 <div className="buttonContainer">
+                  <ButtonSvg
+                    svg={<SvgTrash />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCollection(item.id);
+                    }}
+                  />
                   <ButtonSvg
                     svg={<SvgDotHorizontal />}
                     onClick={(e) => {

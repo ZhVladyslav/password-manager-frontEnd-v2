@@ -1,17 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { collectionService } from '../../../services/collectionServices';
 import { IGetByIdGroups_Res } from '../../../types/collectionType';
 import { IDecryptGrout, IUserFields } from '../../../types/decryptGroupType';
-import CryptoJS from 'crypto-js';
-import { Header2 } from '../../headers';
 import Form from '../../form/formContainers/Form';
 import Input, { EnumTypes } from '../../form/inputs/Input';
 import './Record.scss';
 import { ButtonSvg } from '../../buttons';
-import { SvgClose, SvgEdit, SvgPlus, SvgSave } from '../../../assets';
+import { SvgClose, SvgCopy, SvgEdit, SvgPlus, SvgSave, SvgTrash } from '../../../assets';
+import { decrypt, encrypt } from '../../../utils/crypto';
 
 // ----------------------------------------------------------------------
-
 interface IProps {
   // encrypt
   group: IGetByIdGroups_Res | null;
@@ -45,79 +43,25 @@ export default function Record({
   setDecryptPassword,
   // id
   groupId,
-  // setGroupId,
+  setGroupId,
   // UI
   windowInnerWidth,
   popupStatus,
   setPopupStatus,
 }: IProps) {
-  const [newRecord, setNewRecord] = useState({ name: '', data: '' });
-  const [editFieldsStatus, setEditFieldsStatus] = useState(false);
-  const [popupEditFieldsStatus, setPopupEditFieldsStatus] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [popupSaveEdit, setPopupSaveEdit] = useState(false);
+  const [popupWorn, setPopupWorn] = useState(false);
+  const [newRecordName, setNewRecordName] = useState('');
+  const [addRecord, setAddRecord] = useState<IUserFields | null>(null);
   const [updateFields, setUpdateFields] = useState<IUserFields[] | null>(null);
 
-  const [editName, setEditName] = useState({
-    status: false,
-    position: -1,
-    name: { old: '', new: '' },
-    data: { old: '', new: '' },
-  });
-  // UI
-  const [addRecord, setAddRecord] = useState(false);
-
-  /* ----------------  Crypt  ---------------- */
-
-  // Encrypt data
-  const encrypt = (text: string, key: string) => {
-    return CryptoJS.AES.encrypt(text, key).toString();
-  };
-
-  /* ----------------  New field  ---------------- */
-  const newRecordField = async () => {
-    if (!group || !decryptGroup || !groupId || decryptPassword === '') return;
-    try {
-      CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
-      const decryptGroupState = decryptGroup;
-      decryptGroupState.collectionData[groupId].userFields.push({
-        name: newRecord.name,
-        text: newRecord.data,
-      });
-      const encryptUpGroup: string = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
-      const result = await collectionService.editData(group.id, encryptUpGroup);
-      if (result.err) return;
-      setDecryptPassword('');
-      setGroup({ ...group, data: encryptUpGroup });
-      setDecryptGroup(decryptGroupState);
-      setAddRecord(false);
-      setNewRecord({ data: '', name: '' });
-    } catch (err) {
-      console.error('error decrypt');
-    }
-  };
-
-  /* ----------------  Input data  ---------------- */
-
-  // change
-  const changeNewRecord = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewRecord({ ...newRecord, [e.target.name]: e.target.value });
-  };
-
-  // change password
-  const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDecryptPassword(e.target.value);
-  };
-
-  /* ----------------  Edit name record  ---------------- */
-
-  const clickEdit = () => {
-    if (groupId === null || !decryptGroup) return;
-    setEditFieldsStatus(true);
-    setUpdateFields(decryptGroup.collectionData[groupId].userFields);
-  };
+  // ----------------------------------------------------------------------
 
   const changeEdit = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     if (!updateFields) return;
-    //
     setUpdateFields((prevUpdateFields) => {
       if (!prevUpdateFields) return updateFields;
       const updatedFields = [...prevUpdateFields];
@@ -126,96 +70,257 @@ export default function Record({
     });
   };
 
+  const changeDelete = (id: number) => {
+    if (!updateFields) return;
+    setUpdateFields((prevUpdateFields) => {
+      if (!prevUpdateFields) return updateFields;
+      const updatedFields = [...prevUpdateFields];
+      return updatedFields.filter((item, i) => i !== id);
+    });
+  };
+
+  const changeNewRecordName = (e: React.ChangeEvent<HTMLInputElement>) => setNewRecordName(e.target.value);
+
+  const changeAddRecord = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!addRecord) return;
+    setAddRecord({ ...addRecord, [e.target.name]: e.target.value });
+  };
+
+  const setEdit = () => {
+    if (!decryptGroup || groupId === null) return;
+    setNewRecordName(decryptGroup.collectionData[groupId].name);
+    setUpdateFields(decryptGroup.collectionData[groupId].userFields);
+    setIsEdit(true);
+  };
+
+  const setAdd = () => {
+    if (!decryptGroup || groupId === null) return;
+    setAddRecord({ name: '', text: '' });
+    setUpdateFields(decryptGroup.collectionData[groupId].userFields);
+    setIsAdd(true);
+  };
+
+  const closeEdit = () => {
+    setIsAdd(false);
+    setIsEdit(false);
+    setPopupWorn(false);
+  };
+
   const saveEdit = async () => {
-    if (!group || !decryptGroup || decryptPassword === '' || groupId === null || !updateFields) return;
+    if (!group || !decryptGroup || decryptPassword === '' || newRecordName === '' || groupId === null || !updateFields)
+      return;
     try {
-      CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
+      decrypt(group.data, decryptPassword);
       const decryptGroupState = decryptGroup;
       decryptGroupState.collectionData[groupId].userFields = updateFields;
+      decryptGroupState.collectionData[groupId].name = newRecordName;
       const encryptUpGroup = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
       const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
       if (result.err) return;
       setGroup({ ...group, data: encryptUpGroup });
       setDecryptGroup(decryptGroupState);
       setDecryptPassword('');
-      setEditFieldsStatus(false);
-      setPopupEditFieldsStatus(false);
+      setPopupSaveEdit(false);
+      setIsEdit(false);
+      setIsAdd(false);
+      setUpdateFields(null);
     } catch (err) {
       console.error('error decrypt');
     }
   };
 
-  /* ----------------  UI  ---------------- */
+  const changeAdd = async () => {
+    if (!group || !decryptGroup || decryptPassword === '' || groupId === null || !updateFields || !addRecord) return;
+    try {
+      decrypt(group.data, decryptPassword);
+      const decryptGroupState = decryptGroup;
+      decryptGroupState.collectionData[groupId].userFields.push(addRecord);
+      const encryptUpGroup = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
+      const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
+      if (result.err) return;
+      setGroup({ ...group, data: encryptUpGroup });
+      setDecryptGroup(decryptGroupState);
+      setDecryptPassword('');
+      setPopupSaveEdit(false);
+      setIsEdit(false);
+      setIsAdd(false);
+      setAddRecord(null);
+      setUpdateFields(null);
+    } catch (err) {
+      console.error('error decrypt');
+    }
+  };
 
-  const JsxAddRecord = () => (
-    <Form submit={newRecordField}>
-      <Input type={EnumTypes.text} name={'name'} onChange={changeNewRecord} value={newRecord.name} label={'Name'} />
-      <Input type={EnumTypes.password} name={'data'} onChange={changeNewRecord} value={newRecord.data} label={'Data'} />
-      <Input
-        type={EnumTypes.password}
-        name={'GroupPassword'}
-        onChange={changePassword}
-        value={decryptPassword}
-        label={'Password to group'}
-      />
-    </Form>
-  );
+  const deleteRecord = async () => {
+    if (!group || !decryptGroup || decryptPassword === '' || groupId === null) return;
+    try {
+      decrypt(group.data, decryptPassword);
+      const decryptGroupState = decryptGroup;
+      const updateGroup = decryptGroupState.collectionData.filter((item, i) => i !== groupId);
+      decryptGroupState.collectionData = updateGroup;
+      const encryptUpGroup = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
+      const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
+      if (result.err) return;
+      setGroup({ ...group, data: encryptUpGroup });
+      setDecryptGroup(decryptGroupState);
+      setDecryptPassword('');
+      setPopupSaveEdit(false);
+      setIsEdit(false);
+      setIsAdd(false);
+      setIsDelete(false);
+      setAddRecord(null);
+      setUpdateFields(null);
+      setGroupId(null);
+    } catch (err) {
+      console.error('error decrypt');
+    }
+  };
 
-  const desktopUI = () => (
+  return (
     <>
-      <div className="viewRecordInGroup-desktop">
-        <div className="inner-viewRecordInGroup">
-          <Header2
-            name={decryptGroup && groupId !== null ? decryptGroup.collectionData[groupId].name : 'Decrypt to view'}
-            buttons={[
-              !editFieldsStatus && groupId !== null && <ButtonSvg key={2} svg={<SvgEdit />} onClick={clickEdit} />,
-              editFieldsStatus && groupId !== null && (
-                <ButtonSvg key={3} svg={<SvgSave />} onClick={() => setPopupEditFieldsStatus(true)} bigSvg />
-              ),
-              editFieldsStatus && <ButtonSvg key={4} svg={<SvgClose />} onClick={() => setEditFieldsStatus(false)} />,
-              groupId !== null && decryptGroup && !editFieldsStatus ? (
-                <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />
-              ) : null,
-            ]}
-          />
+      <div className="Record-desktopUI">
+        <div className="inner-Record-desktopUI">
+          {/* Header */}
+          <div className="header">
+            <div className="name">
+              {isEdit ? (
+                <input className="headerInputName" type="text" onChange={changeNewRecordName} value={newRecordName} />
+              ) : decryptGroup && groupId !== null ? (
+                decryptGroup.collectionData[groupId].name
+              ) : (
+                'Decrypt to view'
+              )}
+            </div>
+            <div className="buttons">
+              {decryptGroup && groupId !== null ? (
+                <>
+                  {!isAdd && (
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgTrash />} onClick={() => setIsDelete(true)} />
+                    </span>
+                  )}
+                  {!isAdd && !isEdit && (
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgPlus />} onClick={setAdd} />
+                    </span>
+                  )}
+                  {!isEdit && !isAdd && decryptGroup.collectionData[groupId].userFields.length > 0 && (
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgEdit />} onClick={setEdit} />
+                    </span>
+                  )}
+                  {isEdit && (
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgSave />} bigSvg onClick={() => setPopupSaveEdit(true)} />
+                    </span>
+                  )}
+                  {(isEdit || isAdd) && (
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgClose />} onClick={() => setPopupWorn(true)} />
+                    </span>
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
 
-          {addRecord && groupId && decryptGroup && JsxAddRecord()}
+          {/* Add record */}
+          {isAdd && addRecord && (
+            <Form submit={() => setPopupSaveEdit(true)}>
+              <Input
+                type={EnumTypes.text}
+                name={'name'}
+                onChange={changeAddRecord}
+                value={addRecord.name}
+                label={'Name'}
+              />
+              <Input
+                type={EnumTypes.password}
+                name={'text'}
+                onChange={changeAddRecord}
+                value={addRecord.text}
+                label={'Data'}
+              />
+            </Form>
+          )}
 
-          {decryptGroup && groupId !== null && !addRecord && !editFieldsStatus
-            ? decryptGroup.collectionData[groupId].userFields.map((item, i) => (
-                <div key={`${i}view`}>
-                  <div className="recordName">
-                    <span>{item.name}</span>
-                  </div>
-                  <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
-                    {item.text}
+          {/* View content */}
+          {decryptGroup && groupId !== null && !isEdit ? (
+            decryptGroup.collectionData[groupId].userFields.map((item, i) => (
+              <div key={i} className="viewContent">
+                <div className="name">{item.name}</div>
+                <div className="data">
+                  {item.text}
+                  <div className="buttons">
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgCopy />} onClick={() => navigator.clipboard.writeText(item.text)} />
+                    </span>
                   </div>
                 </div>
-              ))
-            : null}
+              </div>
+            ))
+          ) : (
+            <></>
+          )}
 
-          {decryptGroup && groupId !== null && !addRecord && editFieldsStatus && updateFields
-            ? updateFields.map((item, i) => (
-                <div key={`${i}edit`}>
-                  <div className="recordName">
-                    <input type="text" value={updateFields[i].name} name="name" onChange={(e) => changeEdit(e, i)} />
-                  </div>
-                  <div className="recordData">
-                    <input type="text" value={updateFields[i].text} name="text" onChange={(e) => changeEdit(e, i)} />
+          {/* Edit content */}
+          {decryptGroup && groupId !== null && isEdit && updateFields ? (
+            updateFields.map((item, i) => (
+              <div key={i} className="viewContent">
+                <div className="name">
+                  <input
+                    className="viewContentNameInput"
+                    type="text"
+                    name="name"
+                    onChange={(e) => changeEdit(e, i)}
+                    value={updateFields[i].name}
+                  />
+                </div>
+                <div className="data">
+                  <input
+                    className="viewContentDataInput"
+                    type="text"
+                    name="text"
+                    onChange={(e) => changeEdit(e, i)}
+                    value={updateFields[i].text}
+                  />
+                  <div className="buttons">
+                    <span className="buttonBlock">
+                      <ButtonSvg svg={<SvgTrash />} onClick={() => changeDelete(i)} />
+                    </span>
                   </div>
                 </div>
-              ))
-            : null}
+              </div>
+            ))
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 
-      {/*  */}
-      {/*  */}
-      {/*  */}
-
-      {popupEditFieldsStatus && (
+      {/* Popup */}
+      {popupSaveEdit && isAdd && (
         <>
-          <div className="globalPopupClose" onClick={() => setPopupEditFieldsStatus(false)}></div>
+          <div className="globalPopupClose" onClick={() => setPopupSaveEdit(false)}></div>
+          <div className="globalPopupContainer">
+            <Form submit={changeAdd} buttonName="Confirm edit">
+              <Input
+                label="Password to group"
+                name="groupKey"
+                type={EnumTypes.password}
+                value={decryptPassword}
+                onChange={(e) => setDecryptPassword(e.target.value)}
+              />
+            </Form>
+          </div>
+        </>
+      )}
+
+      {popupSaveEdit && isEdit && (
+        <>
+          <div className="globalPopupClose" onClick={() => setPopupSaveEdit(false)}></div>
           <div className="globalPopupContainer">
             <Form submit={saveEdit} buttonName="Confirm edit">
               <Input
@@ -229,49 +334,35 @@ export default function Record({
           </div>
         </>
       )}
+
+      {isDelete && (
+        <>
+          <div className="globalPopupClose" onClick={() => setIsDelete(false)}></div>
+          <div className="globalPopupContainer">
+            <Form submit={deleteRecord} buttonName="Confirm edit">
+              <Input
+                label="Password to group"
+                name="groupKey"
+                type={EnumTypes.password}
+                value={decryptPassword}
+                onChange={(e) => setDecryptPassword(e.target.value)}
+              />
+            </Form>
+          </div>
+        </>
+      )}
+
+      {/* Popup worn */}
+      {popupWorn && (
+        <>
+          <div className="globalPopupClose" onClick={() => setPopupWorn(false)}></div>
+          <div className="globalPopupContainer">
+            <Form submit={closeEdit} buttonName="Ok">
+              <span>If you click Ok, all changes will disappear</span>
+            </Form>
+          </div>
+        </>
+      )}
     </>
   );
-
-  const mobileUI = () => {
-    if (!popupStatus) return <></>;
-
-    return (
-      <>
-        <div className="viewRecordInGroupContainer-mobile" onClick={() => setPopupStatus(false)}>
-          <div
-            className="viewRecordInGroup-mobile"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-          >
-            <div className="inner-viewRecordInGroup">
-              <Header2
-                name={decryptGroup && groupId ? decryptGroup.collectionData[groupId].name : 'Decrypt to view'}
-                buttons={[
-                  groupId && <ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddRecord(!addRecord)} />,
-                  <ButtonSvg key={2} svg={<SvgClose />} onClick={() => setPopupStatus(false)} />,
-                ]}
-              />
-
-              {addRecord && groupId && JsxAddRecord()}
-
-              {decryptGroup &&
-                groupId &&
-                !addRecord &&
-                decryptGroup.collectionData[groupId].userFields.map((item, i) => (
-                  <div key={i}>
-                    <div className="recordName">
-                      <span>{item.name}</span>
-                    </div>
-                    <div className="recordData" onClick={() => navigator.clipboard.writeText(item.text)}>
-                      {item.text}
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  return <>{windowInnerWidth <= 700 ? mobileUI() : desktopUI()}</>;
 }

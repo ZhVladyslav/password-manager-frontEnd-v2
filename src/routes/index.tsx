@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 
 // const
-import { PATH_ERROR, PATH_MAIN } from './paths';
+import { PATH_COLLECTION, PATH_ERROR } from './paths';
 
 // components
 import {
@@ -12,7 +12,6 @@ import {
   Error403Page,
   Error404Page,
   Error500Page,
-  HomePage,
   LoginPage,
   RegistrationPage,
   Main,
@@ -25,19 +24,6 @@ import DashboardLayout from '../layouts/DashboardLayout';
 
 export default function Router() {
   return useRoutes([
-    //
-    // Main
-    //
-
-    {
-      path: '/home',
-      element: (
-        <AuthGuard>
-          <HomePage />
-        </AuthGuard>
-      ),
-    },
-
     //
     // Auth
     //
@@ -66,7 +52,7 @@ export default function Router() {
           <DashboardLayout />
         </AuthGuard>
       ),
-      children: [{ path: 'list', element: <Main /> }],
+      children: [{ path: 'view', element: <Main /> }],
     },
 
     //
@@ -88,7 +74,7 @@ export default function Router() {
     // Other
     //
 
-    { path: '/', element: <Navigate to={PATH_MAIN.home} replace /> },
+    { path: '/', element: <Navigate to={PATH_COLLECTION.view} replace /> },
     { path: '*', element: <Navigate to={PATH_ERROR.error404} replace /> },
   ]);
 }

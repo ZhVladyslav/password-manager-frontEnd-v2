@@ -1,5 +1,5 @@
-const path = (root: string, sublink: string): string => {
-  return `${root}${sublink}`;
+const path = (root: string, subLink: string): string => {
+  return `${root}${subLink}`;
 };
 
 // ----------------------------------------------------------------------
@@ -7,12 +7,6 @@ const path = (root: string, sublink: string): string => {
 const ROOT_AUTH = '/auth';
 const ROOT_COLLECTION = '/collection';
 const ROOT_ERROR = '/error';
-
-// ----------------------------------------------------------------------
-
-export const PATH_MAIN = {
-  home: path(ROOT_COLLECTION, '/list'),
-};
 
 // ----------------------------------------------------------------------
 
@@ -24,9 +18,7 @@ export const PATH_AUTH = {
 // ----------------------------------------------------------------------
 
 export const PATH_COLLECTION = {
-  list: path(ROOT_COLLECTION, '/list'),
   view: path(ROOT_COLLECTION, '/view'),
-  create: path(ROOT_COLLECTION, '/create'),
 };
 
 // ----------------------------------------------------------------------
