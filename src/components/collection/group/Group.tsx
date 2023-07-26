@@ -7,7 +7,7 @@ import { Header2 } from '../../headers';
 import Form from '../../form/formContainers/Form';
 import Input, { EnumTypes } from '../../form/inputs/Input';
 import { ButtonSvg } from '../../buttons';
-import { SvgDotHorizontal, SvgPlus } from '../../../assets';
+import { SvgPlus } from '../../../assets';
 import { IInputValue } from '../../form/inputs/Input';
 
 // ----------------------------------------------------------------------
@@ -61,6 +61,7 @@ export default function Group({
   const [addRecord, setAddRecord] = useState(false);
   const [newRecordName, setNewRecordName] = useState<IInputValue>(defaultInputData);
   const [editName, setEditName] = useState({ status: false, oldName: '', newName: '', id: '', position: -1 });
+  const [formError, setFormError] = useState('');
 
   /* ----------------  Crypto  ---------------- */
 
@@ -77,8 +78,9 @@ export default function Group({
       const decryptData: IDecryptGrout = JSON.parse(decryptDataInText);
       setDecryptGroup(decryptData);
       setDecryptPassword('');
+      setFormError('');
     } catch (err) {
-      console.error('error decrypt');
+      setFormError('Error password to decrypt');
     }
   };
 
@@ -93,8 +95,8 @@ export default function Group({
         {
           name: 'Main email',
           userFields: [
-            { name: 'Email', text: 'Hello@gmail.com' },
-            { name: 'Password', text: '1111' },
+            { name: 'Email', text: 'Hello@gmail.com', hidden: false },
+            { name: 'Password', text: '1111', hidden: true },
           ],
         },
       ],
@@ -197,7 +199,11 @@ export default function Group({
           />
 
           {group && !decryptGroup && (
-            <Form submit={() => clickDecrypt(group.id)} buttonName={group.data === '' ? 'Generate group' : 'Decrypt'}>
+            <Form
+              submit={() => clickDecrypt(group.id)}
+              buttonName={group.data === '' ? 'Generate group' : 'Decrypt'}
+              errorValue={formError}
+            >
               <Input
                 type={EnumTypes.password}
                 name={'GroupPassword'}

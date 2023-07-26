@@ -2,4 +2,18 @@
   margin: 0 auto;
   max-width: 400px;
   margin-top: 130px;
+
+  .link {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    a {
+      color: #fff;
+    }
+  }
 }

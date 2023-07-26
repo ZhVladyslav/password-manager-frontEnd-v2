@@ -33,7 +33,7 @@ export default function Input({ onChange, value, name, type, label }: IProps) {
       <label>{label}</label>
 
       {typeof value === 'string' ? (
-        <input type={type} name={name} onChange={onChange} value={value} />
+        <input autoComplete="off" type={type} name={name} onChange={onChange} value={value} />
       ) : (
         <input type={type} name={name} onChange={onChange} value={value.value} />
       )}

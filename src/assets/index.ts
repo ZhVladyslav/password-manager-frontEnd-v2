@@ -11,3 +11,8 @@ export { ReactComponent as SvgEdit } from './edit.svg';
 export { ReactComponent as SvgSave } from './save.svg';
 export { ReactComponent as SvgTrash } from './trash.svg';
 export { ReactComponent as SvgCopy } from './copy.svg';
+export { ReactComponent as SvgConfirm } from './confirm.svg';
+
+// pass
+export { ReactComponent as SvgViewPassword } from './viewPassword.svg';
+export { ReactComponent as SvgHiddenPassword } from './hiddenPassword.svg';

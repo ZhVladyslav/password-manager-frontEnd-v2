@@ -43,7 +43,9 @@ export default function RegistrationPage() {
           label={'Password'}
         />
 
-        <Link to={PATH_AUTH.login}>Login</Link>
+        <div className="link">
+          <Link to={PATH_AUTH.login}>Login</Link>
+        </div>
       </Form>
     </div>
   );

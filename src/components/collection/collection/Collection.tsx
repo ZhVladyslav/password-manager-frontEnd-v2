@@ -138,7 +138,16 @@ export default function Collection({
           {allGroups &&
             !addGroup &&
             allGroups.map((item) => (
-              <div key={item.id} onClick={() => clickOnGroup(item.id)} className="groupButton">
+              <div
+                key={item.id}
+                onClick={() => {
+                  clickOnGroup(item.id);
+                  if (windowInnerWidth <= 700) {
+                    setMenuStatus(false);
+                  }
+                }}
+                className="groupButton"
+              >
                 <span className="name">{item.name}</span>
                 <div className="buttonContainer">
                   <ButtonSvg
@@ -189,7 +198,6 @@ export default function Collection({
     return (
       <>
         <div className="listGroups-mobile-close" onClick={() => setMenuStatus(false)}></div>
-
         <div className="listGroups-mobile">
           <div className="inner-listGroups">{desktopUI()}</div>
         </div>
