@@ -503,13 +503,10 @@ export default function Record({
 
     //
     const submit = () => {
-      if (isEdit) {
-        edit();
-      } else if (isCreate) {
-        create();
-      } else if (isDelete) {
-        deleteRecord();
-      } else closePopup();
+      if (isEdit && !isCreate && !isDelete) edit();
+      if (isCreate && !isEdit && !isDelete) create();
+      if (isDelete) deleteRecord();
+      else closePopup();
     };
 
     const buttonText = (): string => {
