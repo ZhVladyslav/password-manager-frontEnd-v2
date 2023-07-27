@@ -8,6 +8,11 @@ export const encrypt = (str: string, key: string) => {
 
 // ----------------------------------------------------------------------
 
-export const decrypt = (str: string, key: string) => {
-  CryptoJS.AES.decrypt(str, key).toString(CryptoJS.enc.Utf8);
-};
+function decrypt(str: string, key: string): void;
+function decrypt(str: string, key: string, res: boolean): string;
+function decrypt(str: string, key: string, res?: boolean) {
+  if (!res) CryptoJS.AES.decrypt(str, key).toString(CryptoJS.enc.Utf8);
+  if (res) return CryptoJS.AES.decrypt(str, key).toString(CryptoJS.enc.Utf8);
+}
+
+export { decrypt };

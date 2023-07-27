@@ -1,0 +1,45 @@
+.RecordBlock {
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #7d8590;
+    width: 100%;
+    height: 25px;
+
+    input {
+      font-size: 14px;
+      color: #7d8590;
+    }
+  }
+
+  .data {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 41px;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #0d1117;
+    border: 1px solid #21262d;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+
+    input {
+      height: 41px;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .buttonBlock {
+      display: flex;
+      flex-direction: row;
+
+      & > * {
+        margin-left: 5px;
+      }
+    }
+  }
+}

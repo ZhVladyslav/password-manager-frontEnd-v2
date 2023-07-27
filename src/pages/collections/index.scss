@@ -5,83 +5,40 @@
 }
 
 //
-.viewGroup {
-  background-color: #010409;
-  padding: 25px;
-  overflow: auto;
+//
+//
 
-  .inner-viewGroup {
-    width: 100%;
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5px;
+  height: 35px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #21262d;
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 16px;
+  color: #fff;
 
-    .viewRecordNameContainer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: 50px;
-      background-color: #0d1117;
-      border-radius: 8px;
-      border: 1px solid #21262d;
-      padding-left: 10px;
-      padding-right: 10px;
-      margin-bottom: 5px;
-      cursor: pointer;
+  .svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
 
-      .name {
-        display: flex;
-        height: 100%;
-        align-items: center;
-      }
-
-      .buttonContainer {
-        display: flex;
-        height: 100%;
-        align-items: center;
-      }
-
-      &:hover {
-        background-color: #24292e;
-      }
+    .inner-svg {
+      fill: #fff;
+      width: 25px;
+      height: 25px;
     }
   }
-}
 
-//
-.viewRecordInGroup-popupContainer-disable {
-  background-color: #010409;
-}
-.viewRecordInGroup {
-  background-color: #010409;
-  padding: 25px;
-  overflow: auto;
-
-  .inner-viewRecordInGroup {
-    width: 100%;
-
-    .recordName {
-      display: flex;
-      align-items: center;
-      height: 25px;
-      width: 100%;
-
-      span {
-        font-size: 14px;
-        color: #7d8590;
-      }
-    }
-
-    .recordData {
-      display: flex;
-      align-items: center;
-      height: 40px;
-      width: 100%;
-      margin-bottom: 10px;
-      background-color: #0d1117;
-      border: 1px solid #21262d;
-      padding-left: 10px;
-      border-radius: 8px;
-      cursor: copy;
-    }
+  &:hover {
+    border-color: #6e7681;
   }
 }
 
@@ -92,42 +49,5 @@
 @media all and (max-width: 700px) {
   .gridContainer {
     grid-template-columns: 1fr;
-  }
-}
-
-// @media all and (max-width: 700px) {
-//   .listGroups {
-//     display: none;
-//   }
-//   .listGroups-menu {
-//     display: flex;
-//   }
-// }
-
-@media all and (max-width: 700px) {
-  .viewRecordInGroup {
-    display: none;
-  }
-  .viewRecordInGroup-popupContainer-hidden {
-    display: none;
-  }
-  .viewRecordInGroup-popupContainer {
-    display: flex;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(1, 4, 9, 0.596);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  .viewRecordInGroup-popup {
-    display: flex;
-    border: 1px solid #21262d;
-    border-radius: 8px;
-    width: 400px;
-    height: 500px;
   }
 }

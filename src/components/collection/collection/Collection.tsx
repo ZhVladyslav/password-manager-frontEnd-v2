@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SvgClose, SvgDotHorizontal, SvgPlus, SvgTrash } from '../../../assets';
+import { SvgDotHorizontal, SvgPlus, SvgTrash } from '../../../assets';
 import { collectionService } from '../../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../../types/collectionType';
 import { ButtonSvg } from '../../buttons';
@@ -119,10 +119,10 @@ export default function Collection({
     <>
       <div className="listGroups-desktop">
         <div className="inner-listGroups">
-          <Header2
+          {/* <Header2
             name="Groups"
             buttons={[<ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddGroup(!addGroup)} />]}
-          />
+          /> */}
 
           {addGroup && (
             <Form submit={createGroup}>

@@ -20,6 +20,9 @@ import {
 import { decrypt, encrypt } from '../../../utils/crypto';
 import SvgViewPasswordAsString from '../../../assets/viewPassword.svg';
 import SvgHiddenPasswordAsString from '../../../assets/hiddenPassword.svg';
+import { Header2 } from '../../headers';
+import { RecordBlock } from '../../blocks';
+import HiddenInput from '../../form/inputs/HiddenInput/HiddenInput';
 
 // ----------------------------------------------------------------------
 interface IProps {
@@ -64,12 +67,11 @@ export default function Record({
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-
   const [popupView, setPopupView] = useState(false);
 
   const [newRecordName, setNewRecordName] = useState('');
-  const [createNewRecord, setCreateNewRecord] = useState<IUserFields | null>(null); // create new record field
   const [updateFields, setUpdateFields] = useState<IUserFields[] | null>(null);
+  const [createNewRecord, setCreateNewRecord] = useState<IUserFields | null>(null); // create new record field
 
   // form error
   const [formError, setFormError] = useState('');
@@ -81,22 +83,20 @@ export default function Record({
     setIsEdit(false);
     setIsCreate(false);
     setIsDelete(false);
-
-    // popups
     setPopupView(false);
-
-    // data
     setNewRecordName('');
     setCreateNewRecord(null);
     setUpdateFields(null);
     setDecryptPassword(''); // password
   };
 
+  //
   const clickEdit = () => {
     setIsEdit(true);
     setIsCreate(false);
   };
 
+  //
   const clickCreate = () => {
     setIsCreate(true);
     setIsEdit(false);
@@ -104,7 +104,7 @@ export default function Record({
 
   /* ----------------  UI Header Buttons and Name  ---------------- */
 
-  // Name
+  // Title
   const headerName = () => {
     if (!group || !decryptGroup || groupId === null) return '';
 
@@ -113,7 +113,7 @@ export default function Record({
       const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewRecordName(e.target.value);
       };
-      return <input className="headerInputName" type="text" onChange={changeEvent} value={newRecordName} />;
+      return <HiddenInput name="title" type="text" onChange={changeEvent} value={newRecordName} />;
     }
 
     return decryptGroup.collectionData[groupId].name;
@@ -131,11 +131,7 @@ export default function Record({
     };
 
     //
-    return (
-      <span className="buttonBlock">
-        <ButtonSvg svg={<SvgTrash />} onClick={event} />
-      </span>
-    );
+    return <ButtonSvg svg={<SvgTrash />} onClick={event} />;
   };
 
   // Create header button
@@ -151,11 +147,7 @@ export default function Record({
     };
 
     //
-    return (
-      <span className="buttonBlock">
-        <ButtonSvg svg={<SvgPlus />} onClick={event} />
-      </span>
-    );
+    return <ButtonSvg svg={<SvgPlus />} onClick={event} />;
   };
 
   // Save header button
@@ -167,23 +159,13 @@ export default function Record({
     const event = () => setPopupView(true);
 
     //
-    return (
-      <span className="buttonBlock">
-        <ButtonSvg svg={<SvgSave />} onClick={event} bigSvg />
-      </span>
-    );
+    return <ButtonSvg svg={<SvgSave />} onClick={event} bigSvg />;
   };
 
   // Edit header button
   const headerButtonEdit = () => {
     if (!group || !decryptGroup || groupId === null) return <></>;
-    if (
-      isEdit ||
-      isCreate ||
-      !decryptGroup ||
-      groupId === null ||
-      decryptGroup.collectionData[groupId].userFields.length === 0
-    )
+    if (isEdit || isCreate || !decryptGroup || decryptGroup.collectionData[groupId].userFields.length === 0)
       return <></>;
 
     //
@@ -194,11 +176,7 @@ export default function Record({
     };
 
     //
-    return (
-      <span className="buttonBlock">
-        <ButtonSvg svg={<SvgEdit />} onClick={event} />
-      </span>
-    );
+    return <ButtonSvg svg={<SvgEdit />} onClick={event} />;
   };
 
   // Close header button
@@ -210,11 +188,7 @@ export default function Record({
     const event = () => dropAllStates();
 
     //
-    return (
-      <span className="buttonBlock">
-        <ButtonSvg svg={<SvgClose />} onClick={event} />
-      </span>
-    );
+    return <ButtonSvg svg={<SvgClose />} onClick={event} />;
   };
 
   /* ----------------  UI Content  ---------------- */
@@ -237,41 +211,20 @@ export default function Record({
     };
 
     return (
-      <div className="viewContent">
-        <div className="name">
-          <input
-            className="viewContentNameInput"
-            autoComplete="off"
-            type="text"
-            name="name"
-            onChange={changeEvent}
-            value={createNewRecord.name}
-          />
-        </div>
-        <div className="data">
-          <input
-            className="viewContentDataInput"
-            autoComplete="off"
-            type="text"
-            name="text"
-            onChange={changeEvent}
-            value={createNewRecord.text}
-          />
-          <div className="buttons">
-            <span className="buttonBlock">
-              {createNewRecord.hidden ? (
-                <ButtonSvg svg={<SvgHiddenPassword />} onClick={() => eventOnButton(false)} />
-              ) : (
-                <ButtonSvg svg={<SvgViewPassword />} onClick={() => eventOnButton(true)} />
-              )}
-            </span>
-            {/*  */}
-            <span className="buttonBlock">
-              <ButtonSvg svg={<SvgConfirm />} onClick={submit} />
-            </span>
-          </div>
-        </div>
-      </div>
+      <RecordBlock
+        name={<HiddenInput name="name" type="text" onChange={changeEvent} value={createNewRecord.name} />}
+        content={<HiddenInput name="text" type="text" onChange={changeEvent} value={createNewRecord.text} />}
+        buttons={
+          <>
+            {createNewRecord.hidden ? (
+              <ButtonSvg svg={<SvgHiddenPassword />} onClick={() => eventOnButton(false)} />
+            ) : (
+              <ButtonSvg svg={<SvgViewPassword />} onClick={() => eventOnButton(true)} />
+            )}
+            <ButtonSvg svg={<SvgConfirm />} onClick={submit} />
+          </>
+        }
+      />
     );
   };
 
@@ -327,32 +280,33 @@ export default function Record({
     };
 
     return decryptGroup.collectionData[groupId].userFields.map((item, i) => (
-      <div key={i} className="viewContent">
-        <div className="name">{item.name}</div>
-        <div className="data">
-          {item.hidden ? (
-            <span id={`viewContent_data_${i}`} data-hidden="true">
-              {'••••••••••••'}
-            </span>
-          ) : (
-            <span>{item.text}</span>
-          )}
-          <div className="buttons">
-            {item.hidden && (
-              <span className="buttonBlock">
-                <ButtonSvg
-                  id={`viewContent_button_${i}`}
-                  svg={<SvgHiddenPassword />}
-                  onClick={() => hiddenDataInInput(item.text, i)}
-                />
+      <RecordBlock
+        key={i}
+        name={item.name}
+        content={
+          <>
+            {item.hidden ? (
+              <span id={`viewContent_data_${i}`} data-hidden="true">
+                {'••••••••••••'}
               </span>
+            ) : (
+              <span>{item.text}</span>
             )}
-            <span className="buttonBlock">
-              <ButtonSvg svg={<SvgCopy />} onClick={() => navigator.clipboard.writeText(item.text)} />
-            </span>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+        buttons={
+          <>
+            {item.hidden && (
+              <ButtonSvg
+                id={`viewContent_button_${i}`}
+                svg={<SvgHiddenPassword />}
+                onClick={() => hiddenDataInInput(item.text, i)}
+              />
+            )}
+            <ButtonSvg svg={<SvgCopy />} onClick={() => navigator.clipboard.writeText(item.text)} />
+          </>
+        }
+      />
     ));
   };
 
@@ -391,41 +345,21 @@ export default function Record({
     };
 
     return updateFields.map((item, i) => (
-      <div key={i} className="viewContent">
-        <div className="name">
-          <input
-            className="viewContentNameInput"
-            autoComplete="off"
-            type="text"
-            name="name"
-            onChange={(e) => event(e, i)}
-            value={updateFields[i].name}
-          />
-        </div>
-        <div className="data">
-          <input
-            className="viewContentDataInput"
-            autoComplete="off"
-            type="text"
-            name="text"
-            onChange={(e) => event(e, i)}
-            value={updateFields[i].text}
-          />
-          <div className="buttons">
-            <span className="buttonBlock">
-              {updateFields[i].hidden ? (
-                <ButtonSvg svg={<SvgHiddenPassword />} onClick={() => eventOnButton(false, i)} />
-              ) : (
-                <ButtonSvg svg={<SvgViewPassword />} onClick={() => eventOnButton(true, i)} />
-              )}
-            </span>
-            {/*  */}
-            <span className="buttonBlock">
-              <ButtonSvg svg={<SvgTrash />} onClick={() => deleteEvent(i)} />
-            </span>
-          </div>
-        </div>
-      </div>
+      <RecordBlock
+        key={i}
+        name={<HiddenInput name="name" type="text" onChange={(e) => event(e, i)} value={updateFields[i].name} />}
+        content={<HiddenInput name="text" type="text" onChange={(e) => event(e, i)} value={updateFields[i].text} />}
+        buttons={
+          <>
+            {updateFields[i].hidden ? (
+              <ButtonSvg svg={<SvgHiddenPassword />} onClick={() => eventOnButton(false, i)} />
+            ) : (
+              <ButtonSvg svg={<SvgViewPassword />} onClick={() => eventOnButton(true, i)} />
+            )}
+            <ButtonSvg svg={<SvgTrash />} onClick={() => deleteEvent(i)} />
+          </>
+        }
+      />
     ));
   };
 
@@ -504,15 +438,15 @@ export default function Record({
     //
     const submit = () => {
       if (isEdit && !isCreate && !isDelete) edit();
-      if (isCreate && !isEdit && !isDelete) create();
-      if (isDelete) deleteRecord();
+      else if (isCreate && !isEdit && !isDelete) create();
+      else if (isDelete) deleteRecord();
       else closePopup();
     };
 
     const buttonText = (): string => {
       if (isEdit && !isCreate && !isDelete) return 'Confirm edit change';
-      if (isCreate && !isEdit && !isDelete) return 'Confirm edit change';
-      if (isDelete) return 'Confirm delete';
+      else if (isCreate && !isEdit && !isDelete) return 'Confirm edit change';
+      else if (isDelete) return 'Confirm delete';
       return '';
     };
 
@@ -543,16 +477,20 @@ export default function Record({
       <div className="Record-desktopUI">
         <div className="inner-Record-desktopUI">
           {/* Header */}
-          <div className="header">
-            <div className="name">{headerName()}</div>
-            <div className="buttons">
-              {headerButtonTrash()}
-              {headerButtonCreate()}
-              {headerButtonEdit()}
-              {headerButtonSave()}
-              {headerButtonClose()}
-            </div>
-          </div>
+          {decryptGroup && groupId !== null && (
+            <Header2
+              title={headerName()}
+              buttons={
+                <>
+                  {headerButtonTrash()}
+                  {headerButtonCreate()}
+                  {headerButtonEdit()}
+                  {headerButtonSave()}
+                  {headerButtonClose()}
+                </>
+              }
+            />
+          )}
 
           {/* View content */}
           {uiViewRecord()}

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { IGetByIdGroups_Res } from '../../../types/collectionType';
-import { IDecryptGrout } from '../../../types/decryptGroupType';
-import CryptoJS from 'crypto-js';
+import { IDecryptGrout, IDecryptGroutRecord } from '../../../types/decryptGroupType';
 import { collectionService } from '../../../services/collectionServices';
 import { Header2 } from '../../headers';
 import Form from '../../form/formContainers/Form';
 import Input, { EnumTypes } from '../../form/inputs/Input';
 import { ButtonSvg } from '../../buttons';
-import { SvgPlus } from '../../../assets';
+import { SvgClose, SvgConfirm, SvgEdit, SvgPlus, SvgSave, SvgTrash } from '../../../assets';
 import { IInputValue } from '../../form/inputs/Input';
+import { decrypt, encrypt } from '../../../utils/crypto';
+import { GroupBlock } from '../../blocks';
+import HiddenInput from '../../form/inputs/HiddenInput/HiddenInput';
+import DecryptGroupForm from '../../form/DecryptGroupForm/DecryptGroupForm';
 
 // ----------------------------------------------------------------------
 
@@ -58,33 +61,31 @@ export default function Group({
   setPopupStatus,
   windowInnerWidth,
 }: IProps) {
-  const [addRecord, setAddRecord] = useState(false);
-  const [newRecordName, setNewRecordName] = useState<IInputValue>(defaultInputData);
-  const [editName, setEditName] = useState({ status: false, oldName: '', newName: '', id: '', position: -1 });
+  const [isEdit, setIsEdit] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [popupView, setPopupView] = useState(false);
+  //
+  const [newGroupName, setNewGroupName] = useState('');
+  const [createRecord, setCreateRecord] = useState('');
+  const [updateFields, setUpdateFields] = useState<IDecryptGroutRecord[] | null>(null);
   const [formError, setFormError] = useState('');
 
-  /* ----------------  Crypto  ---------------- */
+  /* ----------------  Events  ---------------- */
 
-  // Encrypt data
-  const encrypt = (text: string, key: string) => {
-    return CryptoJS.AES.encrypt(text, key).toString();
+  // drop all
+  const dropAllStates = () => {
+    setIsEdit(false);
+    setIsCreate(false);
+    setIsDelete(false);
+    setPopupView(false);
+    setNewGroupName('');
+    setUpdateFields(null);
+    setCreateRecord('');
+    setDecryptPassword(''); // password
   };
 
-  // Decrypt data
-  const decrypt = () => {
-    if (!group || group.data === '' || decryptPassword === '') return;
-    try {
-      const decryptDataInText = CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
-      const decryptData: IDecryptGrout = JSON.parse(decryptDataInText);
-      setDecryptGroup(decryptData);
-      setDecryptPassword('');
-      setFormError('');
-    } catch (err) {
-      setFormError('Error password to decrypt');
-    }
-  };
-
-  /* ----------------  Generate new group content  ---------------- */
+  // generate group if empty data
   const createNewGroupDate = async (id: string) => {
     if (!group || group.data !== '' || decryptPassword === '') return;
     const groupDefaultData: IDecryptGrout = {
@@ -109,167 +110,333 @@ export default function Group({
     setDecryptPassword('');
   };
 
-  /* ----------------  Add record in group  ---------------- */
-  const addRecordInGroup = async (id: string) => {
-    if (!group || !decryptGroup || decryptPassword === '') return;
+  // Decrypt group
+  const decryptDb = () => {
+    if (!group || group.data === '' || decryptPassword === '') return;
     try {
-      // decrypt group to check password
-      CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
-      // copy decrypt group and push new record
-      const decryptGroupState = decryptGroup;
-      decryptGroupState.collectionData.push({ name: newRecordName.value, userFields: [] });
-      // encrypt group and request to server
-      const encryptUpGroup: string = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
-      const result = await collectionService.editData(id, encryptUpGroup);
-      if (result.err) return;
-      setGroup({ ...group, data: encryptUpGroup });
-      setDecryptGroup(decryptGroupState);
+      const decryptDataInText = decrypt(group.data, decryptPassword, true);
+      const decryptData: IDecryptGrout = JSON.parse(decryptDataInText);
+      setDecryptGroup(decryptData);
       setDecryptPassword('');
-      setAddRecord(false);
+      setFormError('');
     } catch (err) {
-      console.error('error decrypt');
+      setFormError('Error password to decrypt');
     }
   };
 
-  // ----------------------------------------------------------------------
-
-  const toViewData = (id: number) => {
-    setGroupId(null);
-    if (!decryptGroup) return;
-    if (windowInnerWidth <= 700) {
-      setPopupStatus(true);
-    }
-    setGroupId(id);
-  };
-
-  /* ----------------  Functions to input data  ---------------- */
-
-  // click to decrypt group
+  // clock to decrypt group
   const clickDecrypt = (id: string) => {
     setDecryptGroup(null);
     createNewGroupDate(id);
-    decrypt();
+    decryptDb();
   };
 
-  // change password
-  const changePasswordToDecrypt = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDecryptPassword(e.target.value);
-  };
+  /* ----------------  UI Header Buttons and Name  ---------------- */
 
-  // change new name to create record
-  const changeNameToCreateNewRecord = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewRecordName({ ...newRecordName, value: e.target.value });
-  };
+  // Name
+  const headerName = () => {
+    if (!group || !decryptGroup) return '';
 
-  const toggleAddRecord = () => {
-    if (!decryptGroup) return;
-    setAddRecord(!addRecord);
-  };
-
-  /* ----------------  Edit name record  ---------------- */
-  const editNameSubmit = async () => {
-    if (!group || !decryptGroup || decryptPassword === '') return;
-    if (editName.id === '' || editName.newName === '' || editName.position === -1) return;
-
-    try {
-      CryptoJS.AES.decrypt(group.data, decryptPassword).toString(CryptoJS.enc.Utf8);
-      const decryptGroupState = decryptGroup;
-      decryptGroupState.collectionData[editName.position].name = editName.newName;
-      const encryptUpGroup = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
-      const result = await collectionService.editData(editName.id, encryptUpGroup);
-      if (result.err) return;
-      setGroup({ ...group, data: encryptUpGroup });
-      setDecryptGroup(decryptGroupState);
-      setEditName({ id: '', newName: '', oldName: '', status: false, position: -1 });
-      setDecryptPassword('');
-    } catch (err) {
-      console.error('error decrypt');
+    // edit name group
+    if (isEdit) {
+      const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewGroupName(e.target.value);
+      };
+      return <input className="headerInputName" type="text" onChange={changeEvent} value={newGroupName} />;
     }
+
+    return group.name;
+  };
+
+  // Save header button
+  const headerButtonSave = () => {
+    if (!group || !decryptGroup) return <></>;
+    if (!isEdit) return <></>;
+
+    //
+    const event = () => setPopupView(true);
+
+    //
+    return <ButtonSvg svg={<SvgConfirm />} onClick={event} />;
+  };
+
+  // Edit header button
+  const headerButtonEdit = () => {
+    if (!group || !decryptGroup) return <></>;
+    if (isEdit || isCreate || !decryptGroup) return <></>;
+
+    //
+    const event = () => {
+      setNewGroupName(group.name);
+      setUpdateFields(decryptGroup.collectionData);
+      setIsEdit(true);
+    };
+
+    //
+    return <ButtonSvg svg={<SvgEdit />} onClick={event} />;
+  };
+
+  // Close header button
+  const headerButtonClose = () => {
+    if (!group || !decryptGroup) return <></>;
+    if (!isEdit && !isCreate) return <></>;
+
+    //
+    const event = () => dropAllStates();
+
+    //
+    return <ButtonSvg svg={<SvgClose />} onClick={event} />;
+  };
+
+  /* ----------------  UI View content  ---------------- */
+
+  // Create content
+  const uiCreateRecord = () => {
+    if (!group || !decryptGroup) return <></>;
+    if (!isCreate || !updateFields) return <></>;
+
+    // event on change inputs
+    const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCreateRecord(e.target.value);
+    };
+
+    const complete = () => {
+      setUpdateFields([
+        ...updateFields,
+        {
+          name: createRecord,
+          userFields: [
+            { name: 'Email', text: '...@gmail.com', hidden: false },
+            { name: 'Password', text: '1111', hidden: true },
+          ],
+        },
+      ]);
+      setIsCreate(false);
+    };
+
+    const onKeyDownEvent = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.keyCode === 13) complete();
+      else if (e.keyCode === 27) setIsCreate(false);
+    };
+
+    return (
+      <GroupBlock
+        title={
+          <HiddenInput
+            onKeyDown={(e) => onKeyDownEvent(e)}
+            name="name"
+            type="text"
+            onChange={changeEvent}
+            value={createRecord}
+          />
+        }
+        buttons={
+          <>
+            <ButtonSvg svg={<SvgConfirm />} onClick={complete} />
+            <ButtonSvg svg={<SvgClose />} onClick={() => setIsCreate(false)} />
+          </>
+        }
+      />
+    );
+  };
+
+  // View content
+  const uiViewGroup = () => {
+    if (!group || !decryptGroup) return <></>;
+    if (isEdit) return <></>;
+
+    const clickEvent = (id: number) => {
+      if (windowInnerWidth <= 700) setPopupStatus(true);
+      setGroupId(id);
+    };
+
+    return decryptGroup.collectionData.map((item, i) => (
+      <GroupBlock key={i} title={item.name} onClick={() => clickEvent(i)} />
+    ));
+  };
+
+  // Edit content
+  const uiEditRecord = () => {
+    if (!group || !decryptGroup) return <></>;
+    if (!isEdit || !updateFields) return <></>;
+
+    // change inputs to edit value
+    const event = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+      setUpdateFields((prevUpdateFields) => {
+        if (!prevUpdateFields) return updateFields;
+        const updatedFields = [...prevUpdateFields];
+        updatedFields[id] = { ...updatedFields[id], name: e.target.value };
+        return updatedFields;
+      });
+    };
+
+    // delete record
+    const deleteEvent = (id: number) => {
+      setUpdateFields((prevUpdateFields) => {
+        if (!prevUpdateFields) return updateFields;
+        const updatedFields = [...prevUpdateFields];
+        return updatedFields.filter((item, i) => i !== id);
+      });
+    };
+
+    return (
+      <>
+        {updateFields.map((item, i) => (
+          <GroupBlock
+            key={i}
+            title={<HiddenInput name="name" type="text" onChange={(e) => event(e, i)} value={updateFields[i].name} />}
+            buttons={
+              <>
+                <ButtonSvg svg={<SvgTrash />} onClick={() => deleteEvent(i)} />
+              </>
+            }
+          />
+        ))}
+        {/*  */}
+        {!isCreate && (
+          <div
+            className="addButton"
+            onClick={() => {
+              setIsCreate(true);
+            }}
+          >
+            {`Add group `}
+            <div className="svg">
+              <div className="inner-svg">
+                <SvgSave />
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  /* ----------------  Popup  ---------------- */
+  const uiPopup = () => {
+    if (!group || !decryptGroup || !popupView || (isCreate && isEdit)) return <></>;
+
+    // save edits
+    const save = async () => {
+      if (decryptPassword === '' || !updateFields) return;
+      try {
+        decrypt(group.data, decryptPassword);
+        const decryptGroupState = decryptGroup;
+        decryptGroupState.collectionData = updateFields;
+        const encryptUpGroup = encrypt(JSON.stringify(decryptGroupState), decryptPassword);
+        const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
+        if (result.err) return;
+        setGroup({ ...group, data: encryptUpGroup });
+        setDecryptGroup(decryptGroupState);
+        setGroupId(null);
+        dropAllStates();
+        setFormError('');
+      } catch (err) {
+        setFormError('Error password to decrypt');
+      }
+    };
+
+    // close popup
+    const closePopup = () => {
+      if (isDelete) {
+        setIsDelete(false);
+      }
+      setPopupView(false);
+    };
+
+    //
+    const submit = () => {
+      if (isEdit && !isCreate && !isDelete) save();
+      else if (isCreate && !isEdit && !isDelete) save();
+      else if (isDelete) save();
+      else closePopup();
+    };
+
+    const buttonText = (): string => {
+      if (isEdit && !isCreate && !isDelete) return 'Confirm edit change';
+      else if (isCreate && !isEdit && !isDelete) return 'Confirm edit change';
+      else if (isDelete) return 'Confirm delete';
+      return '';
+    };
+
+    //
+    return (
+      <>
+        <div className="globalPopupClose" onClick={closePopup} />
+
+        <div className="globalPopupContainer">
+          <Form submit={submit} buttonName={buttonText()} errorValue={formError}>
+            <Input
+              label="Password to group"
+              name="groupKey"
+              type={EnumTypes.password}
+              value={decryptPassword}
+              onChange={(e) => setDecryptPassword(e.target.value)}
+            />
+          </Form>
+        </div>
+      </>
+    );
   };
 
   /* ----------------  UI  ---------------- */
 
-  return (
+  const desktopUI = () => (
     <>
-      <div className="viewGroup">
-        <div className="inner-viewGroup">
-          <Header2
-            name={group ? group.name : 'Decrypt to view'}
-            buttons={[decryptGroup && <ButtonSvg key={1} svg={<SvgPlus />} onClick={toggleAddRecord} />]}
-          />
+      <div className="Record-desktopUI">
+        <div className="inner-Record-desktopUI">
+          {/* Header */}
+          {decryptGroup && (
+            <Header2
+              title={headerName()}
+              buttons={
+                <>
+                  {headerButtonEdit()}
+                  {headerButtonSave()}
+                  {headerButtonClose()}
+                </>
+              }
+            />
+          )}
 
+          {/* decrypt group */}
           {group && !decryptGroup && (
-            <Form
-              submit={() => clickDecrypt(group.id)}
-              buttonName={group.data === '' ? 'Generate group' : 'Decrypt'}
-              errorValue={formError}
-            >
-              <Input
-                type={EnumTypes.password}
-                name={'GroupPassword'}
-                onChange={changePasswordToDecrypt}
-                value={decryptPassword}
-                label={'Password'}
-              />
-            </Form>
+            <DecryptGroupForm
+              title={`Decrypt group: ${group.name}`}
+              label="Password"
+              name="GroupKey"
+              buttonText="Decrypt group"
+              errorForm={formError}
+              value={decryptPassword}
+              onChange={(e) => setDecryptPassword(e.target.value)}
+              onSubmit={() => clickDecrypt(group.id)}
+            />
           )}
-          {!addRecord && group && decryptGroup && (
-            <div>
-              {decryptGroup.collectionData.map((item, i) => (
-                <div key={i} className="viewRecordNameContainer" onClick={() => toViewData(i)}>
-                  <span className="name">{item.name}</span>
-                </div>
-              ))}
-            </div>
-          )}
-          {addRecord && group && decryptGroup && (
-            <Form submit={() => addRecordInGroup(group.id)}>
-              <Input
-                type={EnumTypes.text}
-                name={'GroupName'}
-                onChange={changeNameToCreateNewRecord}
-                value={newRecordName}
-                label={'Name'}
-              />
-              <Input
-                type={EnumTypes.password}
-                name={'GroupPassword'}
-                onChange={changePasswordToDecrypt}
-                value={decryptPassword}
-                label={'Password to group'}
-              />
-            </Form>
-          )}
+
+          {/* View content */}
+          {uiViewGroup()}
+
+          {/* Edit content */}
+          {uiEditRecord()}
+
+          {/* Add record */}
+          {uiCreateRecord()}
         </div>
       </div>
-
-      {/*  */}
-      {/*  */}
-      {/*  */}
-
-      {editName.status && (
-        <>
-          <div className="globalPopupClose" onClick={() => setEditName({ ...editName, status: false })}></div>
-          <div className="globalPopupContainer">
-            <Form submit={editNameSubmit} buttonName="Edit name">
-              <Input
-                label={`Edit name record: ${editName.oldName}`}
-                name="newName"
-                type={EnumTypes.text}
-                value={editName.newName}
-                onChange={(e) => setEditName({ ...editName, newName: e.target.value })}
-              />
-              <Input
-                label="Password to group"
-                name="groupKey"
-                type={EnumTypes.password}
-                value={decryptPassword}
-                onChange={(e) => setDecryptPassword(e.target.value)}
-              />
-            </Form>
-          </div>
-        </>
-      )}
+      {uiPopup()}
     </>
   );
+
+  const mobileUI = () => {
+    // if (!popupView) return <></>;
+    return (
+      // <div className="Record-mobileUI" onClick={() => setPopupView(false)}>
+      //   <div className="inner-Record-mobileUI" onClick={(e) => e.stopPropagation()}>
+      <>{desktopUI()}</>
+      //   </div>
+      // </div>
+    );
+  };
+
+  return <>{windowInnerWidth <= 700 ? mobileUI() : desktopUI()}</>;
 }

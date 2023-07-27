@@ -1,0 +1,39 @@
+.GroupBlock {
+  .inner-GroupBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 41px;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #0d1117;
+    border: 1px solid #21262d;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+
+    .data {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+
+      input {
+        height: 100%;
+        font-size: 16px;
+        color: #fff;
+      }
+    }
+
+    .buttonBlock {
+      display: flex;
+      flex-direction: row;
+
+      & > * {
+        margin-left: 5px;
+      }
+    }
+  }
+}

@@ -1,20 +1,22 @@
 import React from 'react';
+import './RecordBlock.scss';
 
-import './Header2.scss';
 // ----------------------------------------------------------------------
 
 interface IProps {
-  title: React.ReactNode;
+  name: string | React.ReactNode;
+  content: React.ReactNode;
   buttons: React.ReactNode;
 }
 
 // ----------------------------------------------------------------------
 
-export default function Header2({ title, buttons }: IProps) {
+export default function RecordBlock({ name, content, buttons }: IProps) {
   return (
-    <div className="Header2">
-      <div className="inner-Header2">
-        <div className="title">{title}</div>
+    <div className="RecordBlock">
+      <div className="title">{name}</div>
+      <div className="data">
+        {content}
         <div className="buttonBlock">{buttons}</div>
       </div>
     </div>
