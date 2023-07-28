@@ -8,7 +8,7 @@ import Input, { EnumTypes } from '../../form/inputs/Input';
 import { ButtonSvg } from '../../buttons';
 import { SvgClose, SvgConfirm, SvgEdit, SvgPlus, SvgSave, SvgTrash } from '../../../assets';
 import { IInputValue } from '../../form/inputs/Input';
-import { decrypt, encrypt } from '../../../utils/crypto';
+import { decrypt, encrypt, uuidHash } from '../../../utils/crypto';
 import { GroupBlock } from '../../blocks';
 import HiddenInput from '../../form/inputs/HiddenInput/HiddenInput';
 import DecryptGroupForm from '../../form/DecryptGroupForm/DecryptGroupForm';
@@ -91,12 +91,13 @@ export default function Group({
     const groupDefaultData: IDecryptGrout = {
       id: id,
       version: 'V2',
+      payload: uuidHash(),
       date: { create: Date.now(), lastEdit: Date.now() },
       collectionData: [
         {
-          name: 'Main email',
+          name: 'demo',
           userFields: [
-            { name: 'Email', text: 'Hello@gmail.com', hidden: false },
+            { name: 'Email', text: '...@gmail.com', hidden: false },
             { name: 'Password', text: '1111', hidden: true },
           ],
         },
@@ -132,21 +133,6 @@ export default function Group({
   };
 
   /* ----------------  UI Header Buttons and Name  ---------------- */
-
-  // Name
-  const headerName = () => {
-    if (!group || !decryptGroup) return '';
-
-    // edit name group
-    if (isEdit) {
-      const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewGroupName(e.target.value);
-      };
-      return <input className="headerInputName" type="text" onChange={changeEvent} value={newGroupName} />;
-    }
-
-    return group.name;
-  };
 
   // Save header button
   const headerButtonSave = () => {
@@ -294,12 +280,7 @@ export default function Group({
         ))}
         {/*  */}
         {!isCreate && (
-          <div
-            className="addButton"
-            onClick={() => {
-              setIsCreate(true);
-            }}
-          >
+          <div className="addButton" onClick={() => setIsCreate(true)}>
             {`Add group `}
             <div className="svg">
               <div className="inner-svg">
@@ -386,9 +367,9 @@ export default function Group({
       <div className="Record-desktopUI">
         <div className="inner-Record-desktopUI">
           {/* Header */}
-          {decryptGroup && (
+          {decryptGroup && group && (
             <Header2
-              title={headerName()}
+              title={group.name}
               buttons={
                 <>
                   {headerButtonEdit()}
@@ -402,10 +383,10 @@ export default function Group({
           {/* decrypt group */}
           {group && !decryptGroup && (
             <DecryptGroupForm
-              title={`Decrypt group: ${group.name}`}
+              title={group.data ? `Decrypt group: ${group.name}` : `Create password to group: ${group.name}`}
               label="Password"
               name="GroupKey"
-              buttonText="Decrypt group"
+              buttonText={group.data ? 'Decrypt group' : 'Create password'}
               errorForm={formError}
               value={decryptPassword}
               onChange={(e) => setDecryptPassword(e.target.value)}

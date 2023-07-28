@@ -17,7 +17,7 @@ class SessionService {
 
   async close(id: string) {
     try {
-      const res = await axios.post(`${API}/sesison/close`, { sessionId: id });
+      const res = await axios.post(`${API}/session/close`, { sessionId: id });
       return { res: res.data as IMessageRes[] };
     } catch (error) {
       const err = error as IError;

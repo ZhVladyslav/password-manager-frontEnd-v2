@@ -27,7 +27,7 @@ class AuthService {
 
   async refresh(token: string) {
     try {
-      const res = await axios.post(`${API}/auth/refresh`, { token });
+      const res = await axios.post(`${API}/session/refresh`, { token });
       return { res: res.data as IRefreshRes };
     } catch (error) {
       const err = error as IError;

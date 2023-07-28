@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SvgDotHorizontal, SvgPlus, SvgTrash } from '../../../assets';
+import { SvgClose, SvgConfirm, SvgDotHorizontal, SvgEdit, SvgPlus, SvgSave, SvgTrash } from '../../../assets';
 import { collectionService } from '../../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../../types/collectionType';
 import { ButtonSvg } from '../../buttons';
@@ -8,6 +8,8 @@ import './Collection.scss';
 import { IDecryptGrout } from '../../../types/decryptGroupType';
 import Form from '../../form/formContainers/Form';
 import Input, { EnumTypes } from '../../form/inputs/Input';
+import { GroupBlock } from '../../blocks';
+import HiddenInput from '../../form/inputs/HiddenInput/HiddenInput';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +29,12 @@ interface IProps {
   setMenuStatus: (data: boolean) => void;
 }
 
+interface IEditName {
+  status: boolean;
+  name: string;
+  id: string;
+}
+
 // ----------------------------------------------------------------------
 
 export default function Collection({
@@ -41,17 +49,14 @@ export default function Collection({
 }: IProps) {
   const [nameNewGroup, setNameNewGroup] = useState('');
   const [addGroup, setAddGroup] = useState(false);
-  const [editName, setEditName] = useState({
-    status: false,
-    oldName: '',
-    newName: '',
-    id: '',
-  });
+  const [editName, setEditName] = useState<IEditName | null>(null);
 
   /* ----------------  Get user group/s  ---------------- */
   useEffect(() => {
     getAllGroups();
   }, []);
+
+  /* ----------------  Requests  ---------------- */
 
   // All
   const getAllGroups = async () => {
@@ -70,40 +75,7 @@ export default function Collection({
     setGroup(result.res);
   };
 
-  /* ----------------  Component logic  ---------------- */
-
-  // Select group
-  const clickOnGroup = async (id: string) => {
-    getGroupById(id);
-  };
-
-  // Create new group
-  const createGroup = async () => {
-    const result = await collectionService.create({ name: nameNewGroup });
-    if (result.err) return;
-    setAddGroup(false);
-    getAllGroups();
-  };
-
-  // Change input new group name
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNameNewGroup(e.target.value);
-  };
-
-  /* ----------------  Edit name group  ---------------- */
-  const editNameSubmit = async () => {
-    if (!allGroups || editName.id === '' || editName.newName === '') return;
-    const result = await collectionService.editName(editName.id, editName.newName);
-    if (result.err) return;
-    setAllGroups(
-      allGroups.map((item) => {
-        if (item.id === editName.id) return { ...item, name: editName.newName };
-        return item;
-      }),
-    );
-    setEditName({ id: '', newName: '', oldName: '', status: false });
-  };
-
+  // Delete collection
   const deleteCollection = async (id: string) => {
     if (!allGroups) return;
     const result = await collectionService.delete(id);
@@ -113,83 +85,123 @@ export default function Collection({
     setAllGroups(updateAllGroups);
   };
 
+  // Edit name
+  const editNameSubmit = async () => {
+    if (!allGroups || !editName || editName.id === '') return;
+    const result = await collectionService.editName(editName.id, editName.name);
+    if (result.err) return;
+    setAllGroups(
+      allGroups.map((item) => {
+        if (item.id === editName.id) return { ...item, name: editName.name };
+        return item;
+      }),
+    );
+    setEditName(null);
+  };
+
+  // Create collection
+  const createCollection = async () => {
+    const result = await collectionService.create({ name: nameNewGroup });
+    if (result.err) return;
+    setAddGroup(false);
+    getAllGroups();
+    setNameNewGroup('');
+  };
+
+  // ----------------------------------------------------------------------
+
+  // View collections
+  const uiViewCollections = () => {
+    if (!allGroups) return <></>;
+
+    // Change input new group name
+    const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!editName) return;
+      setEditName({ ...editName, name: e.target.value });
+    };
+
+    // Close edit name
+    const closeEditName = () => {
+      setEditName(null);
+    };
+
+    return allGroups.map((item) => {
+      if (allGroups && (!editName || (editName && editName.id !== item.id))) {
+        return (
+          <GroupBlock
+            key={item.id}
+            title={item.name}
+            onClick={() => getGroupById(item.id)}
+            buttons={
+              <>
+                <ButtonSvg
+                  svg={<SvgEdit />}
+                  onClick={() => setEditName({ name: item.name, status: true, id: item.id })}
+                />
+              </>
+            }
+          />
+        );
+      } else if (allGroups && editName && editName.status && editName.id === item.id) {
+        return (
+          <GroupBlock
+            key={item.id}
+            title={<HiddenInput name="name" type="text" onChange={(e) => changeEvent(e)} value={editName.name} />}
+            buttons={
+              <>
+                <ButtonSvg svg={<SvgTrash />} onClick={() => deleteCollection(editName.id)} />
+                <ButtonSvg svg={<SvgConfirm />} onClick={editNameSubmit} />
+                <ButtonSvg svg={<SvgClose />} onClick={closeEditName} />
+              </>
+            }
+          />
+        );
+      }
+
+      return <></>;
+    });
+  };
+
+  // Create collection
+  const uiCreateCollection = () => {
+    if (!addGroup) return <></>;
+
+    // Change input new group name
+    const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => setNameNewGroup(e.target.value);
+
+    return (
+      <GroupBlock
+        title={<HiddenInput name="name" type="text" onChange={(e) => changeEvent(e)} value={nameNewGroup} />}
+        buttons={
+          <>
+            <ButtonSvg svg={<SvgConfirm />} onClick={createCollection} />
+            <ButtonSvg svg={<SvgClose />} onClick={() => setAddGroup(false)} />
+          </>
+        }
+      />
+    );
+  };
+
   /* ----------------  UI  ---------------- */
 
   const desktopUI = () => (
     <>
       <div className="listGroups-desktop">
         <div className="inner-listGroups">
-          {/* <Header2
-            name="Groups"
-            buttons={[<ButtonSvg key={1} svg={<SvgPlus />} onClick={() => setAddGroup(!addGroup)} />]}
-          /> */}
-
-          {addGroup && (
-            <Form submit={createGroup}>
-              <Input
-                type={EnumTypes.text}
-                name={'GroupName'}
-                onChange={handleChange}
-                value={nameNewGroup}
-                label={'Name'}
-              />
-            </Form>
-          )}
-          {allGroups &&
-            !addGroup &&
-            allGroups.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  clickOnGroup(item.id);
-                  if (windowInnerWidth <= 700) {
-                    setMenuStatus(false);
-                  }
-                }}
-                className="groupButton"
-              >
-                <span className="name">{item.name}</span>
-                <div className="buttonContainer">
-                  <ButtonSvg
-                    svg={<SvgTrash />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteCollection(item.id);
-                    }}
-                  />
-                  <ButtonSvg
-                    svg={<SvgDotHorizontal />}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditName({ ...editName, status: true, id: item.id, oldName: item.name });
-                    }}
-                  />
+          {uiViewCollections()}
+          {uiCreateCollection()}
+          {!addGroup && (
+            <div className="addButton" onClick={() => setAddGroup(true)}>
+              {`Add group `}
+              <div className="svg">
+                <div className="inner-svg">
+                  <SvgSave />
                 </div>
               </div>
-            ))}
+            </div>
+          )}
         </div>
       </div>
-
-      {/*  */}
-      {/*  */}
-      {/*  */}
-
-      {editName.status && (
-        <>
-          <div className="globalPopupClose" onClick={() => setEditName({ ...editName, status: false })}></div>
-          <div className="globalPopupContainer">
-            <Form submit={editNameSubmit} buttonName="Edit name">
-              <Input
-                label={`Edit name group: ${editName.oldName}`}
-                name="newName"
-                type={EnumTypes.text}
-                value={editName.newName}
-                onChange={(e) => setEditName({ ...editName, newName: e.target.value })}
-              />
-            </Form>
-          </div>
-        </>
-      )}
     </>
   );
 

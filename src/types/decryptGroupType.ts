@@ -1,6 +1,7 @@
 export interface IDecryptGrout {
   id: string;
   version: string;
+  payload: string;
   date: {
     create: number;
     lastEdit: number;
