@@ -66,10 +66,11 @@ export default function Group({
   const [isDelete, setIsDelete] = useState(false);
   const [popupView, setPopupView] = useState(false);
   //
-  const [newGroupName, setNewGroupName] = useState('');
   const [createRecord, setCreateRecord] = useState('');
   const [updateFields, setUpdateFields] = useState<IDecryptGroutRecord[] | null>(null);
   const [formError, setFormError] = useState('');
+  // drag and drop
+  const [currentItem, setCurrentItem] = useState<IDecryptGroutRecord | null>(null);
 
   /* ----------------  Events  ---------------- */
 
@@ -79,7 +80,6 @@ export default function Group({
     setIsCreate(false);
     setIsDelete(false);
     setPopupView(false);
-    setNewGroupName('');
     setUpdateFields(null);
     setCreateRecord('');
     setDecryptPassword(''); // password
@@ -153,7 +153,6 @@ export default function Group({
 
     //
     const event = () => {
-      setNewGroupName(group.name);
       setUpdateFields(decryptGroup.collectionData);
       setIsEdit(true);
     };
@@ -265,18 +264,64 @@ export default function Group({
       });
     };
 
+    /* ----------------  Drag and drop  ---------------- */
+
+    const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+    };
+
+    const dragLeaveHandler = (e: React.DragEvent<HTMLDivElement>) => {
+      console.log(1);
+    };
+
+    const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, item: IDecryptGroutRecord) => {
+      console.log(item);
+
+      setCurrentItem(item);
+    };
+
+    const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
+      console.log(1);
+    };
+
+    const dragHandler = (e: React.DragEvent<HTMLDivElement>, dragItem: IDecryptGroutRecord) => {
+      e.preventDefault();
+      if (!currentItem) return;
+
+      const test: IDecryptGroutRecord[] = updateFields.map((item) => {
+        if (item === dragItem) {
+          return currentItem;
+        }
+        if (item === currentItem) {
+          return dragItem;
+        }
+        return item;
+      });
+
+      setUpdateFields(test);
+    };
+
     return (
       <>
         {updateFields.map((item, i) => (
-          <GroupBlock
+          <div
             key={i}
-            title={<HiddenInput name="name" type="text" onChange={(e) => event(e, i)} value={updateFields[i].name} />}
-            buttons={
-              <>
-                <ButtonSvg svg={<SvgTrash />} onClick={() => deleteEvent(i)} />
-              </>
-            }
-          />
+            onDragOver={(e) => dragOverHandler(e)}
+            onDragLeave={(e) => dragLeaveHandler(e)}
+            onDragStart={(e) => dragStartHandler(e, item)}
+            onDragEnd={(e) => dragEndHandler(e)}
+            onDrop={(e) => dragHandler(e, item)}
+            draggable={true}
+          >
+            <GroupBlock
+              title={<HiddenInput name="name" type="text" onChange={(e) => event(e, i)} value={updateFields[i].name} />}
+              buttons={
+                <>
+                  <ButtonSvg svg={<SvgTrash />} onClick={() => deleteEvent(i)} />
+                </>
+              }
+            />
+          </div>
         ))}
         {/*  */}
         {!isCreate && (

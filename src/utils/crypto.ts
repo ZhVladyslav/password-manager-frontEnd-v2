@@ -28,11 +28,6 @@ const getPasswords = (key: string): { first: string; second: string } => {
   const hashPassAndSalt = sha512(`${key}${hashPass}`);
   const firstPass = sha512(hashPassAndSalt);
 
-  console.log(key);
-  console.log(hashPass);
-  console.log(hashPassAndSalt);
-  console.log(firstPass);
-
   return { first: firstPass, second: hashPassAndSalt };
 };
 
@@ -57,8 +52,6 @@ function decrypt(str: string, key: string, res?: boolean) {
 
   const firstDecrypt = CryptoJS.AES.decrypt(str, pass.first).toString(CryptoJS.enc.Utf8);
   const finalDecrypt = CryptoJS.AES.decrypt(firstDecrypt, pass.second).toString(CryptoJS.enc.Utf8);
-
-  console.log(finalDecrypt);
 
   if (!res) finalDecrypt;
   if (res) return finalDecrypt;
