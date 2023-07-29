@@ -1,0 +1,92 @@
+.ButtonDefault-Container {
+  .ButtonDefault {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+
+    font-weight: 700;
+    line-height: 1.71429;
+    font-size: 0.875rem;
+    text-transform: unset;
+    vertical-align: middle;
+    appearance: none;
+  }
+
+  //
+  // BORDER
+  //
+
+  .border {
+    background-color: transparent;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border: 1px solid rgba(145, 158, 171, 0.32);
+    color: inherit;
+    box-shadow: none;
+
+    &:hover {
+      border-color: currentcolor;
+      box-shadow: currentcolor 0px 0px 0px 0.5px;
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  //
+  // BG
+  //
+
+  .bg {
+    box-shadow: none;
+    color: rgb(33, 43, 54);
+    background-color: rgb(255, 255, 255);
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+
+  //
+  .bgWhite {
+    color: rgb(33, 43, 54);
+    background-color: rgb(255, 255, 255);
+    &:hover {
+      background-color: rgb(196, 205, 213);
+    }
+  }
+
+  //
+  .bgBlue {
+    color: rgb(255, 255, 255);
+    background-color: rgb(32, 101, 209);
+    &:hover {
+      background-color: rgb(16, 57, 150);
+      box-shadow: rgba(32, 101, 209, 0.24) 0px 8px 16px 0px;
+    }
+  }
+
+  //
+  .bgRed {
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 48, 48);
+    &:hover {
+      background-color: rgb(183, 24, 51);
+      box-shadow: rgba(255, 48, 48, 0.24) 0px 8px 16px 0px;
+    }
+  }
+
+  //
+  .bgOrange {
+    color: rgb(33, 43, 54);
+    background-color: rgb(253, 169, 45);
+    &:hover {
+      background-color: rgb(182, 104, 22);
+      box-shadow: rgba(253, 169, 45, 0.24) 0px 8px 16px 0px;
+    }
+  }
+}

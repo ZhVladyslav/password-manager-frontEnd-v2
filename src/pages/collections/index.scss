@@ -1,50 +1,87 @@
-.gridContainer {
-  display: grid;
-  grid-template-columns: 300px 400px 1fr;
-  height: calc(100vh - 50px);
-}
-
-//
-//
-//
-
-.addButton {
+.loadingContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  margin-top: 5px;
-  height: 35px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #21262d;
-  background-color: rgba(255, 255, 255, 0);
-  font-size: 16px;
-  color: #fff;
+  background-color: rgba(22, 28, 36, 0.8);
+  z-index: 100;
 
-  .svg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
+  .loaderContainer {
+    padding: 0 10px;
+    min-width: 300px;
+    width: 100%;
+    max-width: 400px;
 
-    .inner-svg {
-      fill: #fff;
-      width: 25px;
-      height: 25px;
+    .loader {
+      position: relative;
+      overflow: hidden;
+      display: block;
+      height: 4px;
+      z-index: 0;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      width: 100%;
+
+      .firstLine {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        top: 0px;
+        transition: transform 0.2s linear 0s;
+        transform-origin: left center;
+        background-color: currentcolor;
+        width: auto;
+        animation: 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) 0s infinite normal none running loaderAnimation;
+      }
+
+      .secondLine {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        top: 0px;
+        transition: transform 0.2s linear 0s;
+        transform-origin: left center;
+        background-color: currentcolor;
+        opacity: 0.3;
+        width: auto;
+        animation: 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite normal none running loaderAnimation;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0px;
+        background-color: currentcolor;
+        opacity: 0.3;
+      }
+
+      @keyframes loaderAnimation {
+        0% {
+          left: -200%;
+          right: 100%;
+        }
+        60% {
+          left: 107%;
+          right: -8%;
+        }
+        100% {
+          left: 107%;
+          right: -8%;
+        }
+      }
     }
-  }
-
-  &:hover {
-    border-color: #6e7681;
   }
 }
 
-//
-//
-//
+.gridContainer {
+  display: grid;
+  grid-template-columns: 279px 1fr;
+  height: 100vh;
+}
 
 @media all and (max-width: 700px) {
   .gridContainer {
