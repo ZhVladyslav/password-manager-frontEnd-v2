@@ -20,6 +20,21 @@
   }
 
   //
+  // Transparent
+  //
+
+  .transparent {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: none;
+
+    &:hover {
+      background-color: rgba(145, 158, 171, 0.08);
+    }
+  }
+
+  //
   // BORDER
   //
 

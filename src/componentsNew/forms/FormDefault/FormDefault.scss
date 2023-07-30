@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(22, 28, 36, 0.8);
+  z-index: 20;
 
   .FormDefault {
     min-width: 300px;
@@ -50,10 +51,26 @@
       }
     }
 
+    .errorText {
+      color: rgb(255, 86, 48);
+      line-height: 1.5;
+      font-size: 14px;
+      text-align: left;
+      margin: 0 14px 20px;
+    }
+
     @media (max-width: 600px) {
       .inputBlock {
         grid-template-columns: repeat(1, 1fr);
       }
+    }
+  }
+
+  .aloneInput {
+    max-width: 400px;
+
+    .inputBlock {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 }

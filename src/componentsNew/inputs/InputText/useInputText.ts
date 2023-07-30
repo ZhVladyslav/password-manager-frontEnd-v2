@@ -13,12 +13,14 @@ const useInputText = ({ reg, errorText = '' }: IProps) => {
   const [error, setError] = useState<string | null>(null);
   const [valid, setValid] = useState<boolean>(false);
 
-  const validation = (str: string) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+
     if (reg) {
-      if (!reg.test(str)) {
+      if (!reg.test(e.target.value)) {
         setValid(false);
-        setError(errorText);
-      } else if (reg.test(str)) {
+        if (visited) setError(errorText);
+      } else if (reg.test(e.target.value)) {
         setValid(true);
         setError(null);
       }
@@ -28,20 +30,36 @@ const useInputText = ({ reg, errorText = '' }: IProps) => {
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    if (visited) validation(e.target.value);
-  };
-
   const onBlur = () => {
     setVisited(true);
-    if (!visited) validation(value);
+    if (visited) return;
+    if (reg) {
+      if (!reg.test(value)) {
+        setValid(false);
+        setError(errorText);
+      } else if (reg.test(value)) {
+        setValid(true);
+        setError(null);
+      }
+    } else {
+      setValid(true);
+      setError(null);
+    }
+  };
+
+  const dropState = () => {
+    setValue('');
+    setVisited(false);
+    setError(null);
+    setValid(false);
   };
 
   return {
     value,
     error,
     valid,
+
+    dropState,
 
     onChange,
     onBlur,

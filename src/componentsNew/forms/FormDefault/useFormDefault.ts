@@ -6,8 +6,9 @@ interface IProps {
 
 // ----------------------------------------------------------------------
 
-const useForm = ({ inputs }: IProps) => {
+const useFormDefault = ({ inputs }: IProps) => {
   const [valid, setValid] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string | null>(null);
   const inputsIsValid = inputs.every((item) => item);
 
   useEffect(() => {
@@ -18,9 +19,9 @@ const useForm = ({ inputs }: IProps) => {
     }
   }, [inputsIsValid]);
 
-  return valid;
+  return { valid, setErrorText, errorText };
 };
 
 // ----------------------------------------------------------------------
 
-export { useForm };
+export { useFormDefault };

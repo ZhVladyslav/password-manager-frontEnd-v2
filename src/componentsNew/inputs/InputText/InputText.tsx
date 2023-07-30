@@ -7,13 +7,14 @@ interface IProps {
   title: string;
   value: string;
   error: string | null;
+  name?: string;
   onChange: (data: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: () => void;
 }
 
 // ----------------------------------------------------------------------
 
-const InputText: React.FC<IProps> = ({ title, value, onChange, error, onBlur }) => {
+const InputText: React.FC<IProps> = ({ title, name, value, onChange, error, onBlur }) => {
   const [inputFocus, setInputFocus] = useState<boolean>(false);
 
   const inputStyles = (): string => {
@@ -34,6 +35,7 @@ const InputText: React.FC<IProps> = ({ title, value, onChange, error, onBlur }) 
         <input
           type="text"
           onChange={onChange}
+          name={name}
           value={value}
           onFocus={() => setInputFocus(true)}
           onBlur={() => {

@@ -21,7 +21,7 @@ interface IProps {
 
 const ButtonDefault: React.FC<IProps> = ({ title, type, onClick, style }) => {
   const setStyle = (): string => {
-    if (!style) return '';
+    if (!style) return 'transparent';
     let styleString = '';
 
     if (style === 'border') styleString += 'border ';

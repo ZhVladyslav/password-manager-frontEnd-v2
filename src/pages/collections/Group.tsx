@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { createModuleResolutionCache } from 'typescript';
+import React, { useState, useEffect } from 'react';
 import { SvgPlus } from '../../assets';
-import { ButtonDefault, InputText, useInputText } from '../../componentsNew';
-import FormDefault from '../../componentsNew/forms/FormDefault/FormDefault';
-import { useForm } from '../../hooks/useForm';
-import { IGetAllGroups_Res } from '../../types/collectionType';
-import './Group.scss';
+import {
+  ButtonDefault,
+  InputText,
+  useInputText,
+  FormDefault,
+  useFormDefault,
+  SidebarDefault,
+} from '../../componentsNew';
+import { collectionService } from '../../services/collectionServices';
+import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
+import { IDecryptGrout } from '../../types/decryptGroupType';
 
 // ----------------------------------------------------------------------
 
@@ -13,62 +18,69 @@ interface IProps {
   allGroups: IGetAllGroups_Res[] | [];
   selectGroup: string | undefined;
   getGroupById: (data: string) => void;
+  setGroup: (data: IGetByIdGroups_Res | null) => void;
+  setDecryptGroup: (data: IDecryptGrout | null) => void;
+  getAllGroups: () => Promise<void>;
 }
 
 // ----------------------------------------------------------------------
 
-export default function Group({ allGroups, selectGroup, getGroupById }: IProps) {
+export default function Group({
+  getAllGroups,
+  allGroups,
+  selectGroup,
+  getGroupById,
+  setDecryptGroup,
+  setGroup,
+}: IProps) {
   const [isCreateGroup, setIsCreateGroup] = useState(false);
-  const [isDeleteGroup, setIsDeleteGroup] = useState(false);
 
-  const test = useInputText({ reg: /^[0-9]+$/, errorText: 'Error' });
-  const formTest = useForm({ inputs: [test.valid] });
+  const inputNameNewGroup = useInputText({ reg: /^[A-Za-z0-9]+$/, errorText: 'Error' });
+  const formAddNewGroup = useFormDefault({ inputs: [inputNameNewGroup.valid] });
+
+  const clickToCreateNewGroup = () => {
+    setIsCreateGroup(true);
+    setDecryptGroup(null);
+    setGroup(null);
+  };
+
+  useEffect(() => {
+    inputNameNewGroup.dropState();
+  }, [isCreateGroup]);
+
+  // Create collection
+  const createCollection = async () => {
+    const result = await collectionService.create({ name: inputNameNewGroup.value });
+    if (result.err) return;
+    setIsCreateGroup(false);
+    getAllGroups();
+  };
 
   return (
     <>
-      <div className="Group">
-        <div className="addButtonContainer" onClick={() => setIsCreateGroup(true)}>
-          <span className="svgContainer">
-            <SvgPlus />
-          </span>
-        </div>
-        <div className="inner-Group">
-          {/*  */}
-          {allGroups.map((item) => (
-            <div key={item.id} className="groupButton" onClick={() => getGroupById(item.id)}>
-              <div className="dotContainer">
-                <span className={selectGroup === item.id ? 'dotActive' : 'dot'} />
-              </div>
-              <div className="textContainer">
-                <span className={selectGroup === item.id ? 'textActive' : 'text'}>{item.name}</span>
-              </div>
-            </div>
-          ))}
-          {/*  */}
-        </div>
-      </div>
-
-      {/*  */}
-      {/*  */}
-      {/*  */}
+      <SidebarDefault
+        allGroups={allGroups}
+        onAddGroup={clickToCreateNewGroup}
+        selectGroup={getGroupById}
+        selectedGroup={selectGroup}
+      />
 
       {isCreateGroup && (
-        <>
-          <FormDefault
-            title="Create group"
-            onSubmit={() => console.log(2)}
-            formValid={formTest}
-            onCloseForm={() => setIsCreateGroup(false)}
-          >
-            <InputText
-              title="Name"
-              error={test.error}
-              onChange={test.onChange}
-              value={test.value}
-              onBlur={test.onBlur}
-            />
-          </FormDefault>
-        </>
+        <FormDefault
+          title="Create group"
+          alone
+          onSubmit={createCollection}
+          formValid={formAddNewGroup.valid}
+          onClose={() => setIsCreateGroup(false)}
+        >
+          <InputText
+            title="Name"
+            error={inputNameNewGroup.error}
+            onChange={inputNameNewGroup.onChange}
+            value={inputNameNewGroup.value}
+            onBlur={inputNameNewGroup.onBlur}
+          />
+        </FormDefault>
       )}
     </>
   );

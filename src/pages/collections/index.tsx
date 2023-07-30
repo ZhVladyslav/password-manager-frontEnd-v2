@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 import './index.scss';
 import { IDecryptGrout } from '../../types/decryptGroupType';
-import Collection from '../../components/collection/collection/Collection';
-import Record from '../../components/collection/record/Record';
-import { Header1 } from '../../components/headers';
 import Group from './Group';
 import { collectionService } from '../../services/collectionServices';
+import { LoaderDefault } from '../../componentsNew';
+import Collection from './Collection';
 
 // ----------------------------------------------------------------------
 
@@ -22,6 +21,8 @@ export default function Main() {
   // password to decrypt group
   const [decryptPassword, setDecryptPassword] = useState('');
 
+  // LOADINGS
+  const [isLoadingAllGroups, setIsLoadingAllGroups] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Collection states
@@ -37,13 +38,19 @@ export default function Main() {
 
   // All
   const getAllGroups = async () => {
+    setIsLoadingAllGroups(true);
     const result = await collectionService.getAll();
+    setIsLoadingAllGroups(false);
     if (result.err) return;
     setAllGroups(result.res);
   };
 
   // get group by id
   const getGroupById = async (id: string) => {
+    if (id === group?.id) return;
+    setGroup(null);
+    setDecryptGroup(null);
+
     setIsLoading(true);
     const result = await collectionService.getById(id);
     setIsLoading(false);
@@ -54,20 +61,25 @@ export default function Main() {
   //
   return (
     <>
-      {isLoading && (
-        <div className="loadingContainer">
-          <div className="loaderContainer">
-            <span className="loader">
-              <span className="firstLine" />
-              <span className="secondLine" />
-            </span>
-          </div>
-        </div>
-      )}
+      {isLoadingAllGroups && <LoaderDefault />}
 
       <div className="gridContainer">
-        <Group allGroups={allGroups} selectGroup={group?.id} getGroupById={getGroupById} />
-        <div className="test"></div>
+        <Group
+          getAllGroups={getAllGroups}
+          allGroups={allGroups}
+          selectGroup={group?.id}
+          getGroupById={getGroupById}
+          setDecryptGroup={setDecryptGroup}
+          setGroup={setGroup}
+        />
+        {/*  */}
+        <Collection
+          isLoading={isLoading}
+          group={group}
+          decryptGroup={decryptGroup}
+          setDecryptGroup={setDecryptGroup}
+          setGroup={setGroup}
+        />
       </div>
     </>
   );
