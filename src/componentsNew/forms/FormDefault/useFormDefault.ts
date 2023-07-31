@@ -9,15 +9,16 @@ interface IProps {
 const useFormDefault = ({ inputs }: IProps) => {
   const [valid, setValid] = useState<boolean>(false);
   const [errorText, setErrorText] = useState<string | null>(null);
-  const inputsIsValid = inputs.every((item) => item);
 
   useEffect(() => {
+    const inputsIsValid = inputs.every((item) => item);
+
     if (inputsIsValid) {
       setValid(true);
     } else {
       setValid(false);
     }
-  }, [inputsIsValid]);
+  }, [inputs]);
 
   return { valid, setErrorText, errorText };
 };

@@ -1,0 +1,29 @@
+.ButtonRound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgb(145, 158, 171);
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+  span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background-color: rgba(145, 158, 171, 0.08);
+  }
+}

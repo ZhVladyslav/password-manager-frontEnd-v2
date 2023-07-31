@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface IProps {
   reg?: RegExp;
@@ -13,30 +13,11 @@ const useInputText = ({ reg, errorText = '' }: IProps) => {
   const [error, setError] = useState<string | null>(null);
   const [valid, setValid] = useState<boolean>(false);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-
-    if (reg) {
-      if (!reg.test(e.target.value)) {
-        setValid(false);
-        if (visited) setError(errorText);
-      } else if (reg.test(e.target.value)) {
-        setValid(true);
-        setError(null);
-      }
-    } else {
-      setValid(true);
-      setError(null);
-    }
-  };
-
-  const onBlur = () => {
-    setVisited(true);
-    if (visited) return;
+  useEffect(() => {
     if (reg) {
       if (!reg.test(value)) {
         setValid(false);
-        setError(errorText);
+        if (visited) setError(errorText);
       } else if (reg.test(value)) {
         setValid(true);
         setError(null);
@@ -45,6 +26,15 @@ const useInputText = ({ reg, errorText = '' }: IProps) => {
       setValid(true);
       setError(null);
     }
+  }, [value, visited]);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  const onBlur = () => {
+    setVisited(true);
+    if (visited) return;
   };
 
   const dropState = () => {
@@ -60,6 +50,7 @@ const useInputText = ({ reg, errorText = '' }: IProps) => {
     valid,
 
     dropState,
+    setValue,
 
     onChange,
     onBlur,

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SvgPlus } from '../../assets';
-import {
-  ButtonDefault,
-  InputText,
-  useInputText,
-  FormDefault,
-  useFormDefault,
-  SidebarDefault,
-} from '../../componentsNew';
+import { InputText, useInputText, FormDefault, useFormDefault, SidebarDefault } from '../../componentsNew';
 import { collectionService } from '../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout } from '../../types/decryptGroupType';

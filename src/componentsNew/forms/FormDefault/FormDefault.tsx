@@ -11,6 +11,7 @@ interface IProps {
   submitButtonName?: string;
   children: React.ReactNode;
   errorText?: string | null;
+  onlyButtonClose?: boolean;
   onSubmit: () => void;
   onClose: () => void;
 }
@@ -25,6 +26,7 @@ const FormDefault: React.FC<IProps> = ({
   children,
   onSubmit,
   submitButtonName,
+  onlyButtonClose,
   onClose,
 }) => {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -39,7 +41,7 @@ const FormDefault: React.FC<IProps> = ({
   };
 
   return (
-    <div className="FormDefault-Container" onClick={onClose}>
+    <div className="FormDefault-Container" onClick={onlyButtonClose ? undefined : onClose}>
       <form onSubmit={submit} className={`FormDefault ${alone ? 'aloneInput' : ''}`} onClick={formClick}>
         <h2 className="title">{title}</h2>
         <div className="inputBlock">{children}</div>

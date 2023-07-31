@@ -16,10 +16,6 @@ export default function Main() {
   const [group, setGroup] = useState<IGetByIdGroups_Res | null>(null);
   // save decrypt group
   const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null);
-  // id to view, edit and delete
-  const [groupId, setGroupId] = useState<number | null>(null);
-  // password to decrypt group
-  const [decryptPassword, setDecryptPassword] = useState('');
 
   // LOADINGS
   const [isLoadingAllGroups, setIsLoadingAllGroups] = useState(false);

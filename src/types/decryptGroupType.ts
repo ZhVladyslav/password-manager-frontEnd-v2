@@ -10,12 +10,10 @@ export interface IDecryptGrout {
 }
 
 export interface IDecryptGroutRecord {
+  id: string;
   name: string;
-  userFields: IUserFields[];
-}
-
-export interface IUserFields {
-  name: string;
-  text: string;
-  hidden: boolean;
+  url: string;
+  email: string;
+  password: string;
+  description: string;
 }

@@ -1,0 +1,115 @@
+.ContextMenu-Container {
+  position: absolute;
+  top: 8px;
+  right: 60px;
+  min-width: 140px;
+  min-height: 30px;
+  padding: 4px;
+  background-color: rgba(33, 43, 54, 0.9);
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 2px 0px, rgba(0, 0, 0, 0.24) -20px 20px 40px -4px;
+
+  backdrop-filter: blur(20px);
+  background-image: url(https://minimals.cc/assets/cyan-blur.png), url(https://minimals.cc/assets/red-blur.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: right top, left bottom;
+  background-size: 50%, 50%;
+  z-index: 10;
+
+  .pointer {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border-bottom-left-radius: 3.5px;
+    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(6px);
+    background-color: rgba(33, 43, 54, 0.8);
+    right: -6.5px;
+    transform: rotate(-135deg);
+    top: 20px;
+  }
+
+  ul {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 28px;
+      width: 100%;
+      margin: 0px;
+      padding: 6px 8px;
+      background-color: transparent;
+      text-decoration: none;
+      border-radius: 6px;
+      color: rgb(255, 255, 255);
+      cursor: pointer;
+
+      .svgContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .svg {
+          width: 20px;
+          height: 20px;
+          margin-right: 16px;
+        }
+      }
+
+      .title {
+        width: 100%;
+        height: 100%;
+      }
+
+      &:hover {
+        background-color: rgba(145, 158, 171, 0.08);
+      }
+
+      &:not(:last-of-type) {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
+.ContextMenuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  padding: 8px;
+  border-radius: 50%;
+  color: rgb(145, 158, 171);
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+  span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background-color: rgba(145, 158, 171, 0.08);
+  }
+}
+
+.ContextMenuButton-Active {
+  color: rgb(255, 255, 255);
+  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
