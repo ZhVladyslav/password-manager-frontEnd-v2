@@ -7,8 +7,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(22, 28, 36, 0.8);
   z-index: 20;
+  background-color: rgba(22, 28, 36, 0.8);
+
+  background-image: url(https://minimals.cc/assets/cyan-blur.png), url(https://minimals.cc/assets/red-blur.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: right top, left bottom;
+  background-size: 50%, 50%;
 
   .FormDefault {
     min-width: 300px;
@@ -19,7 +24,8 @@
     margin: 0 10px;
     overflow-y: auto;
     border-radius: 24px;
-    background-color: rgb(33, 43, 54);
+    background-color: rgba(33, 43, 54);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
 
     .title {
       margin: 0px;

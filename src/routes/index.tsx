@@ -46,13 +46,13 @@ export default function Router() {
     //
 
     {
-      path: 'collection',
+      path: '',
       element: (
         <AuthGuard>
           <DashboardLayout />
         </AuthGuard>
       ),
-      children: [{ path: 'view', element: <Main /> }],
+      children: [{ path: '/', element: <Main /> }],
     },
 
     //

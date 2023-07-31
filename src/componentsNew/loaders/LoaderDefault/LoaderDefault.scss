@@ -7,8 +7,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(22, 28, 36, 0.8);
   z-index: 100;
+  background-color: rgba(22, 28, 36, 0.8);
+
+  background-image: url(https://minimals.cc/assets/cyan-blur.png), url(https://minimals.cc/assets/red-blur.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: right top, left bottom;
+  background-size: 50%, 50%;
 
   .LoaderDefault {
     padding: 0 10px;

@@ -18,7 +18,7 @@ export const PATH_AUTH = {
 // ----------------------------------------------------------------------
 
 export const PATH_COLLECTION = {
-  view: path(ROOT_COLLECTION, '/view'),
+  view: path(ROOT_COLLECTION, '/'),
 };
 
 // ----------------------------------------------------------------------

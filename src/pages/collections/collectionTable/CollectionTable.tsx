@@ -1,16 +1,20 @@
 import React from 'react';
 import { SvgEdit, SvgTrash } from '../../../assets';
+import { ButtonRound, ContextMenu, HeadButtons } from '../../../componentsNew';
+import { collectionService } from '../../../services/collectionServices';
+import { IGetByIdGroups_Res } from '../../../types/collectionType';
 import { IDecryptGrout } from '../../../types/decryptGroupType';
-import ButtonRound from '../../buttons/ButtonRound/ButtonRound';
-import HeadButtons from '../../buttons/HeadButtons/HeadButtons';
-import ContextMenu from '../../ContextMenu/ContextMenu';
-import './TableDefault.scss';
+import { decrypt, encrypt } from '../../../utils/crypto';
+import './CollectionTable.scss';
 
 // ----------------------------------------------------------------------
 
 interface IProps {
+  decryptPassword: string | null;
+  group: IGetByIdGroups_Res | null;
+  setDecryptGroup: (data: IDecryptGrout | null) => void;
+  setGroup: (data: IGetByIdGroups_Res | null) => void;
   decryptGroup: IDecryptGrout;
-  onDelete: (data: string) => void;
   onEdit: (data: string) => void;
 }
 
@@ -29,12 +33,38 @@ const headerTable = [
 
 // ----------------------------------------------------------------------
 
-const TableDefault: React.FC<IProps> = ({ decryptGroup, onDelete, onEdit }) => {
+const CollectionTable: React.FC<IProps> = ({
+  decryptGroup,
+  onEdit,
+  decryptPassword,
+  group,
+  setGroup,
+  setDecryptGroup,
+}) => {
+  // delete record
+  const deleteRecord = async (id: string) => {
+    if (!decryptPassword || !decryptGroup || !group) return;
+    try {
+      decrypt(group.data, decryptPassword);
+      const updateDecryptGroup = {
+        ...decryptGroup,
+        collectionData: decryptGroup.collectionData.filter((item) => item.id !== id),
+      };
+      const encryptUpGroup = encrypt(JSON.stringify(updateDecryptGroup), decryptPassword);
+      const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
+      if (result.err) return;
+      setGroup({ ...group, data: encryptUpGroup });
+      setDecryptGroup(updateDecryptGroup);
+    } catch (err) {
+      console.error('Error password to decrypt');
+    }
+  };
+
   return (
-    <div className="TableDefault-Container">
+    <div className="CollectionTable-Container">
       <HeadButtons headerButtons={headerButtons} />
 
-      <div className="TableDefault">
+      <div className="CollectionTable">
         <table>
           <thead>
             <tr>
@@ -65,7 +95,7 @@ const TableDefault: React.FC<IProps> = ({ decryptGroup, onDelete, onEdit }) => {
                         svg: <SvgEdit />,
                       },
                       {
-                        cb: () => onDelete(item.id),
+                        cb: () => deleteRecord(item.id),
                         title: 'Delete',
                         color: 'red',
                         svg: <SvgTrash />,
@@ -84,4 +114,4 @@ const TableDefault: React.FC<IProps> = ({ decryptGroup, onDelete, onEdit }) => {
 
 // ----------------------------------------------------------------------
 
-export default TableDefault;
+export default CollectionTable;
