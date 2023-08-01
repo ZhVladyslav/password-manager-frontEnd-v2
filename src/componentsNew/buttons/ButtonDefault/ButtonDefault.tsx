@@ -12,6 +12,7 @@ type styleType = bgType | buttonBorderStyleType;
 
 interface IProps {
   title: string;
+  foolSize?: boolean;
   type?: buttonTypes;
   style?: styleType;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -19,7 +20,7 @@ interface IProps {
 
 // ----------------------------------------------------------------------
 
-const ButtonDefault: React.FC<IProps> = ({ title, type, onClick, style }) => {
+const ButtonDefault: React.FC<IProps> = ({ title, type, onClick, style, foolSize }) => {
   const setStyle = (): string => {
     if (!style) return 'transparent';
     let styleString = '';
@@ -30,6 +31,8 @@ const ButtonDefault: React.FC<IProps> = ({ title, type, onClick, style }) => {
     if (style === 'bg White') styleString += 'bgWhite ';
     else if (style === 'bg Blue') styleString += 'bgBlue ';
     else if (style === 'bg Red') styleString += 'bgRed ';
+
+    if (foolSize) styleString += 'width-100 ';
 
     return styleString;
   };

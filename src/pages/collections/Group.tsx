@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { InputText, useInputText, FormDefault, useFormDefault, SidebarDefault } from '../../componentsNew';
+import { SvgClose } from '../../assets';
+import { InputText, useInputText, FormDefault, useFormDefault, SidebarDefault, ButtonRound } from '../../componentsNew';
 import { collectionService } from '../../services/collectionServices';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout } from '../../types/decryptGroupType';
+import './Group.scss';
 
 // ----------------------------------------------------------------------
 
@@ -12,12 +14,23 @@ interface IProps {
   setDecryptGroup: (data: IDecryptGrout | null) => void;
   setIsLoading: (data: boolean) => void;
   setIsLoadingAllGroups: (data: boolean) => void;
+  setProtect: (data: boolean) => void;
+  allGroups: IGetAllGroups_Res[];
+  setAllGroups: (data: IGetAllGroups_Res[]) => void;
 }
 
 // ----------------------------------------------------------------------
 
-export default function Group({ setDecryptGroup, setIsLoading, setIsLoadingAllGroups, setGroup, group }: IProps) {
-  const [allGroups, setAllGroups] = useState<IGetAllGroups_Res[]>([]);
+export default function Group({
+  setDecryptGroup,
+  setIsLoading,
+  setIsLoadingAllGroups,
+  setProtect,
+  setGroup,
+  group,
+  allGroups,
+  setAllGroups,
+}: IProps) {
   const [isCreateGroup, setIsCreateGroup] = useState(false);
   const inputNameNewGroup = useInputText({ reg: /^[A-Za-z0-9]+$/, errorText: 'Error' });
   const formAddNewGroup = useFormDefault({ inputs: [inputNameNewGroup.valid] });
@@ -68,12 +81,15 @@ export default function Group({ setDecryptGroup, setIsLoading, setIsLoadingAllGr
 
   return (
     <>
-      <SidebarDefault
-        allGroups={allGroups}
-        onAddGroup={clickToCreateNewGroup}
-        selectGroup={getGroupById}
-        selectedGroup={group?.id}
-      />
+      <div className="Group-Container">
+        <SidebarDefault
+          protectClick={() => setProtect(true)}
+          allGroups={allGroups}
+          onAddGroup={clickToCreateNewGroup}
+          selectGroup={getGroupById}
+          selectedGroup={group?.id}
+        />
+      </div>
 
       {isCreateGroup && (
         <FormDefault

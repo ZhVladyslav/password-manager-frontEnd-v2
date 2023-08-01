@@ -24,7 +24,7 @@ export const AuthContainer = (props: iAuthContainer) => {
         return;
       }
 
-      setSession(token.access, token.refresh);
+      await setSession(token.access, token.refresh);
     } catch (e) {
       sessionActions.logout();
     }

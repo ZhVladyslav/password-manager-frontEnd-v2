@@ -18,7 +18,7 @@ interface iAuthGuard {
 // ----------------------------------------------------------------------
 
 export const AuthGuard = (props: iAuthGuard) => {
-  // get userIsLoading and accesToken from store
+  // get userIsLoading and accessToken from store
   const isLoading = useSelector((state: IStore) => state.user.isLoading);
   const accessToken = useSelector((state: IStore) => state.session.access);
 

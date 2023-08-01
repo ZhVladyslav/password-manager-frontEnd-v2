@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SvgEdit, SvgTrash } from '../../../assets';
-import { ButtonRound, ContextMenu, HeadButtons } from '../../../componentsNew';
+import { ButtonDefault, ButtonRound, ContextMenu, FormDefault, HeadButtons, Popup } from '../../../componentsNew';
 import { collectionService } from '../../../services/collectionServices';
 import { IGetByIdGroups_Res } from '../../../types/collectionType';
-import { IDecryptGrout } from '../../../types/decryptGroupType';
+import { IDecryptGrout, IDecryptGroutRecord } from '../../../types/decryptGroupType';
 import { decrypt, encrypt } from '../../../utils/crypto';
 import './CollectionTable.scss';
 
@@ -41,74 +41,99 @@ const CollectionTable: React.FC<IProps> = ({
   setGroup,
   setDecryptGroup,
 }) => {
+  const [popupWarn, setPopupWarn] = useState<IDecryptGroutRecord | null>(null);
+
   // delete record
-  const deleteRecord = async (id: string) => {
+  const deleteRecord = async () => {
     if (!decryptPassword || !decryptGroup || !group) return;
+    if (!popupWarn) return;
     try {
       decrypt(group.data, decryptPassword);
       const updateDecryptGroup = {
         ...decryptGroup,
-        collectionData: decryptGroup.collectionData.filter((item) => item.id !== id),
+        collectionData: decryptGroup.collectionData.filter((item) => item.id !== popupWarn.id),
       };
       const encryptUpGroup = encrypt(JSON.stringify(updateDecryptGroup), decryptPassword);
       const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
       if (result.err) return;
       setGroup({ ...group, data: encryptUpGroup });
       setDecryptGroup(updateDecryptGroup);
+      setPopupWarn(null);
     } catch (err) {
+      setPopupWarn(null);
       console.error('Error password to decrypt');
     }
   };
 
   return (
-    <div className="CollectionTable-Container">
-      <HeadButtons headerButtons={headerButtons} />
+    <>
+      <div className="CollectionTable-Container">
+        <HeadButtons headerButtons={headerButtons} />
 
-      <div className="CollectionTable">
-        <table>
-          <thead>
-            <tr>
-              {headerTable.map((item, i) => (
-                <th key={i} style={{ width: item.width }}>
-                  {item.title}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {decryptGroup.collectionData.map((item, i) => (
-              <tr key={i}>
-                <td>{item.name}</td>
-                <td>{item.url}</td>
-                <td>{item.email}</td>
-                <td>{item.password}</td>
-                <td></td>
-                <td className="buttonContainer">
-                  <ButtonRound onClick={() => onEdit(item.id)}>
-                    <SvgEdit />
-                  </ButtonRound>
-                  <ContextMenu
-                    buttons={[
-                      {
-                        cb: () => onEdit(item.id),
-                        title: 'Edit',
-                        svg: <SvgEdit />,
-                      },
-                      {
-                        cb: () => deleteRecord(item.id),
-                        title: 'Delete',
-                        color: 'red',
-                        svg: <SvgTrash />,
-                      },
-                    ]}
-                  />
-                </td>
+        <div className="CollectionTable">
+          <table>
+            <thead>
+              <tr>
+                {headerTable.map((item, i) => (
+                  <th key={i} style={{ width: item.width }}>
+                    {item.title}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {decryptGroup.collectionData.map((item, i) => (
+                <tr key={i}>
+                  <td>{item.name}</td>
+                  <td className="click" onClick={() => navigator.clipboard.writeText(item.url)}>
+                    {item.url}
+                  </td>
+                  <td className="click" onClick={() => navigator.clipboard.writeText(item.email)}>
+                    {item.email}
+                  </td>
+                  <td
+                    className="click"
+                    onClick={() => navigator.clipboard.writeText(item.password)}
+                  >{`••••••••••••`}</td>
+                  <td></td>
+                  <td className="buttonContainer">
+                    <ButtonRound onClick={() => onEdit(item.id)}>
+                      <SvgEdit />
+                    </ButtonRound>
+                    <ContextMenu
+                      buttons={[
+                        {
+                          cb: () => onEdit(item.id),
+                          title: 'Edit',
+                          svg: <SvgEdit />,
+                        },
+                        {
+                          cb: () => setPopupWarn(item),
+                          title: 'Delete',
+                          color: 'red',
+                          svg: <SvgTrash />,
+                        },
+                      ]}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+
+      {popupWarn && (
+        <Popup
+          title="Delete record"
+          message={`Delete '${popupWarn.name}' collection? these actions are irreversible`}
+          onClose={() => setPopupWarn(null)}
+        >
+          <ButtonDefault title="Close" style="border" onClick={() => setPopupWarn(null)} />
+          <ButtonDefault title="Delete" style="bg Red" onClick={deleteRecord} />
+        </Popup>
+      )}
+    </>
   );
 };
 

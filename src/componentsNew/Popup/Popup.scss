@@ -1,4 +1,4 @@
-.FormDefault-Container {
+.Popup-Container {
   position: absolute;
   top: 0;
   left: 0;
@@ -6,20 +6,21 @@
   bottom: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top: 100px;
   z-index: 20;
   background-color: rgba(22, 28, 36, 0.8);
 
-  background-image: url(../../../assets/cyan-blur.png), url(../../../assets/red-blur.png);
+  background-image: url(../../assets/cyan-blur.png), url(../../assets/red-blur.png);
   background-repeat: no-repeat, no-repeat;
   background-position: right top, left bottom;
   background-size: 50%, 50%;
 
-  .FormDefault {
+  .Popup {
     min-width: 300px;
     width: 100%;
-    max-width: 700px;
+    max-width: 500px;
     min-height: 100px;
+    height: min-content;
     max-height: calc(100vh - 150px);
     margin: 0 10px;
     overflow-y: auto;
@@ -37,10 +38,7 @@
       font-size: 18px;
     }
 
-    .inputBlock {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px 16px;
+    .message {
       padding: 0 24px;
     }
 
@@ -55,28 +53,6 @@
       & > * {
         margin-left: 10px;
       }
-    }
-
-    .errorText {
-      color: rgb(255, 86, 48);
-      line-height: 1.5;
-      font-size: 14px;
-      text-align: left;
-      margin: 0 14px 20px;
-    }
-
-    @media (max-width: 600px) {
-      .inputBlock {
-        grid-template-columns: repeat(1, 1fr);
-      }
-    }
-  }
-
-  .aloneInput {
-    max-width: 400px;
-
-    .inputBlock {
-      grid-template-columns: repeat(1, 1fr);
     }
   }
 }

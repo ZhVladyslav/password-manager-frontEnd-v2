@@ -3,7 +3,7 @@ import { FormDefault, InputText, useFormDefault, useInputText } from '../../comp
 import { collectionService } from '../../services/collectionServices';
 import { IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout } from '../../types/decryptGroupType';
-import { decrypt, encrypt } from '../../utils/crypto';
+import { decrypt, encrypt, uuid } from '../../utils/crypto';
 
 // ----------------------------------------------------------------------
 
@@ -13,9 +13,10 @@ interface IProps {
   setDecryptGroup: (data: IDecryptGrout | null) => void;
   setGroup: (data: IGetByIdGroups_Res | null) => void;
   setPopupEditId: (data: string | null) => void;
-
+  setPopupCreate: (data: boolean) => void;
   decryptPassword: string | null;
   recordId: string | null;
+  isEdit?: string | null;
 }
 
 // ----------------------------------------------------------------------
@@ -23,10 +24,12 @@ interface IProps {
 const EditRecord: React.FC<IProps> = ({
   decryptPassword,
   recordId,
+  isEdit,
   group,
   decryptGroup,
   setDecryptGroup,
   setGroup,
+  setPopupCreate,
   setPopupEditId,
 }) => {
   const inputEditName = useInputText({ reg: /^[A-Za-z0-9 ]{1,128}$/, errorText: 'Error' });
@@ -47,15 +50,16 @@ const EditRecord: React.FC<IProps> = ({
   useEffect(() => {
     if (!decryptGroup) return;
 
-    const toEditRecord = decryptGroup.collectionData.find((item) => item.id === recordId);
+    if (isEdit) {
+      const toEditRecord = decryptGroup.collectionData.find((item) => item.id === recordId);
+      if (!toEditRecord) return;
 
-    if (!toEditRecord) return;
-
-    inputEditName.setValue(toEditRecord.name);
-    inputEditUrl.setValue(toEditRecord.url);
-    inputEditEmail.setValue(toEditRecord.email);
-    inputEditPassword.setValue(toEditRecord.password);
-    inputEditDescription.setValue(toEditRecord.description);
+      inputEditName.setValue(toEditRecord.name);
+      inputEditUrl.setValue(toEditRecord.url);
+      inputEditEmail.setValue(toEditRecord.email);
+      inputEditPassword.setValue(toEditRecord.password);
+      inputEditDescription.setValue(toEditRecord.description);
+    }
   }, []);
 
   // edit record
@@ -84,13 +88,54 @@ const EditRecord: React.FC<IProps> = ({
     }
   };
 
+  // Create
+  const createRecord = async () => {
+    if (!decryptPassword || !decryptGroup || !group) return;
+    try {
+      decrypt(group.data, decryptPassword);
+      const updateDecryptGroup = { ...decryptGroup };
+      updateDecryptGroup.collectionData.push({
+        id: uuid(),
+        name: inputEditName.value,
+        url: inputEditUrl.value,
+        email: inputEditEmail.value,
+        password: inputEditPassword.value,
+        description: inputEditDescription.value,
+      });
+      const encryptUpGroup = encrypt(JSON.stringify(updateDecryptGroup), decryptPassword);
+      const result = await collectionService.editData(decryptGroup.id, encryptUpGroup);
+      if (result.err) return;
+      setGroup({ ...group, data: encryptUpGroup });
+      setDecryptGroup(updateDecryptGroup);
+      setPopupCreate(false);
+    } catch (err) {
+      console.error('Error password to decrypt');
+    }
+  };
+
+  const submit = () => {
+    if (isEdit) {
+      editRecord();
+    } else {
+      createRecord();
+    }
+  };
+
+  const close = () => {
+    if (isEdit) {
+      setPopupEditId(null);
+    } else {
+      setPopupCreate(false);
+    }
+  };
+
   return (
     <FormDefault
-      title="Edit"
-      onSubmit={editRecord}
+      title={isEdit ? 'Edit record' : 'Add record'}
+      onSubmit={submit}
       formValid={formEditRecord.valid}
       errorText={formEditRecord.errorText}
-      onClose={() => setPopupEditId(null)}
+      onClose={close}
     >
       <InputText
         title="Name"

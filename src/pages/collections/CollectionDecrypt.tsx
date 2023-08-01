@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormDefault, InputText, useFormDefault, useInputText } from '../../componentsNew';
 import { collectionService } from '../../services/collectionServices';
 import { IGetByIdGroups_Res } from '../../types/collectionType';
@@ -19,6 +19,10 @@ interface IProps {
 const CollectionDecrypt: React.FC<IProps> = ({ group, setDecryptGroup, setGroup, setDecryptPassword }) => {
   const inputDecryptPassword = useInputText({ reg: /^[A-Za-z0-9]{1,128}$/, errorText: 'Error' });
   const formDecryptCollection = useFormDefault({ inputs: [inputDecryptPassword.valid] });
+
+  useEffect(() => {
+    setDecryptPassword(null);
+  }, []);
 
   // generate group if empty data
   const createNewGroupDate = async () => {
@@ -68,15 +72,15 @@ const CollectionDecrypt: React.FC<IProps> = ({ group, setDecryptGroup, setGroup,
   const close = () => {
     setGroup(null);
     setDecryptGroup(null);
+    setDecryptPassword(null);
   };
 
   if (!group) return <></>;
 
   return (
     <FormDefault
-      title={group.data === '' ? 'Generate collection' : 'Decrypt collection'}
+      title={group.data === '' ? 'Generate collection' : `Decrypt collection: ${group.name}`}
       alone
-      onlyButtonClose
       onSubmit={submit}
       formValid={formDecryptCollection.valid}
       errorText={formDecryptCollection.errorText}
