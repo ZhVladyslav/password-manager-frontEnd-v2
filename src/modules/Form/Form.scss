@@ -1,0 +1,74 @@
+.Form-Container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  background-color: rgba(22, 28, 36, 0.8);
+  background-image: url(../../assets/cyan-blur.png), url(../../assets/red-blur.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: right top, left bottom;
+  background-size: 50%, 50%;
+  z-index: 10;
+
+  .FormBlock {
+    min-width: 300px;
+    width: 100%;
+    max-width: 400px;
+    min-height: 100px;
+    max-height: calc(100vh - 150px);
+    padding: 24px;
+
+    form {
+      max-width: 400px;
+      min-width: 300px;
+      width: 100%;
+      overflow-y: auto;
+      border-radius: 24px;
+      padding: 24px;
+      background-color: rgba(33, 43, 54);
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
+
+      .title {
+        display: flex;
+        justify-content: center;
+        margin: 0px;
+        font-weight: 700;
+        line-height: 1.55556;
+        font-size: 1.0625rem;
+        flex: 0 0 auto;
+        font-size: 18px;
+      }
+
+      .inputBlock {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 24px 16px;
+        padding: 0 0 12px 0;
+      }
+
+      .buttonBlock {
+        display: flex;
+        justify-content: flex-end;
+
+        & > *:not(:first-child) {
+          margin-left: 10px;
+        }
+      }
+
+      .error {
+        display: block;
+        color: rgb(255, 86, 48);
+        line-height: 1.5;
+        font-size: 14px;
+        text-align: left;
+        margin-top: 10px;
+      }
+    }
+  }
+}

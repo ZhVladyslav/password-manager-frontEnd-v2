@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IUserStore } from '../../types/storeType';
-import { dispatch } from '../store';
 
 // ----------------------------------------------------------------------
 
@@ -17,8 +15,8 @@ const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    startLoading(state) {
-      state.isLoading = true;
+    setLoader(state, action) {
+      state.isLoading = action.payload;
     },
 
     loginSuccess(state, action) {
@@ -33,23 +31,7 @@ const slice = createSlice({
   },
 });
 
-// ----------------------------------------------------------------------
-
-class UserActions {
-  startLoading() {
-    dispatch(slice.actions.startLoading());
-  }
-  //
-  loginSuccess(user: IUserStore) {
-    dispatch(slice.actions.loginSuccess(user));
-  }
-  //
-  hasError(err: string) {
-    dispatch(slice.actions.hasError(err));
-  }
-}
 
 // ----------------------------------------------------------------------
 
-export default slice.reducer;
-export const userActions = new UserActions();
+export default slice;

@@ -1,0 +1,17 @@
+.Dashboard-Container {
+  display: grid;
+  grid-template-columns: 279px 1fr;
+  height: 100vh;
+
+  @media all and (max-width: 700px) {
+    & {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .View-Container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}

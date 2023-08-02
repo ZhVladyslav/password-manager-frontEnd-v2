@@ -1,0 +1,48 @@
+.Plug-Container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  padding-top: 150px;
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .descriptionProject {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    line-height: 2em;
+
+    a {
+      color: rgb(32, 101, 209);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .network {
+    font-size: 18px;
+    max-width: 600px;
+    line-height: 2em;
+
+    a {
+      color: rgb(32, 101, 209);
+    }
+  }
+
+  .gitHub {
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.Dashboard-Sidebar-Container {
+  width: 100%;
+  height: 100%;
+  padding: 10px 16px;
+  border-right: 1px dashed #2b333b;
+  overflow-y: auto;
+
+  .headerButtons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 50px;
+
+    & > * {
+      margin-left: 10px;
+    }
+  }
+
+  .buttonContainer {
+    margin-top: 20px;
+
+    & > *:last-child {
+      margin-top: 10px;
+    }
+  }
+}

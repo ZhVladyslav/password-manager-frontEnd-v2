@@ -1,7 +1,7 @@
-import axios from '../modules/axios';
+import axios from '../config/axios';
 import { API } from '../config/config';
 import { IError, IMessageRes } from '../types/helpTypes';
-import { ICreateGroups_Req, IGetAllGroups_Res, IGetByIdGroups_Res } from '../types/collectionType';
+import { ICreateGroups_Req, ICreateGroups_Res, IGetAllGroups_Res, IGetByIdGroups_Res } from '../types/collectionType';
 
 // ----------------------------------------------------------------------
 class CollectionService {
@@ -28,7 +28,7 @@ class CollectionService {
   async create(data: ICreateGroups_Req) {
     try {
       const res = await axios.post(`${API}/collection/create`, data);
-      return { res: res.data as IMessageRes };
+      return { res: res.data as ICreateGroups_Res };
     } catch (error) {
       const err = error as IError;
       return { err: err.response };

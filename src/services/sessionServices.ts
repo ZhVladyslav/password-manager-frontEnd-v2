@@ -1,4 +1,4 @@
-import axios from '../modules/axios';
+import axios from '../config/axios'
 import { API } from '../config/config';
 import { IGetActiveSessionsRes } from '../types/sessionType';
 import { IError, IMessageRes } from '../types/helpTypes';

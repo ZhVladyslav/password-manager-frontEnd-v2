@@ -2,6 +2,7 @@
 export interface IStore {
   session: ISessionStore;
   user: IUserStore;
+  utils: IUtilsStore;
 }
 
 // Session
@@ -16,6 +17,12 @@ export interface IUserStore {
   role: string | null;
   claims: string[] | null;
   sessionId: string | null;
-  isLoading: boolean | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+// Util
+export interface IUtilsStore {
+  isLoading: boolean;
   error: string | null;
 }

@@ -17,9 +17,6 @@ export { useFormLogin } from './forms/FormLogin/useFormLogin';
 // SIDEBARS
 export { default as SidebarDefault } from './sidebars/SidebarDefault/SidebarDefault';
 
-// LOADERS
-export { default as LoaderDefault } from './loaders/LoaderDefault/LoaderDefault';
-
 // ContextMenu
 export { default as ContextMenu } from './ContextMenu/ContextMenu';
 

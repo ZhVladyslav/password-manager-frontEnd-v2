@@ -1,0 +1,86 @@
+.CollectionTable-Container {
+  margin: 20px 40px;
+  position: relative;
+  background-color: rgb(33, 43, 54);
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
+  border-radius: 16px;
+  min-height: 400px;
+
+  .CollectionTable {
+    table {
+      display: table;
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      min-width: 960px;
+
+      thead {
+        display: table-header-group;
+
+        tr {
+          color: inherit;
+          display: table-row;
+          vertical-align: middle;
+          outline: 0px;
+
+          th {
+            display: table-cell;
+            line-height: 1.5rem;
+            vertical-align: inherit;
+            border-bottom: 1px dashed rgb(46, 50, 54);
+            text-align: left;
+            padding: 16px;
+            font-size: 14px;
+            color: rgb(145, 158, 171);
+            font-weight: 600;
+            background-color: rgba(145, 158, 171, 0.12);
+          }
+        }
+      }
+
+      tbody {
+        display: table-row-group;
+
+        tr {
+          color: inherit;
+          display: table-row;
+          vertical-align: middle;
+          outline: 0px;
+
+          td {
+            display: table-cell;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px dashed rgb(46, 50, 54);
+            line-height: 1.57143;
+            font-size: 0.875rem;
+            font-weight: 400;
+            vertical-align: inherit;
+            text-align: left;
+            color: rgb(255, 255, 255);
+          }
+
+          .click {
+            cursor: pointer;
+          }
+
+          .buttonContainer {
+            position: relative;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            & > * {
+              margin-left: 10px;
+            }
+          }
+
+          &:hover {
+            background-color: rgba(145, 158, 171, 0.08);
+          }
+        }
+      }
+    }
+  }
+}

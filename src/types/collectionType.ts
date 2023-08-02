@@ -13,6 +13,10 @@ export interface IGetByIdGroups_Res extends IGroupPass {}
 
 /* ----------------  Create group res ---------------- */
 export interface ICreateGroups_Req extends Pick<IGroupPass, 'name'> {}
+export interface ICreateGroups_Res {
+  id: string;
+  message: string;
+}
 
 /* ----------------  Edit info group req  ---------------- */
 // export interface IEditGroups_Res extends Omit<IGroupPass, 'data'> {}

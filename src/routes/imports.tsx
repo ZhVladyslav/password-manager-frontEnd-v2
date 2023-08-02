@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, ComponentType } from 'react';
-import Loading from '../pages/loading/LoadingPage';
-import { AccessGuard } from '../modules/guards/AccessGuard';
-import { RoleGuard } from '../modules/guards/RoleGuard';
+import { Loader } from '../components/index';
+import ClaimsGuard from '../guards/ClaimsGuard';
+import RoleGuard from '../guards/RoleGuard';
 
 // ----------------------------------------------------------------------
 
@@ -22,16 +22,16 @@ export const Loadable =
 
     if (claims && !roles)
       return (
-        <Suspense fallback={<Loading />}>
-          <AccessGuard claims={claims}>
+        <Suspense fallback={<Loader />}>
+          <ClaimsGuard claims={claims}>
             <Component {...props} />
-          </AccessGuard>
+          </ClaimsGuard>
         </Suspense>
       );
 
     if (roles && !claims)
       return (
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loader />}>
           <RoleGuard roles={roles}>
             <Component {...props} />
           </RoleGuard>
@@ -39,7 +39,7 @@ export const Loadable =
       );
 
     return (
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loader />}>
         <Component {...props} />
       </Suspense>
     );
@@ -57,7 +57,7 @@ export const Loadable =
 export const AuthLayout = Loadable(lazy(() => import('../layouts/AuthLayout')));
 
 // Main
-export const Main = Loadable(lazy(() => import('../pages/collections')));
+export const Dashboard = Loadable(lazy(() => import('../pages/dashboard')));
 
 // Auth
 export const LoginPage = Loadable(lazy(() => import('../pages/auth/LoginPage')));

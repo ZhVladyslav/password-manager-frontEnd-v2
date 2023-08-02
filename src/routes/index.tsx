@@ -14,10 +14,10 @@ import {
   Error500Page,
   LoginPage,
   RegistrationPage,
-  Main,
+  Dashboard,
 } from './imports';
-import { GuestGuard } from '../modules/guards/GuestGuard';
-import { AuthGuard } from '../modules/guards/AuthGuard';
+import GuestGuard from '../guards/GuestGuard';
+import AuthGuard from '../guards/AuthGuard';
 import DashboardLayout from '../layouts/DashboardLayout';
 
 // ----------------------------------------------------------------------
@@ -52,7 +52,7 @@ export default function Router() {
           <DashboardLayout />
         </AuthGuard>
       ),
-      children: [{ path: '/', element: <Main /> }],
+      children: [{ path: '/', element: <Dashboard /> }],
     },
 
     //

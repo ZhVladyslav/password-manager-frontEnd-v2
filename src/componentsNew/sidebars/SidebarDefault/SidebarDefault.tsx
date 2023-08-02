@@ -1,6 +1,5 @@
 import React from 'react';
 import { SvgClose, SvgLogout, SvgPlus, SvgProtect } from '../../../assets';
-import { sessionActions } from '../../../redux/slices/sessionSlice';
 import { authService } from '../../../services/authServices';
 import { IGetAllGroups_Res } from '../../../types/collectionType';
 import ButtonRound from '../../buttons/ButtonRound/ButtonRound';
@@ -14,15 +13,13 @@ interface IProps {
   onAddGroup: () => void;
   selectGroup: (data: string) => void;
   protectClick: () => void;
-
 }
 
 // ----------------------------------------------------------------------
 
 const SidebarDefault: React.FC<IProps> = ({ allGroups, selectedGroup, onAddGroup, selectGroup, protectClick }) => {
   const logout = () => {
-    authService.logout();
-    sessionActions.logout();
+    console.log(2);
   };
 
   return (

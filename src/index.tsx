@@ -10,7 +10,7 @@ import { store } from './redux/store';
 
 // App
 import App from './App';
-import { AuthContainer } from './modules/auth/AuthContainer';
+import AuthContainer from './auth/AuthContainer';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

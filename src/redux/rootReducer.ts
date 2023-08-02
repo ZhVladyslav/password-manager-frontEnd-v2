@@ -3,9 +3,9 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 // slices
-import userReducer from './slices/userSlice';
-import sessionReducer from './slices/sessionSlice';
-import utilsReducer from './slices/utils';
+import userSlice from './slices/userSlice';
+import sessionSlice from './slices/sessionSlice';
+import utilsSlice from './slices/utilsSlice';
 
 // ----------------------------------------------------------------------
 
@@ -31,9 +31,9 @@ const sessionPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  user: persistReducer(userPersistConfig, userReducer),
-  session: persistReducer(sessionPersistConfig, sessionReducer),
-  utils: utilsReducer,
+  user: persistReducer(userPersistConfig, userSlice.reducer),
+  session: persistReducer(sessionPersistConfig, sessionSlice.reducer),
+  utils: utilsSlice.reducer,
 });
 
 // ----------------------------------------------------------------------

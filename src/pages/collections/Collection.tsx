@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonDefault, ContentHeder, LoaderDefault, Popup } from '../../componentsNew';
+import { ButtonDefault, ContentHeder, Popup } from '../../componentsNew';
 import CollectionTable from './collectionTable/CollectionTable';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout } from '../../types/decryptGroupType';
@@ -55,7 +55,7 @@ const Collection: React.FC<IProps> = ({
 
   return (
     <div className="Collection">
-      {isLoading && <LoaderDefault />}
+      {/* {isLoading && <LoaderDefault />} */}
 
       {group && !decryptGroup && (
         <CollectionDecrypt

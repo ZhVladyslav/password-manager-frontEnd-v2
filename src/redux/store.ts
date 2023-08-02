@@ -5,7 +5,7 @@ import { rootPersistConfig, rootReducer } from './rootReducer';
 
 // ----------------------------------------------------------------------
 
-// confid store
+// config store
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, rootReducer),
   middleware: (getDefaultMiddleware) =>
