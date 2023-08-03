@@ -12,3 +12,4 @@ export { default as ButtonRound } from './ButtonRound/ButtonRound';
 export { default as ButtonSidebar } from './ButtonSidebar/ButtonSidebar';
 
 export { default as ContextMenu } from './ContextMenu/ContextMenu';
+export { default as ButtonsTableHead } from './ButtonsTableHead/ButtonsTableHead';

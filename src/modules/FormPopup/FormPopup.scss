@@ -1,4 +1,4 @@
-.Form-Container {
+.FormPopup-Container {
   position: absolute;
   top: 0;
   left: 0;
@@ -16,7 +16,7 @@
   background-size: 50%, 50%;
   z-index: 10;
 
-  .FormBlock {
+  .formBlock {
     min-width: 300px;
     width: 100%;
     max-width: 400px;

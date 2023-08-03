@@ -21,16 +21,7 @@ const View: React.FC<IProps> = ({ setDecryptGroup, password, decryptGroup, group
 
   return (
     <div>
-      <Table
-        setWarn={setWarn}
-        setEditId={setEditId}
-        password={password}
-        setDecryptGroup={setDecryptGroup}
-        groupById={groupById}
-        setGroupById={setGroupById}
-        decryptGroup={decryptGroup}
-        warn={warn}
-      />
+      <Table setWarn={setWarn} setEditId={setEditId} decryptGroup={decryptGroup} />
     </div>
   );
 };

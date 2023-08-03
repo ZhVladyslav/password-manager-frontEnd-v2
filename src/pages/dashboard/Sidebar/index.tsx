@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SvgLogout, SvgProtect } from '../../../assets';
-import { jwtAuth } from '../../../auth/jwtAuth';
-import { ButtonDefault, ButtonRound, ButtonSidebar } from '../../../components';
+import { ButtonDefault, ButtonSidebar } from '../../../components';
 import { userActions } from '../../../redux/actions/userActions';
 import { utilsActions } from '../../../redux/actions/utilsActions';
 import { collectionService } from '../../../services/collectionServices';
@@ -9,6 +7,7 @@ import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../../types/collection
 import { IDecryptGrout } from '../../../types/decryptGroupType';
 import CreateGroupForm from './CreateGroupForm/CreateGroupForm';
 import './index.scss';
+import Logo from '../../../assets/logo.png';
 
 // ----------------------------------------------------------------------
 
@@ -19,13 +18,11 @@ interface IProps {
   setAllGroups: (data: IGetAllGroups_Res[] | []) => void;
   setGroupById: (data: IGetByIdGroups_Res | null) => void;
   setDecryptGroup: (data: IDecryptGrout | null) => void;
-
-  protect: () => void;
 }
 
 // ----------------------------------------------------------------------
 
-const Sidebar: React.FC<IProps> = ({ setAllGroups, allGroups, groupById, setGroupById, setDecryptGroup, protect }) => {
+const Sidebar: React.FC<IProps> = ({ setAllGroups, allGroups, groupById, setGroupById, setDecryptGroup }) => {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(() => {
@@ -55,15 +52,9 @@ const Sidebar: React.FC<IProps> = ({ setAllGroups, allGroups, groupById, setGrou
 
   return (
     <div className="Dashboard-Sidebar-Container">
-      <div className="headerButtons">
-        <ButtonRound onClick={() => jwtAuth.logout()}>
-          <SvgLogout />
-        </ButtonRound>
-        <ButtonRound onClick={protect}>
-          <SvgProtect />
-        </ButtonRound>
+      <div className="logo">
+        <img src={Logo} />
       </div>
-      {/*  */}
       <div className="buttonContainer">
         {allGroups.map((item) => (
           <ButtonSidebar

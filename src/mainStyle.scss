@@ -68,7 +68,7 @@ svg {
 }
 
 body {
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 /* ROOT */
@@ -80,7 +80,7 @@ body {
 #root {
   min-width: 350px;
   height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;

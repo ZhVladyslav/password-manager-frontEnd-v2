@@ -1,6 +1,6 @@
 import React from 'react';
 import { ButtonDefault } from '../../components';
-import './Form.scss';
+import './FormPopup.scss';
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ interface IProps {
 
 // ----------------------------------------------------------------------
 
-const Form: React.FC<IProps> = ({ onClose, onSubmit, children, form, title, submitTitle }) => {
+const FormPopup: React.FC<IProps> = ({ onClose, onSubmit, children, form, title, submitTitle }) => {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.valid) return;
@@ -26,8 +26,8 @@ const Form: React.FC<IProps> = ({ onClose, onSubmit, children, form, title, subm
   };
 
   return (
-    <div className="Form-Container" onClick={onClose}>
-      <div className="FormBlock" onClick={(e) => e.stopPropagation()}>
+    <div className="FormPopup-Container" onClick={onClose}>
+      <div className="formBlock" onClick={(e) => e.stopPropagation()}>
         <form onSubmit={submit}>
           <span className="title">{title}</span>
           <div className="inputBlock">{children}</div>
@@ -44,4 +44,4 @@ const Form: React.FC<IProps> = ({ onClose, onSubmit, children, form, title, subm
 
 // ----------------------------------------------------------------------
 
-export default Form;
+export default FormPopup;

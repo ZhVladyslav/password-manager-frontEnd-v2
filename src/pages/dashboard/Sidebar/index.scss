@@ -5,20 +5,20 @@
   border-right: 1px dashed #2b333b;
   overflow-y: auto;
 
-  .headerButtons {
+  .logo {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    width: 100%;
+    // justify-content: center;
     height: 50px;
 
-    & > * {
-      margin-left: 10px;
+    img {
+      height: 50px;
+      width: 50px;
     }
   }
 
   .buttonContainer {
-    margin-top: 20px;
+    margin-top: 10px;
 
     & > *:last-child {
       margin-top: 10px;

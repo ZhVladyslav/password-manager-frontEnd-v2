@@ -1,6 +1,7 @@
 import React from 'react';
 import { ButtonDefault, InputText, useInputText } from '../../../../components';
 import { useForm } from '../../../../hooks/useForm';
+import { FormDefault } from '../../../../modules';
 import { IGetByIdGroups_Res } from '../../../../types/collectionType';
 import { IDecryptGrout } from '../../../../types/decryptGroupType';
 import { decrypt } from '../../../../utils/crypto';
@@ -20,7 +21,7 @@ const DecryptGroupForm: React.FC<IProps> = ({ groupById, setDecryptGroup, setPas
   const passwordInput = useInputText({ reg: /^[0-9A-Za-z @]*$/, errorText: 'Invalid password' });
   const form = useForm({ inputs: [passwordInput.valid] });
 
-  const decryptCollection = () => {
+  const submit = () => {
     if (!groupById) return;
     try {
       const decryptDataInText = decrypt(groupById.data, passwordInput.value, true);
@@ -33,30 +34,23 @@ const DecryptGroupForm: React.FC<IProps> = ({ groupById, setDecryptGroup, setPas
     }
   };
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    decryptCollection();
-  };
-
   return (
     <div className="DecryptGroupForm-Container">
-      <form onSubmit={submit}>
-        <span className="title">{`${groupById?.name}`}</span>
-        <div className="inputBlock">
-          <InputText
-            title="Password"
-            error={passwordInput.error}
-            onBlur={passwordInput.onBlur}
-            onChange={passwordInput.onChange}
-            value={passwordInput.value}
-          />
-        </div>
-
-        <div className="buttonBlock">
-          <ButtonDefault title="Decrypt" style="bg White" foolSize />
-        </div>
-        {form.errorText && <span className="error">{form.errorText}</span>}
-      </form>
+      <FormDefault
+        form={form}
+        titlePosition="left"
+        onSubmit={submit}
+        title="Decrypt"
+        buttons={<ButtonDefault title="Decrypt" style="bg White" foolSize />}
+      >
+        <InputText
+          title="Password"
+          error={passwordInput.error}
+          onBlur={passwordInput.onBlur}
+          onChange={passwordInput.onChange}
+          value={passwordInput.value}
+        />
+      </FormDefault>
     </div>
   );
 };

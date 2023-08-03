@@ -12,23 +12,26 @@ interface UseOutsideClickOptions {
   onOutsideClick(e: MouseEvent | TouchEvent): void;
 }
 
+type positionType = 'top' | 'left';
 interface IContextMenuProps {
   opened: boolean;
   triggerRef?: React.RefObject<HTMLElement>;
   onClose: () => void;
   buttonsInMenu: IContextMenuButtonsProps[];
+  position?: positionType;
 }
 
-type buttonsColor = 'red' | 'white';
+type buttonsColorType = 'red' | 'white';
 interface IContextMenuButtonsProps {
   svg?: React.ReactNode;
   title: string;
-  color?: buttonsColor;
+  color?: buttonsColorType;
   cb: () => void;
 }
 
 interface IProps {
   buttons: IContextMenuButtonsProps[];
+  position?: positionType;
 }
 
 // ----------------------------------------------------------------------
@@ -73,7 +76,7 @@ function useOutsideClick({ elementRef, triggerRef, enabled = true, onOutsideClic
 
 // ----------------------------------------------------------------------
 
-const ContextMenu: React.FC<IProps> = ({ buttons }) => {
+const ContextMenu: React.FC<IProps> = ({ buttons, position = 'left' }) => {
   const [opened, setOpened] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -81,7 +84,7 @@ const ContextMenu: React.FC<IProps> = ({ buttons }) => {
     setOpened(false);
   };
 
-  const contextMenuContent = ({ opened, triggerRef, onClose, buttonsInMenu }: IContextMenuProps) => {
+  const contextMenuContent = ({ opened, triggerRef, onClose, buttonsInMenu, position }: IContextMenuProps) => {
     const tooltipRef = useRef<HTMLDivElement>(null);
 
     const clickOnButton = (cb: () => void) => {
@@ -99,7 +102,13 @@ const ContextMenu: React.FC<IProps> = ({ buttons }) => {
     if (!opened) return null;
 
     return (
-      <div ref={tooltipRef} className="ContextMenu-Container">
+      <div
+        ref={tooltipRef}
+        className={`ContextMenu-Container
+      ${position === 'top' ? 'ContextMenu-Container-TopPosition' : ''}
+      ${position === 'left' ? 'ContextMenu-Container-LeftPosition' : ''}
+      `}
+      >
         <span className="pointer" />
         <ul>
           {buttonsInMenu.map((item, i) => (
@@ -120,8 +129,8 @@ const ContextMenu: React.FC<IProps> = ({ buttons }) => {
   };
 
   return (
-    <>
-      {contextMenuContent({ opened, triggerRef: buttonRef, onClose, buttonsInMenu: buttons })}
+    <div className="ContextMenu-MainContainer">
+      {contextMenuContent({ opened, triggerRef: buttonRef, onClose, buttonsInMenu: buttons, position })}
 
       <button
         ref={buttonRef}
@@ -132,7 +141,7 @@ const ContextMenu: React.FC<IProps> = ({ buttons }) => {
           <SvgDotVertical />
         </span>
       </button>
-    </>
+    </div>
   );
 };
 

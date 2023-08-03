@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputText, useInputText } from '../../../../components';
 import { useForm } from '../../../../hooks/useForm';
-import { Form } from '../../../../modules';
+import { FormPopup } from '../../../../modules';
 import { collectionService } from '../../../../services/collectionServices';
 import { IDecryptGrout } from '../../../../types/decryptGroupType';
 import { encrypt, uuid, uuidHash } from '../../../../utils/crypto';
@@ -60,7 +60,7 @@ const CreateGroupForm: React.FC<IProps> = ({ setIsCreate, getAllGroups, getGroup
 
   return (
     <div className="CreateGroupForm-Container">
-      <Form
+      <FormPopup
         onClose={() => setIsCreate(false)}
         onSubmit={() => submit()}
         form={form}
@@ -81,7 +81,7 @@ const CreateGroupForm: React.FC<IProps> = ({ setIsCreate, getAllGroups, getGroup
           onChange={passwordInput.onChange}
           value={passwordInput.value}
         />
-      </Form>
+      </FormPopup>
     </div>
   );
 };

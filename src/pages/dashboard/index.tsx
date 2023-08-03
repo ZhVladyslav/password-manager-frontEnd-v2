@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Loader } from '../../components';
+import { SvgEdit, SvgLogout, SvgPlus, SvgProtect, SvgTrash } from '../../assets';
+import { jwtAuth } from '../../auth/jwtAuth';
+import { ButtonRound, ContextMenu, Loader } from '../../components';
+import { Header } from '../../modules';
 import { useSelector } from '../../redux/store';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
 import { IDecryptGrout } from '../../types/decryptGroupType';
@@ -35,22 +38,62 @@ const Dashboard: React.FC = () => {
           groupById={groupById}
           setGroupById={setGroupById}
           setDecryptGroup={setDecryptGroup}
-          protect={protect}
         />
         <div className="View-Container">
+          <Header
+            title={groupById?.name}
+            buttonBlock={
+              <>
+                {decryptGroup && (
+                  <ContextMenu
+                    position="top"
+                    buttons={[
+                      {
+                        cb: () => console.log(1),
+                        title: 'Add',
+                        svg: <SvgPlus />,
+                      },
+                      {
+                        cb: () => console.log(1),
+                        title: 'Edit name',
+                        svg: <SvgEdit />,
+                      },
+                      {
+                        cb: () => console.log(1),
+                        color: 'red',
+                        title: 'Delete collection',
+                        svg: <SvgTrash />,
+                      },
+                    ]}
+                  />
+                )}
+                <ButtonRound>
+                  <SvgProtect onClick={protect} />
+                </ButtonRound>
+                <ButtonRound>
+                  <SvgLogout onClick={() => jwtAuth.logout()} />
+                </ButtonRound>
+              </>
+            }
+          />
+
           {isLoading && <Loader />}
 
           {!groupById && !decryptGroup && <Plug />}
+
           {!decryptGroup && groupById && (
             <DecryptGroupForm setPassword={setPassword} groupById={groupById} setDecryptGroup={setDecryptGroup} />
           )}
-          {decryptGroup && <View
-          setDecryptGroup={setDecryptGroup}
-          password={password}
-          decryptGroup={decryptGroup}
-          groupById={groupById}
-          setGroupById={setGroupById}
-          />}
+
+          {decryptGroup && (
+            <View
+              setDecryptGroup={setDecryptGroup}
+              password={password}
+              decryptGroup={decryptGroup}
+              groupById={groupById}
+              setGroupById={setGroupById}
+            />
+          )}
         </div>
       </div>
     </>
