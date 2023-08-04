@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IGetByIdGroups_Res } from '../../../types/collectionType';
 import { IDecryptGrout, IDecryptGroutRecord } from '../../../types/decryptGroupType';
 import Table from './Table/Table';
@@ -11,17 +11,24 @@ interface IProps {
   decryptGroup: IDecryptGrout | null;
   groupById: IGetByIdGroups_Res | null;
   setGroupById: (data: IGetByIdGroups_Res | null) => void;
+  setDeleteWarn: (data: { name: string; id: string; type: 'record' | 'group' } | null) => void;
+  setAddRecord: (data: IDecryptGroutRecord | null) => void;
 }
 
 // ----------------------------------------------------------------------
 
-const View: React.FC<IProps> = ({ setDecryptGroup, password, decryptGroup, groupById, setGroupById }) => {
-  const [warn, setWarn] = useState<IDecryptGroutRecord | null>(null);
-  const [editId, setEditId] = useState<string | null>(null);
-
+const View: React.FC<IProps> = ({
+  setDeleteWarn,
+  setDecryptGroup,
+  password,
+  decryptGroup,
+  groupById,
+  setGroupById,
+  setAddRecord,
+}) => {
   return (
     <div>
-      <Table setWarn={setWarn} setEditId={setEditId} decryptGroup={decryptGroup} />
+      <Table setDeleteWarn={setDeleteWarn} decryptGroup={decryptGroup} setAddRecord={setAddRecord} />
     </div>
   );
 };

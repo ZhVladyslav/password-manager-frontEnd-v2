@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ButtonDefault, InputText, useInputText } from '../../../../components';
 import { useForm } from '../../../../hooks/useForm';
 import { FormDefault } from '../../../../modules';
@@ -20,6 +20,11 @@ interface IProps {
 const DecryptGroupForm: React.FC<IProps> = ({ groupById, setDecryptGroup, setPassword }) => {
   const passwordInput = useInputText({ reg: /^[0-9A-Za-z @]*$/, errorText: 'Invalid password' });
   const form = useForm({ inputs: [passwordInput.valid] });
+
+  useEffect(() => {
+    passwordInput.dropState();
+    form.setErrorText(null);
+  }, [groupById]);
 
   const submit = () => {
     if (!groupById) return;

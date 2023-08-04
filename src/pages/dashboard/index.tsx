@@ -5,8 +5,10 @@ import { ButtonRound, ContextMenu, Loader } from '../../components';
 import { Header } from '../../modules';
 import { useSelector } from '../../redux/store';
 import { IGetAllGroups_Res, IGetByIdGroups_Res } from '../../types/collectionType';
-import { IDecryptGrout } from '../../types/decryptGroupType';
+import { IDecryptGrout, IDecryptGroutRecord } from '../../types/decryptGroupType';
 import { IStore } from '../../types/storeType';
+import Create from './Create/Create';
+import Delete from './Delete/Delete';
 import './index.scss';
 import Sidebar from './Sidebar';
 import View from './View';
@@ -22,6 +24,13 @@ const Dashboard: React.FC = () => {
   const [groupById, setGroupById] = useState<IGetByIdGroups_Res | null>(null);
   const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null);
   const [password, setPassword] = useState<string | null>(null);
+
+  const [addRecord, setAddRecord] = useState<IDecryptGroutRecord | null>(null);
+  const [deleteWarn, setDeleteWarn] = useState<{
+    name: string;
+    id: string;
+    type: 'record' | 'group';
+  } | null>(null);
 
   const protect = () => {
     setGroupById(null);
@@ -44,22 +53,40 @@ const Dashboard: React.FC = () => {
             title={groupById?.name}
             buttonBlock={
               <>
-                {decryptGroup && (
+                {groupById && !decryptGroup && (
+                  <ContextMenu
+                    position="top"
+                    buttons={[
+                      // {
+                      //   cb: () => console.log('edit name'),
+                      //   title: 'Edit name',
+                      //   svg: <SvgEdit />,
+                      // },
+                      {
+                        cb: () => setDeleteWarn({ id: groupById.id, name: groupById.name, type: 'group' }),
+                        color: 'red',
+                        title: 'Delete collection',
+                        svg: <SvgTrash />,
+                      },
+                    ]}
+                  />
+                )}
+                {groupById && decryptGroup && (
                   <ContextMenu
                     position="top"
                     buttons={[
                       {
-                        cb: () => console.log(1),
-                        title: 'Add',
+                        cb: () => setAddRecord({ id: '', name: '', email: '', password: '', url: '', description: '' }),
+                        title: 'Add record',
                         svg: <SvgPlus />,
                       },
+                      // {
+                      //   cb: () => console.log(1),
+                      //   title: 'Edit name',
+                      //   svg: <SvgEdit />,
+                      // },
                       {
-                        cb: () => console.log(1),
-                        title: 'Edit name',
-                        svg: <SvgEdit />,
-                      },
-                      {
-                        cb: () => console.log(1),
+                        cb: () => setDeleteWarn({ id: groupById.id, name: groupById.name, type: 'group' }),
                         color: 'red',
                         title: 'Delete collection',
                         svg: <SvgTrash />,
@@ -92,9 +119,38 @@ const Dashboard: React.FC = () => {
               decryptGroup={decryptGroup}
               groupById={groupById}
               setGroupById={setGroupById}
+              setDeleteWarn={setDeleteWarn}
+              setAddRecord={setAddRecord}
             />
           )}
         </div>
+
+        {addRecord && (
+          <Create
+            addRecord={addRecord}
+            onClose={() => setAddRecord(null)}
+            decryptGroup={decryptGroup}
+            password={password}
+            groupById={groupById}
+            setDecryptGroup={setDecryptGroup}
+            setGroupById={setGroupById}
+          />
+        )}
+
+        {deleteWarn && (
+          <Delete
+            onClose={() => setDeleteWarn(null)}
+            deleteWarn={deleteWarn}
+            password={password}
+            decryptGroup={decryptGroup}
+            setDecryptGroup={setDecryptGroup}
+            groupById={groupById}
+            setGroupById={setGroupById}
+            protect={protect}
+            allGroups={allGroups}
+            setAllGroups={setAllGroups}
+          />
+        )}
       </div>
     </>
   );

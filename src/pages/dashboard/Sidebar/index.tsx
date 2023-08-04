@@ -50,13 +50,17 @@ const Sidebar: React.FC<IProps> = ({ setAllGroups, allGroups, groupById, setGrou
     setGroupById(result.res);
   };
 
+  function sortByName() {
+    return allGroups.sort((a, b) => a.name.localeCompare(b.name, 'en'));
+  }
+
   return (
     <div className="Dashboard-Sidebar-Container">
       <div className="logo">
         <img src={Logo} />
       </div>
       <div className="buttonContainer">
-        {allGroups.map((item) => (
+        {sortByName().map((item) => (
           <ButtonSidebar
             key={item.id}
             title={item.name}
