@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { SvgEdit, SvgLogout, SvgPlus, SvgProtect, SvgTrash } from '../../assets';
+import React, { useEffect, useState } from 'react';
+import { SvgEdit, SvgLogout, SvgMenu, SvgPlus, SvgProtect, SvgTrash } from '../../assets';
 import { jwtAuth } from '../../auth/jwtAuth';
 import { ButtonRound, ContextMenu, Loader } from '../../components';
 import { Header } from '../../modules';
@@ -25,6 +25,8 @@ const Dashboard: React.FC = () => {
   const [decryptGroup, setDecryptGroup] = useState<IDecryptGrout | null>(null);
   const [password, setPassword] = useState<string | null>(null);
 
+  const [sidebarActive, setSidebarActive] = useState(false);
+  const [windowSize, setWindowSize] = useState(0);
   const [addRecord, setAddRecord] = useState<IDecryptGroutRecord | null>(null);
   const [deleteWarn, setDeleteWarn] = useState<{
     name: string;
@@ -38,6 +40,40 @@ const Dashboard: React.FC = () => {
     setPassword(null);
   };
 
+  useEffect(() => {
+    const checkCombination = (event: KeyboardEvent) => {
+      if (/^[qQйЙ]$/.test(event.key) && event.ctrlKey) {
+        protect();
+      }
+      if (/^[lLдД]$/.test(event.key) && event.ctrlKey) {
+        jwtAuth.logout();
+      }
+    };
+
+    //
+    //
+    //
+
+    // key down
+    const handleKeyDown = (event: KeyboardEvent) => {
+      checkCombination(event);
+    };
+
+    // resize window
+    function handleResize() {
+      setWindowSize(window.innerWidth);
+      if (window.innerWidth > 700) setSidebarActive(false);
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <div className="Dashboard-Container">
@@ -47,10 +83,20 @@ const Dashboard: React.FC = () => {
           groupById={groupById}
           setGroupById={setGroupById}
           setDecryptGroup={setDecryptGroup}
+          windowSize={windowSize}
+          sidebarActive={sidebarActive}
+          setSidebarActive={setSidebarActive}
         />
         <div className="View-Container">
           <Header
             title={groupById?.name}
+            menuButton={
+              windowSize < 700 && (
+                <ButtonRound onClick={() => setSidebarActive(true)}>
+                  <SvgMenu />
+                </ButtonRound>
+              )
+            }
             buttonBlock={
               <>
                 {groupById && !decryptGroup && (

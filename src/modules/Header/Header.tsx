@@ -7,20 +7,22 @@ import './Header.scss';
 
 interface IProps {
   title?: string;
-  buttonBlock?: React.ReactNode
+  buttonBlock?: React.ReactNode;
+  menuButton?: React.ReactNode;
 }
 
 // ----------------------------------------------------------------------
 
-const Header: React.FC<IProps> = ({ title, buttonBlock }) => {
+const Header: React.FC<IProps> = ({ title, menuButton, buttonBlock }) => {
   return (
     <header className="Header-Container">
       <div className="inner-container">
-        <div className="leftBlock">{title && <h3>{title}</h3>}</div>
+        <div className="leftBlock">
+          <div className="menuButton">{menuButton}</div>
+          {title && <h3>{title}</h3>}
+        </div>
         <div className="rightBlock">
-          <div className="buttonBlock">
-            {buttonBlock && buttonBlock}
-          </div>
+          <div className="buttonBlock">{buttonBlock && buttonBlock}</div>
         </div>
       </div>
     </header>

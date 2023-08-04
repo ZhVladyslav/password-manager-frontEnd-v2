@@ -26,6 +26,13 @@
       display: flex;
       align-items: center;
       height: 100%;
+
+      .menuButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+      }
     }
 
     .rightBlock {
@@ -42,6 +49,13 @@
       & > * {
         margin-left: 10px;
       }
+    }
+  }
+
+  @media all and (max-width: 700px) {
+    & {
+      width: 100%;
+      left: 0;
     }
   }
 }

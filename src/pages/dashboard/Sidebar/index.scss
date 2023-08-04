@@ -25,3 +25,35 @@
     }
   }
 }
+
+.SidebarMobileContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(22, 28, 36, 0.6);
+  background-image: url(../../../assets/cyan-blur.png), url(../../../assets/red-blur.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: right top, left bottom;
+  background-size: 50%, 50%;
+  z-index: 25;
+
+  .inner-SidebarMobileContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    max-width: 400px;
+    max-width: 280px;
+    width: 100%;
+    background-color: rgba(22, 28, 36, 1);
+
+    .Dashboard-Sidebar-Container {
+      max-width: 400px;
+      max-width: 280px;
+      width: 100%;
+    }
+  }
+}

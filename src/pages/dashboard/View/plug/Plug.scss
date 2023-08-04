@@ -4,12 +4,11 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 10px;
-  padding-top: 150px;
 
   img {
     width: 200px;
     height: 200px;
+    margin-top: 150px;
   }
 
   .descriptionProject {
@@ -18,6 +17,8 @@
     margin-bottom: 20px;
     max-width: 600px;
     line-height: 2em;
+    margin-left: 10px;
+    margin-right: 10px;
 
     a {
       color: rgb(32, 101, 209);

@@ -14,6 +14,9 @@ import Logo from '../../../assets/logo.png';
 interface IProps {
   groupById: IGetByIdGroups_Res | null;
   allGroups: IGetAllGroups_Res[] | [];
+  windowSize: number;
+  sidebarActive: boolean;
+  setSidebarActive: (data: boolean) => void;
 
   setAllGroups: (data: IGetAllGroups_Res[] | []) => void;
   setGroupById: (data: IGetByIdGroups_Res | null) => void;
@@ -22,7 +25,16 @@ interface IProps {
 
 // ----------------------------------------------------------------------
 
-const Sidebar: React.FC<IProps> = ({ setAllGroups, allGroups, groupById, setGroupById, setDecryptGroup }) => {
+const Sidebar: React.FC<IProps> = ({
+  setAllGroups,
+  allGroups,
+  groupById,
+  setGroupById,
+  setDecryptGroup,
+  windowSize,
+  sidebarActive,
+  setSidebarActive,
+}) => {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(() => {
@@ -54,31 +66,54 @@ const Sidebar: React.FC<IProps> = ({ setAllGroups, allGroups, groupById, setGrou
     return allGroups.sort((a, b) => a.name.localeCompare(b.name, 'en'));
   }
 
-  return (
-    <div className="Dashboard-Sidebar-Container">
-      <div className="logo">
-        <img src={Logo} />
-      </div>
-      <div className="buttonContainer">
-        {sortByName().map((item) => (
-          <ButtonSidebar
-            key={item.id}
-            title={item.name}
-            onClick={() => getGroupById(item.id)}
-            isActive={groupById?.id === item.id}
+  const desktopUI = () => {
+    return (
+      <div className="Dashboard-Sidebar-Container">
+        <div className="logo">
+          <img src={Logo} />
+        </div>
+        <div className="buttonContainer">
+          {sortByName().map((item) => (
+            <ButtonSidebar
+              key={item.id}
+              title={item.name}
+              onClick={() => {
+                getGroupById(item.id);
+                if (windowSize <= 700) setSidebarActive(false);
+              }}
+              isActive={groupById?.id === item.id}
+            />
+          ))}
+          <ButtonDefault
+            title="Add group"
+            onClick={() => {
+              setIsCreate(true);
+              if (windowSize <= 700) setSidebarActive(false);
+            }}
+            foolSize
+            style="border"
           />
-        ))}
-        <ButtonDefault title="Add group" onClick={() => setIsCreate(true)} foolSize style="border" />
+        </div>
       </div>
+    );
+  };
 
-      {/*  */}
-      {/*  */}
-      {/*  */}
+  return (
+    <>
+      {windowSize > 700 && desktopUI()}
+
+      {windowSize <= 700 && sidebarActive && (
+        <div className="SidebarMobileContainer" onClick={() => setSidebarActive(false)}>
+          <div className="inner-SidebarMobileContainer" onClick={(e) => e.stopPropagation()}>
+            {desktopUI()}
+          </div>
+        </div>
+      )}
 
       {isCreate && (
         <CreateGroupForm getAllGroups={getAllGroups} getGroupById={getGroupById} setIsCreate={setIsCreate} />
       )}
-    </div>
+    </>
   );
 };
 

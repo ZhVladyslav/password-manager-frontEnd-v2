@@ -59,30 +59,28 @@ const CreateGroupForm: React.FC<IProps> = ({ setIsCreate, getAllGroups, getGroup
   };
 
   return (
-    <div className="CreateGroupForm-Container">
-      <FormPopup
-        onClose={() => setIsCreate(false)}
-        onSubmit={() => submit()}
-        form={form}
-        title="Create new group"
-        submitTitle="Create"
-      >
-        <InputText
-          title="Name"
-          error={nameInput.error}
-          onBlur={nameInput.onBlur}
-          onChange={nameInput.onChange}
-          value={nameInput.value}
-        />
-        <InputText
-          title="Password"
-          error={passwordInput.error}
-          onBlur={passwordInput.onBlur}
-          onChange={passwordInput.onChange}
-          value={passwordInput.value}
-        />
-      </FormPopup>
-    </div>
+    <FormPopup
+      onClose={() => setIsCreate(false)}
+      onSubmit={() => submit()}
+      form={form}
+      title="Create new group"
+      submitTitle="Create"
+    >
+      <InputText
+        title="Name"
+        error={nameInput.error}
+        onBlur={nameInput.onBlur}
+        onChange={nameInput.onChange}
+        value={nameInput.value}
+      />
+      <InputText
+        title="Password"
+        error={passwordInput.error}
+        onBlur={passwordInput.onBlur}
+        onChange={passwordInput.onChange}
+        value={passwordInput.value}
+      />
+    </FormPopup>
   );
 };
 

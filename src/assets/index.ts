@@ -18,3 +18,5 @@ export { ReactComponent as SvgConfirm } from './confirm.svg';
 // pass
 export { ReactComponent as SvgViewPassword } from './viewPassword.svg';
 export { ReactComponent as SvgHiddenPassword } from './hiddenPassword.svg';
+
+export { ReactComponent as SvgMenu } from './menu.svg';
