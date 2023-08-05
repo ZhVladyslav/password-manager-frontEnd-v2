@@ -11,7 +11,7 @@ import './AuthStyle.scss';
 
 export default function LoginPage() {
   const loginInput = useInputText({ reg: /^[0-9A-Za-z ]*$/, errorText: 'Invalid login' });
-  const passwordInput = useInputText({ reg: /^[0-9A-Za-z @]*$/, errorText: 'Invalid password' });
+  const passwordInput = useInputText({});
   const form = useForm({ inputs: [loginInput.valid, passwordInput.valid] });
 
   const submit = async () => {
