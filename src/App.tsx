@@ -1,9 +1,10 @@
 import React from 'react';
 import Router from './routes';
-import './mainStyle.scss';
+import './App.scss';
 import { useSelector } from './redux/store';
 import { IStore } from './types/storeType';
 import { Loader } from './components';
+import { Block } from './components/@zh';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +14,19 @@ export default function App() {
   return (
     <>
       {isLoading && <Loader />}
-      <Router />
+      {/* <Router /> */}
+      <Block
+        sx={{
+          h: 'calc(100% - 240px)',
+          mg: '24px',
+          borderRadius: '24px',
+          horizontalContent: 'center',
+          verticalContent: 'center',
+          mgContent: 'top',
+        }}
+      >
+        <div>asd</div>
+      </Block>
     </>
   );
 }

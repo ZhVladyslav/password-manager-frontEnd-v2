@@ -1,0 +1,76 @@
+.Block {
+  min-width: 300px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(33, 43, 54);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
+
+  .inner-Block {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  //
+  // verticalContent
+  //
+  .verticalContent-Left {
+    justify-content: flex-start;
+  }
+
+  .verticalContent-Center {
+    justify-content: center;
+  }
+
+  .verticalContent-Right {
+    justify-content: flex-end;
+  }
+
+  .verticalContent-SpaceBetween {
+    justify-content: space-between;
+  }
+
+  //
+  // horizontalContent
+  //
+  .horizontalContent-Top {
+    align-items: flex-start;
+  }
+
+  .horizontalContent-Center {
+    align-items: center;
+  }
+
+  .horizontalContent-Bottom {
+    align-items: flex-end;
+  }
+
+  //
+  // Content
+  //
+  .childMargin-left {
+    & > * {
+      margin-left: 10px;
+    }
+  }
+
+  .childMargin-right {
+    & > * {
+      margin-right: 10px;
+    }
+  }
+
+  .childMargin-top {
+    & > * {
+      margin-top: 10px;
+    }
+  }
+
+  .childMargin-bottom {
+    & > * {
+      margin-bottom: 10px;
+    }
+  }
+}
