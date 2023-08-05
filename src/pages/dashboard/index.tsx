@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
   const [password, setPassword] = useState<string | null>(null);
 
   const [sidebarActive, setSidebarActive] = useState(false);
-  const [windowSize, setWindowSize] = useState(0);
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [addRecord, setAddRecord] = useState<IDecryptGroutRecord | null>(null);
   const [deleteWarn, setDeleteWarn] = useState<{
     name: string;
