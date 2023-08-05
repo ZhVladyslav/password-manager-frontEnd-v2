@@ -18,9 +18,15 @@ export default function LoginPage() {
   const submit = async () => {
     if (form.valid) {
       try {
-        const result = await authService.login({ login: loginInput.value, password: passwordInput.value });
+        const result = await authService.registration({
+          name: nameInput.value,
+          login: loginInput.value,
+          password: passwordInput.value,
+        });
         if (result.err) throw result.err;
-        jwtAuth.login(result.res.accessToken, result.res.refreshToken);
+        const resultLogin = await authService.login({ login: loginInput.value, password: passwordInput.value });
+        if (resultLogin.err) throw resultLogin.err;
+        jwtAuth.login(resultLogin.res.accessToken, resultLogin.res.refreshToken);
         form.setErrorText(null);
       } catch (err) {
         form.setErrorText('Error data');
