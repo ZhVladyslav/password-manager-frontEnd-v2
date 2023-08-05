@@ -18,7 +18,7 @@ interface IProps {
 // ----------------------------------------------------------------------
 
 const DecryptGroupForm: React.FC<IProps> = ({ groupById, setDecryptGroup, setPassword }) => {
-  const passwordInput = useInputText({ reg: /^[0-9A-Za-z @]*$/, errorText: 'Invalid password' });
+  const passwordInput = useInputText({});
   const form = useForm({ inputs: [passwordInput.valid] });
 
   useEffect(() => {
