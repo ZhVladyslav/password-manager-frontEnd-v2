@@ -18,7 +18,7 @@ interface IProps {
 
 const CreateGroupForm: React.FC<IProps> = ({ setIsCreate, getAllGroups, getGroupById }) => {
   const nameInput = useInputText({ reg: /^[0-9A-Za-z ]*$/, errorText: 'Invalid name' });
-  const passwordInput = useInputText({ reg: /^[0-9A-Za-z @]*$/, errorText: 'Invalid password' });
+  const passwordInput = useInputText({});
   const form = useForm({ inputs: [nameInput.valid, passwordInput.valid] });
 
   /* ----------------  Create group  ---------------- */
