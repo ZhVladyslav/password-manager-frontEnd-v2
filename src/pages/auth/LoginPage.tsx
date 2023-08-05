@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { jwtAuth } from '../../auth/jwtAuth';
 import { ButtonDefault, InputText, useInputText } from '../../components';
 import { useForm } from '../../hooks/useForm';
@@ -13,11 +13,6 @@ export default function LoginPage() {
   const loginInput = useInputText({ reg: /^[0-9A-Za-z ]*$/, errorText: 'Invalid login' });
   const passwordInput = useInputText({ reg: /^[0-9A-Za-z @]*$/, errorText: 'Invalid password' });
   const form = useForm({ inputs: [loginInput.valid, passwordInput.valid] });
-
-  useEffect(() => {
-    loginInput.setValue('Demo user');
-    passwordInput.setValue('P@ssword1234');
-  }, []);
 
   const submit = async () => {
     if (form.valid) {
