@@ -7,21 +7,21 @@ interface IProps {
   children: React.ReactNode;
   sx?: {
     // width
-    w?: string; // 100%
-    minW?: string; // 300px
-    maxW?: string; // 100%
+    width?: string; // 100%
+    minWidth?: string; // 300px
+    maxWidth?: string; // 100%
 
     // height
-    h?: string; // none
-    minH?: string; // none
-    maxH?: string; // none
+    height?: string; // none
+    minHeight?: string; // none
+    maxHeight?: string; // none
 
     // margin
-    mg?: string; // 0
-    mgContent?: 'left' | 'right' | 'top' | 'bottom'; // 10px (not edit)
+    margin?: string; // 0
+    marginContent?: 'left' | 'right' | 'top' | 'bottom'; // 10px (not edit)
 
     // padding
-    pd?: string; // 0
+    padding?: string; // 0
 
     verticalContent?: 'left' | 'right' | 'center' | 'spaceBetween'; // left
     horizontalContent?: 'top' | 'bottom' | 'center'; // top
@@ -33,14 +33,14 @@ interface IProps {
 
 const Block: React.FC<IProps> = ({ sx, children }) => {
   const parentStyles: React.CSSProperties = {
-    padding: sx?.pd,
-    margin: sx?.mg,
-    minWidth: sx?.minW,
-    width: sx?.w,
-    maxWidth: sx?.maxW,
-    minHeight: sx?.minH,
-    height: sx?.h,
-    maxHeight: sx?.maxH,
+    padding: sx?.padding,
+    margin: sx?.margin,
+    minWidth: sx?.minWidth,
+    width: sx?.width,
+    maxWidth: sx?.maxWidth,
+    minHeight: sx?.minHeight,
+    height: sx?.height,
+    maxHeight: sx?.maxHeight,
     borderRadius: sx?.borderRadius,
   };
 
@@ -56,10 +56,10 @@ const Block: React.FC<IProps> = ({ sx, children }) => {
     if (sx?.horizontalContent === 'center') stylesClass += 'horizontalContent-Center ';
     if (sx?.horizontalContent === 'bottom') stylesClass += 'horizontalContent-Bottom ';
 
-    if (sx?.mgContent === 'left') stylesClass += 'childMargin-left ';
-    if (sx?.mgContent === 'right') stylesClass += 'childMargin-right ';
-    if (sx?.mgContent === 'top') stylesClass += 'childMargin-top ';
-    if (sx?.mgContent === 'bottom') stylesClass += 'childMargin-bottom ';
+    if (sx?.marginContent === 'left') stylesClass += 'childMargin-left ';
+    if (sx?.marginContent === 'right') stylesClass += 'childMargin-right ';
+    if (sx?.marginContent === 'top') stylesClass += 'childMargin-top ';
+    if (sx?.marginContent === 'bottom') stylesClass += 'childMargin-bottom ';
 
     return stylesClass;
   };

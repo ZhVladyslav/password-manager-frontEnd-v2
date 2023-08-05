@@ -17,12 +17,12 @@ export default function App() {
       {/* <Router /> */}
       <Block
         sx={{
-          h: 'calc(100% - 240px)',
-          mg: '24px',
+          height: 'calc(100% - 240px)',
+          margin: '24px',
           borderRadius: '24px',
           horizontalContent: 'center',
           verticalContent: 'center',
-          mgContent: 'top',
+          marginContent: 'top',
         }}
       >
         <div>asd</div>
