@@ -31,11 +31,11 @@ const Create: React.FC<IProps> = ({
   setDecryptGroup,
   setGroupById,
 }) => {
-  const inputEditName = useInputText({ reg: /^[A-Za-z0-9 ]{0,128}$/, errorText: 'Error' });
-  const inputEditUrl = useInputText({ reg: /^[A-Za-z0-9 .]{0,128}$/, errorText: 'Error' });
-  const inputEditEmail = useInputText({ reg: /^[A-Za-z0-9 .@]{0,128}$/, errorText: 'Error' });
-  const inputEditPassword = useInputText({ reg: /^[A-Za-z0-9 ]{0,128}$/, errorText: 'Error' });
-  const inputEditDescription = useInputText({ reg: /^[A-Za-z0-9 ]{0,128}$/, errorText: 'Error' });
+  const inputEditName = useInputText({});
+  const inputEditUrl = useInputText({});
+  const inputEditEmail = useInputText({});
+  const inputEditPassword = useInputText({});
+  const inputEditDescription = useInputText({});
   const formEditRecord = useForm({
     inputs: [
       inputEditName.valid,
