@@ -4,7 +4,7 @@ import './App.scss';
 import { useSelector } from './redux/store';
 import { IStore } from './types/storeType';
 import { Loader } from './components';
-import { Block } from './components/@zh';
+import { Box } from './components/@zh';
 
 // ----------------------------------------------------------------------
 
@@ -15,18 +15,9 @@ export default function App() {
     <>
       {isLoading && <Loader />}
       {/* <Router /> */}
-      <Block
-        sx={{
-          height: 'calc(100% - 240px)',
-          margin: '24px',
-          borderRadius: '24px',
-          horizontalContent: 'center',
-          verticalContent: 'center',
-          marginContent: 'top',
-        }}
-      >
+      <Box sx={{ h: '400px', py: '10px', contentX: 'center', contentY: 'right', mlContent: '10px' }}>
         <div>asd</div>
-      </Block>
+      </Box>
     </>
   );
 }
