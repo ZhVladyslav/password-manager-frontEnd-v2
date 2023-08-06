@@ -15,7 +15,16 @@ export default function App() {
     <>
       {isLoading && <Loader />}
       {/* <Router /> */}
-      <Box sx={{ h: '400px', py: '10px', contentX: 'center', contentY: 'right', mlContent: '10px' }}>
+      <Box
+        sx={{
+          bColor: 'Grey 800',
+          h: '400px',
+          py: '10px',
+          contentX: 'center',
+          contentY: 'right',
+          mlContent: '10px',
+        }}
+      >
         <div>asd</div>
       </Box>
     </>
