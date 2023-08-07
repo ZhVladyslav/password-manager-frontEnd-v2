@@ -1,13 +1,13 @@
-import { colorGrayType, colorType, ISetColors, setColor } from './colors';
+import { colorGrayType, colorType, IColorConfig, colorConfig } from './colorConfig';
 
 // ----------------------------------------------------------------------
 
-export interface IBgColor extends Omit<ISetColors, 'color'> {
+export interface IBgColor extends Omit<IColorConfig, 'color'> {
   bgColor?: colorType | colorGrayType;
 }
 
 // ----------------------------------------------------------------------
 
 export const bgColorStyle = (props: IBgColor) => {
-  return `background-color: ${setColor({ color: props.bgColor, opacity: props.opacity })};`;
+  return `background-color: ${colorConfig({ color: props.bgColor, opacity: props.opacity })};`;
 };

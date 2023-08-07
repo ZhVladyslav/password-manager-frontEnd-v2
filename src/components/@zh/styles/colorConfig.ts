@@ -1,4 +1,4 @@
-export interface ISetColors {
+export interface IColorConfig {
   color?: colorType | colorGrayType;
   opacity?: opacityType;
 }
@@ -13,7 +13,7 @@ export type colorGrayType = `Grey ${bColorGraySaturationType}`;
 
 // ----------------------------------------------------------------------
 
-export const setColor = ({ color, opacity }: ISetColors) => {
+export const colorConfig = ({ color, opacity }: IColorConfig) => {
   if (!color) return '';
   const opacityColor = opacity || '1';
 

@@ -5,12 +5,15 @@ import {
   IHeight,
   IMargin,
   IPadding,
-  ISetColors,
+  IColorConfig,
   IWidth,
   marginStyle,
   paddingStyle,
-  setColor,
+  colorConfig,
   widthStyle,
+  colorStyle,
+  bgColorStyle,
+  IColor,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -22,7 +25,7 @@ interface IProps {
   sx?: Isx;
 }
 
-interface Isx extends ISetColors, IMargin, IPadding, IHeight, IWidth {}
+interface Isx extends IColor, IMargin, IPadding, IHeight, IWidth {}
 
 // ----------------------------------------------------------------------
 
@@ -107,8 +110,8 @@ const mainStyles = (props: Isx) => {
     // height
     ${heightStyle(props)}
 
-    
-    color: ${setColor(props)};
+    // color
+    ${() => colorStyle(props)}
 
     // margin
     ${() => marginStyle(props)}

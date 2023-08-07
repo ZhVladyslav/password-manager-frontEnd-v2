@@ -27,7 +27,7 @@ export default function App() {
             borderRadius: '24px',
           }}
         >
-          фі
+          <Text content="test" variant="h1" />
         </Box>
         <Box
           sx={{

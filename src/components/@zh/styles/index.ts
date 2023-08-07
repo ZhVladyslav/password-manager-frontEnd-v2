@@ -1,10 +1,14 @@
 // colors
-export { setColor } from './colors';
-export type { ISetColors, colorType, colorGrayType } from './colors';
+export { colorConfig } from './colorConfig';
+export type { IColorConfig, colorType, colorGrayType } from './colorConfig';
 
 // background color
 export { bgColorStyle } from './bgColor';
 export type { IBgColor } from './bgColor';
+
+// color
+export { colorStyle } from './color';
+export type { IColor } from './color';
 
 // margin
 export { marginStyle } from './margin';
