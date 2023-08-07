@@ -14,7 +14,7 @@ export type colorGrayType = `Grey ${bColorGraySaturationType}`;
 // ----------------------------------------------------------------------
 
 export const setColor = ({ color, opacity }: ISetColors) => {
-  if (!color) return undefined;
+  if (!color) return '';
   const opacityColor = opacity || '1';
 
   // Primary

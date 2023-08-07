@@ -45,23 +45,23 @@ export const marginStyle = ({ m, mb, ml, mr, mt, mx, my }: IMargin) => {
   // margin X
   if (mx) {
     if (typeof mx === 'string') {
-      marginTop = mx;
-      marginBottom = mx;
+      marginLeft = mx;
+      marginRight = mx;
     }
     if (typeof mx === 'number') {
-      marginTop = `${mx}px`;
-      marginBottom = `${mx}px`;
+      marginLeft = `${mx}px`;
+      marginRight = `${mx}px`;
     }
   }
   // margin Y
   if (my) {
     if (typeof my === 'string') {
-      marginLeft = my;
-      marginRight = my;
+      marginTop = my;
+      marginBottom = my;
     }
     if (typeof my === 'number') {
-      marginLeft = `${my}px`;
-      marginRight = `${my}px`;
+      marginTop = `${my}px`;
+      marginBottom = `${my}px`;
     }
   }
 

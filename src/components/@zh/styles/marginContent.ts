@@ -10,7 +10,15 @@ export interface IMarginContent {
 
 // ----------------------------------------------------------------------
 
-export const marginContentStyle = ({ mContent, mbContent, mlContent, mrContent, mtContent, mxContent, myContent }: IMarginContent) => {
+export const marginContentStyle = ({
+  mContent,
+  mbContent,
+  mlContent,
+  mrContent,
+  mtContent,
+  mxContent,
+  myContent,
+}: IMarginContent) => {
   let margin: string | undefined = undefined;
   let marginTop: string | undefined = undefined;
   let marginBottom: string | undefined = undefined;
@@ -45,23 +53,23 @@ export const marginContentStyle = ({ mContent, mbContent, mlContent, mrContent, 
   // margin X
   if (mxContent) {
     if (typeof mxContent === 'string') {
-      marginTop = mxContent;
-      marginBottom = mxContent;
+      marginLeft = mxContent;
+      marginRight = mxContent;
     }
     if (typeof mxContent === 'number') {
-      marginTop = `${mxContent}px`;
-      marginBottom = `${mxContent}px`;
+      marginLeft = `${mxContent}px`;
+      marginRight = `${mxContent}px`;
     }
   }
   // margin Y
   if (myContent) {
     if (typeof myContent === 'string') {
-      marginLeft = myContent;
-      marginRight = myContent;
+      marginTop = myContent;
+      marginBottom = myContent;
     }
     if (typeof myContent === 'number') {
-      marginLeft = `${myContent}px`;
-      marginRight = `${myContent}px`;
+      marginTop = `${myContent}px`;
+      marginBottom = `${myContent}px`;
     }
   }
 

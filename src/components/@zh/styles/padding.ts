@@ -10,7 +10,7 @@ export interface IPadding {
 
 // ----------------------------------------------------------------------
 
-export const paddingStyle = ({ p, pb, pl, pr, pt, px,py }: IPadding) => {
+export const paddingStyle = ({ p, pb, pl, pr, pt, px, py }: IPadding) => {
   let padding: string | undefined = undefined;
   let paddingTop: string | undefined = undefined;
   let paddingBottom: string | undefined = undefined;
@@ -45,23 +45,23 @@ export const paddingStyle = ({ p, pb, pl, pr, pt, px,py }: IPadding) => {
   // padding X
   if (px) {
     if (typeof px === 'string') {
-      paddingTop = px;
-      paddingBottom = px;
+      paddingLeft = px;
+      paddingRight = px;
     }
     if (typeof px === 'number') {
-      paddingTop = `${px}px`;
-      paddingBottom = `${px}px`;
+      paddingLeft = `${px}px`;
+      paddingRight = `${px}px`;
     }
   }
   // padding Y
   if (py) {
     if (typeof py === 'string') {
-      paddingLeft = py;
-      paddingRight = py;
+      paddingTop = py;
+      paddingBottom = py;
     }
     if (typeof py === 'number') {
-      paddingLeft = `${py}px`;
-      paddingRight = `${py}px`;
+      paddingTop = `${py}px`;
+      paddingBottom = `${py}px`;
     }
   }
 

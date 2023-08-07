@@ -4,7 +4,7 @@ import './App.scss';
 import { useSelector } from './redux/store';
 import { IStore } from './types/storeType';
 import { Loader } from './components';
-import { Box } from './components/@zh';
+import { Box, Text } from './components/@zh';
 
 // ----------------------------------------------------------------------
 
@@ -15,21 +15,46 @@ export default function App() {
     <>
       {isLoading && <Loader />}
       {/* <Router /> */}
-      <Box
-        sx={{
-          bgColor: 'Grey 700',
-          h: '400px',
-          // py: '10px',
-          p: 10,
-          m: 10,
-          contentX: 'bottom',
-          contentY: 'right',
-          mlContent: '10px',
-          // mx: 10,
-        }}
-      >
-        <div>asd</div>
-        <div>asd</div>
+      <Box sx={{ h: 200, w: '100%', bgColor: 'Grey 700', opacity: '0.5', contentX: 'center', px: 20, mxContent: 10 }}>
+        <Box
+          sx={{
+            bgColor: 'Error Dark',
+            h: 100,
+            w: 100,
+            p: 10,
+            contentX: 'center',
+            contentY: 'center',
+            borderRadius: '24px',
+          }}
+        >
+          фі
+        </Box>
+        <Box
+          sx={{
+            bgColor: 'Error Dark',
+            h: 100,
+            w: 100,
+            p: 10,
+            contentX: 'center',
+            contentY: 'center',
+            borderRadius: '24px',
+          }}
+        >
+          фі
+        </Box>
+        <Box
+          sx={{
+            bgColor: 'Error Dark',
+            h: 100,
+            w: 100,
+            p: 10,
+            contentX: 'center',
+            contentY: 'center',
+            borderRadius: '24px',
+          }}
+        >
+          фі
+        </Box>
       </Box>
     </>
   );

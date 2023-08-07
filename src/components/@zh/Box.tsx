@@ -28,7 +28,6 @@ interface IProps {
 
 interface Isx extends IBgColor, IMargin, IPadding, IContentY, IContentX, IHeight, IWidth, IMarginContent {
   // border
-  border?: string;
   borderRadius?: '4px' | '8px' | '12px' | '16px' | '20px' | '24px' | '50%'; //radius
 }
 
@@ -48,31 +47,22 @@ const BoxContent = styled.div<{ sx?: Isx }>`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
 
   // border
-  border: ${(props) => props.sx && props.sx.border};
   border-radius: ${(props) => props.sx && props.sx.borderRadius};
 
   // width
-  ${(props) => props.sx && widthStyle({ w: props.sx.w, minW: props.sx.minW, maxW: props.sx.maxW })}
+  ${(props) => props.sx && widthStyle(props.sx)}
 
   // height
-  ${(props) => props.sx && heightStyle({ h: props.sx.h, minH: props.sx.minH, maxH: props.sx.maxH })}
+  ${(props) => props.sx && heightStyle(props.sx)}
 
   // margin
-  ${(props) => {
-    if (!props.sx) return;
-    const { m, mb, mt, ml, mr, mx, my } = props.sx;
-    return marginStyle({ m, mb, mt, ml, mr, mx, my });
-  }}
+  ${(props) => props.sx && marginStyle(props.sx)}
 
   // padding
-  ${(props) => {
-    if (!props.sx) return;
-    const { p, pb, pt, pl, pr, px, py } = props.sx;
-    return paddingStyle({ p, pb, pt, pl, pr, px, py });
-  }}
+  ${(props) => props.sx && paddingStyle(props.sx)}
   
   // background color
-  ${(props) => props.sx && bgColorStyle({ bgColor: props.sx.bgColor, opacity: props.sx.opacity })};
+  ${(props) => props.sx && bgColorStyle(props.sx)};
 `;
 
 const InnerBoxContent = styled.div<{ sx?: Isx }>`
@@ -81,15 +71,11 @@ const InnerBoxContent = styled.div<{ sx?: Isx }>`
   height: 100%;
 
   // margin content
-  ${(props) => {
-    if (!props.sx) return;
-    const { mContent, mbContent, mtContent, mlContent, mrContent, mxContent, myContent } = props.sx;
-    return marginContentStyle({ mContent, mbContent, mtContent, mlContent, mrContent, mxContent, myContent });
-  }}
+  ${(props) => props.sx && marginContentStyle(props.sx)}
 
   // content positions
-  ${(props) => props.sx && contentXStyle({ contentX: props.sx.contentX })}
-  ${(props) => props.sx && contentYStyle({ contentY: props.sx.contentY })}
+  ${(props) => props.sx && contentXStyle(props.sx)}
+  ${(props) => props.sx && contentYStyle(props.sx)}
 `;
 
 // ----------------------------------------------------------------------
