@@ -17,14 +17,18 @@ export default function App() {
       {/* <Router /> */}
       <Box
         sx={{
-          bColor: 'Grey 800',
+          bgColor: 'Grey 700',
           h: '400px',
-          py: '10px',
-          contentX: 'center',
+          // py: '10px',
+          p: 10,
+          m: 10,
+          contentX: 'bottom',
           contentY: 'right',
           mlContent: '10px',
+          // mx: 10,
         }}
       >
+        <div>asd</div>
         <div>asd</div>
       </Box>
     </>
