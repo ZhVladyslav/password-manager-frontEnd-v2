@@ -6,7 +6,7 @@ export interface IHeight {
 
 // ----------------------------------------------------------------------
 
-export const heightStyle = ({ h, minH, maxH }: IHeight) => {
+export const height = ({ h, minH, maxH }: IHeight) => {
   let height: string | undefined = undefined;
   let minHeight: string | undefined = undefined;
   let maxHeight: string | undefined = undefined;

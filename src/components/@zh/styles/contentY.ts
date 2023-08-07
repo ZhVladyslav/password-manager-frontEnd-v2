@@ -4,7 +4,7 @@ export interface IContentY {
 
 // ----------------------------------------------------------------------
 
-export const contentYStyle = ({ contentY }: IContentY) => {
+export const contentY = ({ contentY }: IContentY) => {
   if (!contentY) return '';
 
   let position = '';

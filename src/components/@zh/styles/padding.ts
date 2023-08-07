@@ -10,7 +10,7 @@ export interface IPadding {
 
 // ----------------------------------------------------------------------
 
-export const paddingStyle = ({ p, pb, pl, pr, pt, px, py }: IPadding) => {
+export const padding = ({ p, pb, pl, pr, pt, px, py }: IPadding) => {
   let padding: string | undefined = undefined;
   let paddingTop: string | undefined = undefined;
   let paddingBottom: string | undefined = undefined;

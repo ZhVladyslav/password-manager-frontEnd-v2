@@ -15,45 +15,30 @@ export default function App() {
     <>
       {isLoading && <Loader />}
       {/* <Router /> */}
-      <Box sx={{ h: 200, w: '100%', bgColor: 'Grey 700', opacity: '0.5', contentX: 'center', px: 20, mxContent: 10 }}>
+      <Box
+        sx={{
+          h: 200,
+          w: '100%',
+          bgColor: 'Grey 700',
+          opacity: '0.5',
+          contentX: 'center',
+          contentY: 'center',
+          px: 20,
+          mxContent: 10,
+        }}
+      >
         <Box
           sx={{
-            bgColor: 'Error Dark',
             h: 100,
             w: 100,
-            p: 10,
-            contentX: 'center',
-            contentY: 'center',
+            bgColor: 'Grey 600',
             borderRadius: '24px',
+            contentX: 'center',
+            p: 10,
+            contentY: 'center',
           }}
         >
-          <Text content="test" variant="h1" />
-        </Box>
-        <Box
-          sx={{
-            bgColor: 'Error Dark',
-            h: 100,
-            w: 100,
-            p: 10,
-            contentX: 'center',
-            contentY: 'center',
-            borderRadius: '24px',
-          }}
-        >
-          фі
-        </Box>
-        <Box
-          sx={{
-            bgColor: 'Error Dark',
-            h: 100,
-            w: 100,
-            p: 10,
-            contentX: 'center',
-            contentY: 'center',
-            borderRadius: '24px',
-          }}
-        >
-          фі
+          <Text content="testsssssssssssssssssadsdsdddddddddddddddd" sx={{ color: 'Primary Light' }} />
         </Box>
       </Box>
     </>

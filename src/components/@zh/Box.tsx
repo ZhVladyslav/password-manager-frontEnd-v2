@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-  bgColorStyle,
-  contentXStyle,
-  contentYStyle,
-  heightStyle,
+  bgColor,
+  contentX,
+  contentY,
+  height,
   IBgColor,
   IContentX,
   IContentY,
@@ -13,23 +13,22 @@ import {
   IMarginContent,
   IPadding,
   IWidth,
-  marginContentStyle,
-  marginStyle,
-  paddingStyle,
-  widthStyle,
+  marginContent,
+  margin,
+  padding,
+  width,
+  IBRadius,
+  bRadius,
 } from './styles';
 
 // ----------------------------------------------------------------------
 
 interface IProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   sx?: Isx;
 }
 
-interface Isx extends IBgColor, IMargin, IPadding, IContentY, IContentX, IHeight, IWidth, IMarginContent {
-  // border
-  borderRadius?: '4px' | '8px' | '12px' | '16px' | '20px' | '24px' | '50%'; //radius
-}
+interface Isx extends IBgColor, IMargin, IPadding, IContentY, IContentX, IHeight, IWidth, IMarginContent, IBRadius {}
 
 // ----------------------------------------------------------------------
 
@@ -46,23 +45,19 @@ const Box: React.FC<IProps> = ({ sx, children }) => {
 const BoxContent = styled.div<{ sx?: Isx }>`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
 
-  // border
-  border-radius: ${(props) => props.sx && props.sx.borderRadius};
+  ${(props) => {
+    if (!props.sx) return '';
+    const { sx } = props;
 
-  // width
-  ${(props) => props.sx && widthStyle(props.sx)}
-
-  // height
-  ${(props) => props.sx && heightStyle(props.sx)}
-
-  // margin
-  ${(props) => props.sx && marginStyle(props.sx)}
-
-  // padding
-  ${(props) => props.sx && paddingStyle(props.sx)}
-  
-  // background color
-  ${(props) => props.sx && bgColorStyle(props.sx)};
+    return `
+    ${width(sx)}
+    ${height(sx)}
+    ${margin(sx)}
+    ${padding(sx)}
+    ${bgColor(sx)}
+    ${bRadius(sx)}
+    `;
+  }}
 `;
 
 const InnerBoxContent = styled.div<{ sx?: Isx }>`
@@ -70,12 +65,16 @@ const InnerBoxContent = styled.div<{ sx?: Isx }>`
   width: 100%;
   height: 100%;
 
-  // margin content
-  ${(props) => props.sx && marginContentStyle(props.sx)}
+  ${(props) => {
+    if (!props.sx) return '';
+    const { sx } = props;
 
-  // content positions
-  ${(props) => props.sx && contentXStyle(props.sx)}
-  ${(props) => props.sx && contentYStyle(props.sx)}
+    return `
+    ${marginContent(sx)}
+    ${contentX(sx)}
+    ${contentY(sx)}
+    `;
+  }}
 `;
 
 // ----------------------------------------------------------------------

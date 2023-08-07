@@ -8,6 +8,6 @@ export interface IBgColor extends Omit<IColorConfig, 'color'> {
 
 // ----------------------------------------------------------------------
 
-export const bgColorStyle = (props: IBgColor) => {
+export const bgColor = (props: IBgColor) => {
   return `background-color: ${colorConfig({ color: props.bgColor, opacity: props.opacity })};`;
 };

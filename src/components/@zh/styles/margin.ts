@@ -10,7 +10,7 @@ export interface IMargin {
 
 // ----------------------------------------------------------------------
 
-export const marginStyle = ({ m, mb, ml, mr, mt, mx, my }: IMargin) => {
+export const margin = ({ m, mb, ml, mr, mt, mx, my }: IMargin) => {
   let margin: string | undefined = undefined;
   let marginTop: string | undefined = undefined;
   let marginBottom: string | undefined = undefined;

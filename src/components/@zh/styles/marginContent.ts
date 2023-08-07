@@ -10,7 +10,7 @@ export interface IMarginContent {
 
 // ----------------------------------------------------------------------
 
-export const marginContentStyle = ({
+export const marginContent = ({
   mContent,
   mbContent,
   mlContent,

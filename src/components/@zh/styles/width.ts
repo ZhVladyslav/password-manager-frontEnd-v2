@@ -6,7 +6,7 @@ export interface IWidth {
 
 // ----------------------------------------------------------------------
 
-export const widthStyle = ({ w, minW, maxW }: IWidth) => {
+export const width = ({ w, minW, maxW }: IWidth) => {
   let width: string | undefined = undefined;
   let minWidth: string | undefined = undefined;
   let maxWidth: string | undefined = undefined;

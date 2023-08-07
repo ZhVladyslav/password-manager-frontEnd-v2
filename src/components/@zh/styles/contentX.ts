@@ -4,7 +4,7 @@ export interface IContentX {
 
 // ----------------------------------------------------------------------
 
-export const contentXStyle = ({ contentX }: IContentX) => {
+export const contentX = ({ contentX }: IContentX) => {
   if (!contentX) return '';
 
   let position = '';
