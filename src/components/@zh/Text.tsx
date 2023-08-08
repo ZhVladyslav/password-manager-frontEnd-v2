@@ -11,34 +11,14 @@ import {
   width,
   margin,
   padding,
-  whiteSpace,
-  IWhiteSpace,
-  ITextOverflow,
-  textOverflow,
-  fontWeight,
-  IFontWeight,
-  textTransform,
-  ITextTransform,
-  fontSize,
-  IFontSize,
-  lineHeight,
-  ILineHeight,
-  userSelect,
-  IUserSelect,
-  hyphens,
-  IHyphens,
   overflow,
   IOverflow,
-  textDecoration,
-  ITextDecoration,
   cursor,
   ICursor,
-  textAlign,
-  ITextAlign,
-  verticalAlign,
-  IVerticalAlign,
   IDisplay,
   display,
+  textStyles,
+  ITextStyles,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -50,26 +30,7 @@ interface IProps {
   sx?: Isx;
 }
 
-interface Isx
-  extends IColor,
-    IMargin,
-    IPadding,
-    IHeight,
-    IWidth,
-    IWhiteSpace,
-    ITextOverflow,
-    IFontWeight,
-    ITextTransform,
-    ILineHeight,
-    IUserSelect,
-    IHyphens,
-    IOverflow,
-    ITextDecoration,
-    ICursor,
-    IDisplay,
-    ITextAlign,
-    IVerticalAlign,
-    IFontSize {}
+interface Isx extends IColor, IMargin, IPadding, IHeight, IWidth, IOverflow, ICursor, IDisplay, ITextStyles {}
 
 // ----------------------------------------------------------------------
 
@@ -91,20 +52,10 @@ const Span = styled.span<{ sx?: Isx }>`
     ${margin(sx)}
     ${padding(sx)}
     ${overflow(sx)}
-   
     ${color(sx)}
-    ${fontSize(sx)}
-    ${fontWeight(sx)}
-    ${lineHeight(sx)}
-    ${textTransform(sx)}
-    ${textOverflow(sx)}
-    ${hyphens(sx)}
-    ${whiteSpace(sx)}
-    ${userSelect(sx)}
-    ${textDecoration(sx)}
     ${cursor(sx)}
-    ${textAlign(sx)}
-    ${verticalAlign(sx)}
+    
+    ${textStyles(sx)}
 
     `;
   }}

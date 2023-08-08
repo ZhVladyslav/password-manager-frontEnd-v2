@@ -52,58 +52,14 @@ export type { IOverflow } from './overflow';
 export { zIndex } from './zIndex';
 export type { IZIndex } from './zIndex';
 
-//
-// Text Format
-//
-
 // color
 export { color } from './color';
 export type { IColor } from './color';
 
-// white space
-export { whiteSpace } from './whiteSpace';
-export type { IWhiteSpace } from './whiteSpace';
-
-// text overflow
-export { textOverflow } from './textOverflow';
-export type { ITextOverflow } from './textOverflow';
-
-// font weight
-export { fontWeight } from './fontWeight';
-export type { IFontWeight } from './fontWeight';
-
-// text transform
-export { textTransform } from './textTransform';
-export type { ITextTransform } from './textTransform';
-
-// font size
-export { fontSize } from './fontSize';
-export type { IFontSize } from './fontSize';
-
-// font size
-export { lineHeight } from './lineHeight';
-export type { ILineHeight } from './lineHeight';
-
-// font size
-export { userSelect } from './userSelect';
-export type { IUserSelect } from './userSelect';
-
-// font size
-export { hyphens } from './hyphens';
-export type { IHyphens } from './hyphens';
-
-// text decoration
-export { textDecoration } from './textDecoration';
-export type { ITextDecoration } from './textDecoration';
+// text styles
+export { textStyles } from './textStyles';
+export type { ITextStyles } from './textStyles';
 
 // cursor
 export { cursor } from './cursor';
 export type { ICursor } from './cursor';
-
-// text align
-export { textAlign } from './textAlign';
-export type { ITextAlign } from './textAlign';
-
-// vertical align
-export { verticalAlign } from './verticalAlign';
-export type { IVerticalAlign } from './verticalAlign';
