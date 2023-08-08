@@ -43,7 +43,7 @@ const DecryptGroupForm: React.FC<IProps> = ({ groupById, setDecryptGroup, setPas
     <div className="DecryptGroupForm-Container">
       <FormDefault
         form={form}
-        titlePosition="left"
+        titlePosition="start"
         onSubmit={submit}
         title="Decrypt"
         buttons={<ButtonDefault title="Decrypt" style="bg White" foolSize />}

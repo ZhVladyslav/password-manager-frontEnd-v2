@@ -37,6 +37,8 @@ import {
   ITextAlign,
   verticalAlign,
   IVerticalAlign,
+  IDisplay,
+  display,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -64,6 +66,7 @@ interface Isx
     IOverflow,
     ITextDecoration,
     ICursor,
+    IDisplay,
     ITextAlign,
     IVerticalAlign,
     IFontSize {}
@@ -82,6 +85,7 @@ const Span = styled.span<{ sx?: Isx }>`
     const { sx } = props;
 
     return `
+    ${display(sx)}
     ${width(sx)}
     ${height(sx)}
     ${margin(sx)}

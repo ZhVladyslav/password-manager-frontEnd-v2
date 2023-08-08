@@ -4,6 +4,10 @@ export type { IColorConfig, colorType, colorGrayType } from './colorConfig';
 
 // ----------------------------------------------------------------------
 
+// display
+export { display } from './display';
+export type { IDisplay } from './display';
+
 // background color
 export { bgColor } from './bgColor';
 export type { IBgColor } from './bgColor';

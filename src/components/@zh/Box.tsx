@@ -21,6 +21,8 @@ import {
   bRadius,
   overflow,
   IOverflow,
+  display,
+  IDisplay,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -40,7 +42,10 @@ interface Isx
     IWidth,
     IMarginContent,
     IBRadius,
-    IOverflow {}
+    IDisplay,
+    IOverflow {
+  custom?: string;
+}
 
 // ----------------------------------------------------------------------
 
@@ -74,7 +79,6 @@ const BoxContent = styled.div<{ sx?: Isx }>`
 
 const InnerBoxContent = styled.div<{ sx?: Isx }>`
   position: relative;
-  display: flex;
   width: 100%;
   height: 100%;
 
@@ -83,11 +87,17 @@ const InnerBoxContent = styled.div<{ sx?: Isx }>`
     const { sx } = props;
 
     return `
+    ${display(sx)}
     ${marginContent(sx)}
     ${contentX(sx)}
     ${contentY(sx)}
     ${overflow(sx)}
     `;
+  }}
+
+  ${(props) => {
+    if (!props.sx || !props.sx.custom) return '';
+    return props.sx.custom;
   }}
 `;
 
