@@ -19,6 +19,8 @@ import {
   width,
   IBRadius,
   bRadius,
+  overflow,
+  IOverflow,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -28,7 +30,17 @@ interface IProps {
   sx?: Isx;
 }
 
-interface Isx extends IBgColor, IMargin, IPadding, IContentY, IContentX, IHeight, IWidth, IMarginContent, IBRadius {}
+interface Isx
+  extends IBgColor,
+    IMargin,
+    IPadding,
+    IContentY,
+    IContentX,
+    IHeight,
+    IWidth,
+    IMarginContent,
+    IBRadius,
+    IOverflow {}
 
 // ----------------------------------------------------------------------
 
@@ -74,6 +86,7 @@ const InnerBoxContent = styled.div<{ sx?: Isx }>`
     ${marginContent(sx)}
     ${contentX(sx)}
     ${contentY(sx)}
+    ${overflow(sx)}
     `;
   }}
 `;

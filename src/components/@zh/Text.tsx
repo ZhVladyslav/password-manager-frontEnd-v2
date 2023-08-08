@@ -29,6 +29,14 @@ import {
   IHyphens,
   overflow,
   IOverflow,
+  textDecoration,
+  ITextDecoration,
+  cursor,
+  ICursor,
+  textAlign,
+  ITextAlign,
+  verticalAlign,
+  IVerticalAlign,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -54,6 +62,10 @@ interface Isx
     IUserSelect,
     IHyphens,
     IOverflow,
+    ITextDecoration,
+    ICursor,
+    ITextAlign,
+    IVerticalAlign,
     IFontSize {}
 
 // ----------------------------------------------------------------------
@@ -85,6 +97,10 @@ const Span = styled.span<{ sx?: Isx }>`
     ${hyphens(sx)}
     ${whiteSpace(sx)}
     ${userSelect(sx)}
+    ${textDecoration(sx)}
+    ${cursor(sx)}
+    ${textAlign(sx)}
+    ${verticalAlign(sx)}
 
     `;
   }}
@@ -93,9 +109,3 @@ const Span = styled.span<{ sx?: Isx }>`
 // ----------------------------------------------------------------------
 
 export default Text;
-
-// text decoration
-// z index
-// cursor
-// text-align
-// vertical-align

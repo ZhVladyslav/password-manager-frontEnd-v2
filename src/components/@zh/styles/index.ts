@@ -44,6 +44,10 @@ export type { IBRadius } from './bRadius';
 export { overflow } from './overflow';
 export type { IOverflow } from './overflow';
 
+// z index
+export { zIndex } from './zIndex';
+export type { IZIndex } from './zIndex';
+
 //
 // Text Format
 //
@@ -83,3 +87,19 @@ export type { IUserSelect } from './userSelect';
 // font size
 export { hyphens } from './hyphens';
 export type { IHyphens } from './hyphens';
+
+// text decoration
+export { textDecoration } from './textDecoration';
+export type { ITextDecoration } from './textDecoration';
+
+// cursor
+export { cursor } from './cursor';
+export type { ICursor } from './cursor';
+
+// text align
+export { textAlign } from './textAlign';
+export type { ITextAlign } from './textAlign';
+
+// vertical align
+export { verticalAlign } from './verticalAlign';
+export type { IVerticalAlign } from './verticalAlign';
