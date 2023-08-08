@@ -7,11 +7,5 @@ export interface IContentX {
 export const contentX = ({ contentX }: IContentX) => {
   if (!contentX) return '';
 
-  let position = '';
-
-  if (contentX === 'top') position = 'flex-start';
-  if (contentX === 'center') position = 'center';
-  if (contentX === 'bottom') position = 'flex-end';
-
-  return `align-items: ${position};`;
+  return `align-items: ${contentX};`;
 };

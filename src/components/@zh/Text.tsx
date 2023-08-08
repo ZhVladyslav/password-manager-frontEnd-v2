@@ -1,19 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 import {
-  height,
   IHeight,
   IMargin,
   IPadding,
-  IColorConfig,
   IWidth,
+  color,
+  IColor,
+  height,
+  width,
   margin,
   padding,
-  colorConfig,
-  width,
-  color,
-  bgColor,
-  IColor,
+  whiteSpace,
+  IWhiteSpace,
+  ITextOverflow,
+  textOverflow,
+  fontWeight,
+  IFontWeight,
+  textTransform,
+  ITextTransform,
+  fontSize,
+  IFontSize,
+  lineHeight,
+  ILineHeight,
+  userSelect,
+  IUserSelect,
+  hyphens,
+  IHyphens,
+  overflow,
+  IOverflow,
 } from './styles';
 
 // ----------------------------------------------------------------------
@@ -25,7 +40,21 @@ interface IProps {
   sx?: Isx;
 }
 
-interface Isx extends IColor, IMargin, IPadding, IHeight, IWidth {}
+interface Isx
+  extends IColor,
+    IMargin,
+    IPadding,
+    IHeight,
+    IWidth,
+    IWhiteSpace,
+    ITextOverflow,
+    IFontWeight,
+    ITextTransform,
+    ILineHeight,
+    IUserSelect,
+    IHyphens,
+    IOverflow,
+    IFontSize {}
 
 // ----------------------------------------------------------------------
 
@@ -41,20 +70,32 @@ const Span = styled.span<{ sx?: Isx }>`
     const { sx } = props;
 
     return `
-    ${color(sx)}`;
+    ${width(sx)}
+    ${height(sx)}
+    ${margin(sx)}
+    ${padding(sx)}
+    ${overflow(sx)}
+   
+    ${color(sx)}
+    ${fontSize(sx)}
+    ${fontWeight(sx)}
+    ${lineHeight(sx)}
+    ${textTransform(sx)}
+    ${textOverflow(sx)}
+    ${hyphens(sx)}
+    ${whiteSpace(sx)}
+    ${userSelect(sx)}
+
+    `;
   }}
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  user-select: none;
-
-  font-weight: 400;
-  line-height: 1.71429;
-  font-size: 0.875rem;
-  text-transform: unset;
 `;
 
 // ----------------------------------------------------------------------
 
 export default Text;
+
+// text decoration
+// z index
+// cursor
+// text-align
+// vertical-align

@@ -7,7 +7,7 @@ type bColorClassType = 'Primary' | 'Secondary' | 'Info' | 'Success' | 'Warning' 
 type bColorSaturationType = 'Lighter' | 'Light' | 'Main' | 'Dark' | 'Darker';
 type bColorGraySaturationType = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
 
-type opacityType = '0' | '0.1' | '0.2' | '0.3' | '0.4' | '0.5' | '0.6' | '0.7' | '0.8' | '0.9' | '1';
+type opacityType = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 export type colorType = `${bColorClassType} ${bColorSaturationType}`;
 export type colorGrayType = `Grey ${bColorGraySaturationType}`;
 
@@ -15,7 +15,9 @@ export type colorGrayType = `Grey ${bColorGraySaturationType}`;
 
 export const colorConfig = ({ color, opacity }: IColorConfig) => {
   if (!color) return '';
-  const opacityColor = opacity || '1';
+
+  let opacityColor = opacity;
+  if (opacity === null || opacity === undefined) opacityColor = 1;
 
   // Primary
   if (color === 'Primary Lighter') return `rgba(209, 233, 252, ${opacityColor})`;

@@ -43,8 +43,6 @@ const Box: React.FC<IProps> = ({ sx, children }) => {
 // ----------------------------------------------------------------------
 
 const BoxContent = styled.div<{ sx?: Isx }>`
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
-
   ${(props) => {
     if (!props.sx) return '';
     const { sx } = props;
@@ -60,7 +58,10 @@ const BoxContent = styled.div<{ sx?: Isx }>`
   }}
 `;
 
+//box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
+
 const InnerBoxContent = styled.div<{ sx?: Isx }>`
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;

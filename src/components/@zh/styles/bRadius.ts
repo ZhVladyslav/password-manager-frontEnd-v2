@@ -5,5 +5,7 @@ export interface IBRadius {
 // ----------------------------------------------------------------------
 
 export const bRadius = ({ borderRadius }: IBRadius) => {
+  if (!borderRadius) return '';
+
   return `border-radius: ${borderRadius};`;
 };

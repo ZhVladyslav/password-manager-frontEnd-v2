@@ -7,6 +7,6 @@ export interface IColor extends Omit<IColorConfig, 'opacity'> {}
 
 // ----------------------------------------------------------------------
 
-export const color = (props: IColor) => {
-  return `color: ${colorConfig({ color: props.color })};`;
+export const color = ({ color }: IColor) => {
+  return `color: ${colorConfig({ color })};`;
 };

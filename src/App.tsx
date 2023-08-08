@@ -20,7 +20,7 @@ export default function App() {
           h: 200,
           w: '100%',
           bgColor: 'Grey 700',
-          opacity: '0.5',
+          opacity: 0.4,
           contentX: 'center',
           contentY: 'center',
           px: 20,
@@ -38,7 +38,16 @@ export default function App() {
             contentY: 'center',
           }}
         >
-          <Text content="testsssssssssssssssssadsdsdddddddddddddddd" sx={{ color: 'Primary Light' }} />
+          <Text
+            content="testsssssss ssssssssssads dsdddddddddddddddd"
+            sx={{
+              color: 'Primary Light',
+              h: 70,
+              w: 70,
+              textOverflow: 'ellipsis',
+              fontSize: '1rem',
+            }}
+          />
         </Box>
       </Box>
     </>
