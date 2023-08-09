@@ -39,65 +39,18 @@ const FormDefault: React.FC<IProps> = ({
   };
 
   return (
-    <Box
-      sx={{
-        minW: 300,
-        maxW: 400,
-        borderRadius: '24px',
-        w: '100%',
-        overflowY: 'auto',
-        p: 24,
-        bgColor: 'Grey 800',
-      }}
-    >
+    <Box>
       <form onSubmit={submit} className="FormDefault-Container">
-        <Text
-          content={title}
-          sx={{
-            d: 'block',
-            w: '100%',
-            mb: 10,
-            fontWeight: 700,
-            lineHeight: '1.5rem',
-            fontSize: '1.125rem',
-            textAlign: titlePosition,
-          }}
-        />
+        {/* <Text content={title} /> */}
 
-        <Box
-          sx={{
-            d: 'grid',
-            pb: 12,
-            custom: `
-            grid-template-columns: repeat(1, 1fr);
-            gap: 24px 16px;
-          `,
-          }}
-        >
-          {children}
-        </Box>
+        <Box>{children}</Box>
         {to && (
-          <Box
-            sx={{
-              d: 'flex',
-              w: '100%',
-              my: 10,
-              contentY: 'right',
-              custom: `
-            & > a {
-              color: rgb(255, 255, 255);
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-            `,
-            }}
-          >
+          <Box>
             <Link to={to}>{toText}</Link>
           </Box>
         )}
         <div>{buttons}</div>
-        {form.errorText && <Text content={form.errorText} sx={{ color: 'Error Main', fontSize: '0.875rem', mt: 10 }} />}
+        {/* {form.errorText && <Text content={form.errorText} />} */}
       </form>
     </Box>
   );
