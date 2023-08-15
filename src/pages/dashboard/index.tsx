@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SvgEdit, SvgLogout, SvgMenu, SvgPlus, SvgProtect, SvgTrash } from '../../assets';
+import { SvgEdit, SvgLogout, SvgMenu, SvgPlus, SvgProtect, SvgSave, SvgTrash } from '../../assets';
 import { jwtAuth } from '../../auth/jwtAuth';
 import { ButtonRound, ContextMenu, Loader } from '../../components';
 import { Header } from '../../modules';
@@ -74,6 +74,16 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
+  const saveFile = async (blob: Blob, fileName: string) => {
+    const a = document.createElement('a');
+    a.download = `${fileName}.json`;
+    a.href = URL.createObjectURL(blob);
+    a.addEventListener('click', (e) => {
+      setTimeout(() => URL.revokeObjectURL(a.href), 30 * 1000);
+    });
+    a.click();
+  };
+
   return (
     <>
       <div className="Dashboard-Container">
@@ -121,6 +131,14 @@ const Dashboard: React.FC = () => {
                   <ContextMenu
                     position="top"
                     buttons={[
+                      {
+                        cb: () => {
+                          const blob = new Blob([JSON.stringify(decryptGroup, null, 2)], { type: 'application/json' });
+                          saveFile(blob, groupById.name);
+                        },
+                        title: 'Local save in file',
+                        svg: <SvgSave />,
+                      },
                       {
                         cb: () => setAddRecord({ id: '', name: '', email: '', password: '', url: '', description: '' }),
                         title: 'Add record',
