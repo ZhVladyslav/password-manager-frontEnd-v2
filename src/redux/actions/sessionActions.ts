@@ -10,8 +10,8 @@ class SessionActions {
     dispatch(slice.actions.deleteToken());
   }
 
-  public login(access: string, refresh: string) {
-    this.setToken(access);
+  public login(token: string) {
+    this.setToken(token);
   }
 
   public logout() {
