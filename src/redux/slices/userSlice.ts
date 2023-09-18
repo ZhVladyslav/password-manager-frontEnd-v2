@@ -1,37 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { IUserStore } from '../../types/store.type';
 
-// ----------------------------------------------------------------------
-
-const initialState = {
+const initialState: IUserStore = {
   name: null,
   role: null,
   claims: null,
-  sessionId: null,
-  isLoading: false,
-  error: null,
 };
 
 const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setLoader(state, action) {
-      state.isLoading = action.payload;
-    },
-
-    loginSuccess(state, action) {
-      state.isLoading = false;
+    setUser(state, action) {
       state = action.payload;
-    },
-
-    hasError(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
     },
   },
 });
-
-
-// ----------------------------------------------------------------------
 
 export default slice;

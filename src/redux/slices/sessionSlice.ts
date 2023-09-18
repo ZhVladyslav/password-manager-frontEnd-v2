@@ -1,34 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ISessionStore } from '../../types/store.type';
 
-// ----------------------------------------------------------------------
-
-const initialState = {
-  access: null,
-  refresh: null,
+const initialState: ISessionStore = {
+  token: null,
 };
 
 const slice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    setRefresh(state, action) {
-      state.refresh = action.payload;
+    setToken(state, action) {
+      state.token = action.payload;
     },
-    //
-    deleteRefresh(state) {
-      state.refresh = null;
-    },
-    //
-    setAccess(state, action) {
-      state.access = action.payload;
-    },
-    //
-    deleteAccess(state) {
-      state.access = null;
+
+    deleteToken(state) {
+      state.token = null;
     },
   },
 });
-
-// ----------------------------------------------------------------------
 
 export default slice;

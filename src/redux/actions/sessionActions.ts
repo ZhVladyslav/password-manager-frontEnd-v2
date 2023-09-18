@@ -1,44 +1,22 @@
 import { dispatch } from '../store';
 import slice from '../slices/sessionSlice';
 
-// ----------------------------------------------------------------------
-
 class SessionActions {
-  private setRefresh(token: string) {
-    dispatch(slice.actions.setRefresh(token));
+  private setToken(token: string) {
+    dispatch(slice.actions.setToken(token));
   }
 
-  private deleteRefresh() {
-    dispatch(slice.actions.deleteRefresh());
+  private deleteToken() {
+    dispatch(slice.actions.deleteToken());
   }
-
-  private setAccess(token: string) {
-    dispatch(slice.actions.setAccess(token));
-  }
-
-  private deleteAccess() {
-    dispatch(slice.actions.deleteAccess());
-  }
-
-  //
-  //
-  //
 
   public login(access: string, refresh: string) {
-    this.setAccess(access);
-    this.setRefresh(refresh);
+    this.setToken(access);
   }
-  //
-  public refresh(refresh: string) {
-    this.setAccess(refresh);
-  }
-  //
+
   public logout() {
-    this.deleteAccess();
-    this.deleteRefresh();
+    this.deleteToken();
   }
 }
-
-// ----------------------------------------------------------------------
 
 export const sessionActions = new SessionActions();

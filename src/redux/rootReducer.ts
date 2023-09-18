@@ -20,14 +20,14 @@ const userPersistConfig = {
   key: 'user',
   storage,
   keyPrefix: 'redux-',
-  whitelist: ['name', 'role', 'claims', 'sessionId'],
+  whitelist: ['name', 'role', 'claims'],
 };
 
 const sessionPersistConfig = {
   key: 'session',
   storage,
   keyPrefix: 'redux-',
-  whitelist: ['access', 'refresh'],
+  whitelist: ['token'],
 };
 
 const rootReducer = combineReducers({

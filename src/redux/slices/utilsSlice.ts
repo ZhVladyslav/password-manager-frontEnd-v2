@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { IUtilsStore } from '../../types/store.type';
 
-// ----------------------------------------------------------------------
-
-const initialState = {
+const initialState: IUtilsStore = {
   isLoading: false,
   error: null,
 };
@@ -11,19 +10,15 @@ const slice = createSlice({
   name: 'utils',
   initialState,
   reducers: {
-    // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
 
-    // GET PRODUCTS
     setLoader(state, action) {
       state.isLoading = action.payload;
     },
   },
 });
-
-// ----------------------------------------------------------------------
 
 export default slice;

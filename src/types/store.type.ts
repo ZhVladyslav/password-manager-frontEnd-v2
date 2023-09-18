@@ -7,8 +7,7 @@ export interface IStore {
 
 // Session
 export interface ISessionStore {
-  access: string | null;
-  refresh: string | null;
+  token: string | null;
 }
 
 // User
@@ -16,9 +15,6 @@ export interface IUserStore {
   name: string | null;
   role: string | null;
   claims: string[] | null;
-  sessionId: string | null;
-  isLoading: boolean;
-  error: string | null;
 }
 
 // Util
