@@ -2,20 +2,12 @@ import { dispatch } from '../store';
 import slice from '../slices/sessionSlice';
 
 class SessionActions {
-  private setToken(token: string) {
+  public create(token: string) {
     dispatch(slice.actions.setToken(token));
   }
 
-  private deleteToken() {
+  public close() {
     dispatch(slice.actions.deleteToken());
-  }
-
-  public login(token: string) {
-    this.setToken(token);
-  }
-
-  public logout() {
-    this.deleteToken();
   }
 }
 

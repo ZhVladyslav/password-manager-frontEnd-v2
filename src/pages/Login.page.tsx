@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   const submit = async () => {
     // const test = await authService.login({ login: '', password: '' });
-    sessionActions.login('asd');
+    sessionActions.create('asd');
   };
 
   return (
