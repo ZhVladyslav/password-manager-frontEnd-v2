@@ -8,10 +8,14 @@ import reportWebVitals from './reportWebVitals';
 import { Provider as ReduxProvider } from 'react-redux';
 import { store } from './redux/store';
 
+import AuthContainer from './guards/auth.container';
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <ReduxProvider store={store}>
-    <App />
+    <AuthContainer>
+        <App />
+    </AuthContainer>
   </ReduxProvider>
 );
 
