@@ -4,8 +4,13 @@ import { sessionActions } from '../redux/actions/sessionActions';
 import { IUserToken } from '../types/userToken.type';
 
 class UserSession {
-  private token: string = '';
-  private expireTimer: NodeJS.Timeout | null = null;
+  private token: string;
+  private expireTimer: NodeJS.Timeout | null;
+
+  constructor() {
+    this.token = '';
+    this.expireTimer = null;
+  }
 
   private clearTimer() {
     if (this.expireTimer) {
