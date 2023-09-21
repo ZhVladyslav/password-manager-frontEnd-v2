@@ -1,17 +1,33 @@
 import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
-import { routesError, routesHome } from './paths';
+import { PATH_ERROR, PATH_HOME } from './paths';
 
 // Guard
 import AuthGuard from '../guards/auth.guard';
 import GuestGuard from '../guards/guest.guard';
 
 // Imports
-import { LoginPage, RegistrationPage, MainLayout } from './imports';
+import {
+  // Layout
+  MainLayout,
+
+  // Auth
+  LoginPage,
+  RegistrationPage,
+
+  // Home
+  HomePage,
+
+  // Errors
+  Error401Page,
+  Error403Page,
+  Error404Page,
+  Error500Page,
+} from './imports';
 
 export default function Router() {
   return useRoutes([
-    //
+    // Auth routes
     {
       path: 'auth',
       element: (
@@ -25,7 +41,7 @@ export default function Router() {
       ],
     },
 
-    //
+    // App
     {
       path: '',
       element: (
@@ -33,17 +49,22 @@ export default function Router() {
           <MainLayout />
         </AuthGuard>
       ),
-      children: [{ path: '/', element: <></> }],
+      children: [{ path: '/', element: <HomePage /> }],
     },
 
-    //
+    // Error routes
     {
       path: 'error',
-      children: [{ path: '404', element: <></> }],
+      children: [
+        { path: '401', element: <Error401Page /> },
+        { path: '403', element: <Error403Page /> },
+        { path: '404', element: <Error404Page /> },
+        { path: '500', element: <Error500Page /> },
+      ],
     },
 
-    //
-    { path: '/', element: <Navigate to={routesHome.home} replace /> },
-    { path: '*', element: <Navigate to={routesError[404]} replace /> },
+    // Other routes
+    { path: '/', element: <Navigate to={PATH_HOME.HOME} replace /> },
+    { path: '*', element: <Navigate to={PATH_ERROR[404]} replace /> },
   ]);
 }

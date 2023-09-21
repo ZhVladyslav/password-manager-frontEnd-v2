@@ -8,15 +8,15 @@ class Routes {
 
   public home() {
     return {
-      home: '/',
+      HOME: '/',
     };
   }
 
   public auth() {
     const root = this.ROOT_AUTH;
     return {
-      login: this.createPath(root, '/login'),
-      registration: this.createPath(root, '/registration'),
+      LOGIN: this.createPath(root, '/login'),
+      REGISTRATION: this.createPath(root, '/registration'),
     };
   }
   
@@ -24,12 +24,13 @@ class Routes {
     const root = this.ROOT_ERROR;
     return {
       '404': this.createPath(root, '/404'),
+      '403': this.createPath(root, '/403'),
     };
   }
 }
 
 const routes = new Routes();
 
-export const routesHome = routes.home();
-export const routesAuth = routes.auth();
-export const routesError = routes.error();
+export const PATH_HOME = routes.home();
+export const PATH_AUTH = routes.auth();
+export const PATH_ERROR = routes.error();
