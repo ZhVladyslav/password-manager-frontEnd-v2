@@ -6,7 +6,7 @@ interface ICrypt {
 }
 
 class AES256 {
-  crypt({ str, key }: ICrypt) {
+  decrypt({ str, key }: ICrypt) {
     return CryptoJS.AES.decrypt(str, key).toString(CryptoJS.enc.Utf8);
   }
 
