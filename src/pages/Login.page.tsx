@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { authService } from '../services/auth.service';
-import { sessionActions } from '../redux/actions/sessionActions';
-import { useSelector } from '../redux/store';
-import { IStore } from '../types/store.type';
 
 export default function LoginPage() {
-  const accessToken = useSelector((state: IStore) => state.session.token);
-  console.log(accessToken);
+  const [login, setLogin] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
-  const submit = async () => {
-    // const test = await authService.login({ login: '', password: '' });
-    sessionActions.create('asd');
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    authService.login({ login, password });
+  };
+
+  const inputLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLogin(e.target.value);
+  };
+
+  const inputPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
 
   return (
-    <div className="Auth-Container">
-      <button onClick={submit}>submit</button>
-    </div>
+    <form onSubmit={submit}>
+      <input type="text" onChange={inputLoginChange} value={login} />
+      <input type="text" onChange={inputPasswordChange} value={password} />
+    </form>
   );
 }
