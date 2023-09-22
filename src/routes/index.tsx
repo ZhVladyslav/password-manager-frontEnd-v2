@@ -19,7 +19,6 @@ import {
   HomePage,
 
   // Errors
-  Error401Page,
   Error403Page,
   Error404Page,
   Error500Page,
@@ -56,7 +55,6 @@ export default function Router() {
     {
       path: 'error',
       children: [
-        { path: '401', element: <Error401Page /> },
         { path: '403', element: <Error403Page /> },
         { path: '404', element: <Error404Page /> },
         { path: '500', element: <Error500Page /> },

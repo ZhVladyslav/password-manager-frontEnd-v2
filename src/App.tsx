@@ -1,13 +1,11 @@
 import React from 'react';
 import './mainStyle.scss';
-import RegistrationPage from './pages/Registration.page';
-import LoginPage from './pages/Login.page';
-import HomePage from './pages/Home.page';
+import Router from './routes';
 
 export default function App() {
   return (
     <>
-     <HomePage />
+     <Router />
     </>
   );
 }
