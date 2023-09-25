@@ -30,17 +30,7 @@ interface IGetByNameRes extends IRole {
   claims: IClaim[];
 }
 
-interface IRoleService {
-  getAll(): Promise<IRole | IError>;
-  getById(date: IGetById): Promise<IGetByIdRes | IError>;
-  getByName(date: IGetByName): Promise<IGetByNameRes | IError>;
-  getClaims(): Promise<string[] | IError>;
-  create(date: ICreate): Promise<IMessage | IError>;
-  edit(date: IEdit): Promise<IMessage | IError>;
-  delete(date: IDelete): Promise<IMessage | IError>;
-}
-
-class RoleService implements IRoleService {
+class RoleService {
   rootPath: string;
 
   constructor() {
@@ -61,7 +51,7 @@ class RoleService implements IRoleService {
    * delete
    */
 
-  async getAll(): Promise<IRole | IError> {
+  async getAll() {
     try {
       const res = await axios.get<IRole>(this.path('all'));
       return res.data;
@@ -71,17 +61,16 @@ class RoleService implements IRoleService {
     }
   }
 
-  async getById(data: IGetById): Promise<IGetByIdRes | IError> {
+  async getById(data: IGetById) {
     try {
       const res = await axios.get<IGetByIdRes>(this.path('by-id'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
     }
   }
 
-  async getByName(data: IGetByName): Promise<IGetByNameRes | IError> {
+  async getByName(data: IGetByName) {
     try {
       const res = await axios.get<IGetByNameRes>(this.path('by-name'), { data });
       return res.data;
@@ -91,7 +80,7 @@ class RoleService implements IRoleService {
     }
   }
 
-  async getClaims(): Promise<string[] | IError> {
+  async getClaims() {
     try {
       const res = await axios.get<string[]>(this.path('claims'));
       return res.data;
@@ -101,7 +90,7 @@ class RoleService implements IRoleService {
     }
   }
 
-  async create(data: ICreate): Promise<IMessage | IError> {
+  async create(data: ICreate) {
     try {
       const res = await axios.post<IMessage>(this.path('create'), data);
       return res.data;
@@ -111,7 +100,7 @@ class RoleService implements IRoleService {
     }
   }
 
-  async edit(data: IEdit): Promise<IMessage | IError> {
+  async edit(data: IEdit) {
     try {
       const res = await axios.put<IMessage>(this.path('edit'), data);
       return res.data;
@@ -121,7 +110,7 @@ class RoleService implements IRoleService {
     }
   }
 
-  async delete(data: IDelete): Promise<IMessage | IError> {
+  async delete(data: IDelete) {
     try {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;

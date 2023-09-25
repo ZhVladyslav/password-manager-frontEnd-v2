@@ -13,14 +13,8 @@ interface IEditPassword extends Pick<IUser, 'password'> {
 }
 interface IDelete extends Pick<IUser, 'password'> {}
 
-interface IUserService {
-  myAccount(): Promise<IUser | IError>;
-  editName(data: IEditName): Promise<IMessage | IError>;
-  editPassword(data: IEditPassword): Promise<IMessage | IError>;
-  delete(data: IDelete): Promise<IMessage | IError>;
-}
 
-class UserService implements IUserService {
+class UserService {
   rootPath: string;
 
   constructor() {
@@ -38,17 +32,17 @@ class UserService implements IUserService {
    * delete
    */
 
-  async myAccount(): Promise<IUser | IError> {
+  async myAccount() {
     try {
       const res = await axios.get<IUser>(this.path('my-account'));
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
+      
     }
   }
 
-  async editName(data: IEditName): Promise<IMessage | IError> {
+  async editName(data: IEditName) {
     try {
       const res = await axios.put<IMessage>(this.path('edit-name'), data);
       return res.data;
@@ -58,7 +52,7 @@ class UserService implements IUserService {
     }
   }
 
-  async editPassword(data: IEditPassword): Promise<IMessage | IError> {
+  async editPassword(data: IEditPassword) {
     try {
       const res = await axios.put<IMessage>(this.path('edit-password'), data);
       return res.data;
@@ -68,7 +62,7 @@ class UserService implements IUserService {
     }
   }
 
-  async delete(data: IDelete): Promise<IMessage | IError> {
+  async delete(data: IDelete) {
     try {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
