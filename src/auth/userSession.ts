@@ -1,7 +1,7 @@
-import axios from '../config/axios';
 import jwtDecode from 'jwt-decode';
-import { sessionActions } from '../redux/actions/sessionActions';
 import { IUserToken } from '../types/userToken.type';
+import axios from '../config/axios';
+import { sessionActions } from '../redux/actions/sessionActions';
 
 class UserSession {
   private token: string;
@@ -12,7 +12,27 @@ class UserSession {
     this.expireTimer = null;
   }
 
-  private clearTimer() {
+  public restoration(token: string) {
+    if (token === '') return;
+
+    this.token = token;
+    axios.defaults.headers.common.Authorization = token;
+    this.setTimer();
+  }
+
+  public create(token: string) {
+    if (token === '') return;
+
+    this.token = token;
+    axios.defaults.headers.common.Authorization = token;
+    sessionActions.create(token);
+    this.setTimer();
+  }
+
+  public close() {
+    delete axios.defaults.headers.common.Authorization;
+    sessionActions.close();
+
     if (this.expireTimer) {
       clearTimeout(this.expireTimer);
       this.expireTimer = null;
@@ -20,9 +40,7 @@ class UserSession {
   }
 
   private setTimer() {
-    if (this.token === '') return;
     const currentTime = Date.now();
-
     const tokenDecode = jwtDecode(this.token) as IUserToken;
     const expTokenDate = tokenDecode.exp * 1000;
 
@@ -32,25 +50,9 @@ class UserSession {
     }
 
     const sessionTime = expTokenDate - currentTime;
-    this.clearTimer();
-
-    axios.defaults.headers.common.Authorization = this.token;
-    sessionActions.create(this.token);
-
     this.expireTimer = setTimeout(() => {
       this.close();
     }, sessionTime);
-  }
-
-  public create(token: string) {
-    this.token = token;
-    this.setTimer();
-  }
-
-  public close() {
-    this.clearTimer();
-    delete axios.defaults.headers.common.Authorization;
-    sessionActions.close();
   }
 }
 

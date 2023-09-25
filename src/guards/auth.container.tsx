@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from '../redux/store';
 import { ISessionStore, IStore } from '../types/store.type';
-import { userSession } from '../utils/userSession';
+import { userSession } from '../auth/userSession';
 
 interface IAuthContainer {
   children: React.ReactNode;
@@ -13,12 +13,11 @@ export default function AuthContainer(props: IAuthContainer) {
 
   // init function for auto login if tokens is present
   const initialize = useCallback((sessionStore: ISessionStore) => {
-    try {
-      if (!sessionStore || !sessionStore.token) throw new Error('SessionStore or token not found');
-      userSession.create(sessionStore.token);
-    } catch (error) {
-      userSession.close();
+    if (sessionStore && sessionStore.token) {
+      userSession.restoration(sessionStore.token);
+      return;
     }
+    userSession.close();
   }, []);
 
   //
