@@ -4,7 +4,7 @@ import slice from '../slices/userSlice';
 import { IUserStore } from '../../types/store.type';
 
 class UserActions {
-  loading({ name, role, claims }: IUserStore) {
+  myAccount({ name, role, claims }: IUserStore) {
     dispatch(slice.actions.setUser({ name, role, claims }));
   }
 }

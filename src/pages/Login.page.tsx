@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { authService } from '../services/auth.service';
 import { Navigate } from 'react-router-dom';
-import { PATH_AUTH, PATH_HOME } from '../routes/paths';
+import { PATH_AUTH } from '../routes/paths';
 import { userSession } from '../auth/userSession';
 
 export default function LoginPage() {
