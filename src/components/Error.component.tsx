@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { PATH_HOME } from '../routes/paths';
 
 interface IErrorComponent {
@@ -9,15 +9,7 @@ interface IErrorComponent {
 }
 
 export default function ErrorComponent({ title, description, code }: IErrorComponent) {
-  const [toHome, setToHome] = useState<boolean>(false);
-
-  if (toHome) {
-    return <Navigate to={PATH_HOME.HOME} replace />;
-  }
-
-  const toHomeFunc = () => {
-    setToHome(true);
-  };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -25,7 +17,7 @@ export default function ErrorComponent({ title, description, code }: IErrorCompo
       <div className="description">{description}</div>
       <div className="codeError">{code}</div>
       <div className="toHome">
-        <button onClick={toHomeFunc}>Go to home</button>
+        <button onClick={() => navigate(PATH_HOME.HOME)}>Go to home</button>
       </div>
     </>
   );

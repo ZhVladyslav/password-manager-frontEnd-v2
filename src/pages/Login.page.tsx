@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { authService } from '../services/auth.service';
-import { Navigate } from 'react-router-dom';
 import { PATH_AUTH } from '../routes/paths';
 import { userSession } from '../auth/userSession';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
-  const [toRegistration, setToRegistration] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -27,8 +28,6 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  if (toRegistration) return <Navigate to={PATH_AUTH.REGISTRATION} />;
-
   return (
     <>
       <form onSubmit={submit}>
@@ -36,7 +35,7 @@ export default function LoginPage() {
         <input type="text" onChange={inputPasswordChange} value={password} />
         <button type="submit">submit</button>
       </form>
-      <button onClick={() => setToRegistration(true)}>To registration</button>
+      <button onClick={() => navigate(PATH_AUTH.REGISTRATION)}>To registration</button>
     </>
   );
 }
