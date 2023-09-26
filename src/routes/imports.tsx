@@ -9,7 +9,7 @@ interface iLoadable {
 }
 
 /* eslint-disable react/display-name */
-export const Loadable = (Component: ComponentType) => {
+const Loadable = (Component: ComponentType) => {
   return ({ claims, ...props }: iLoadable) => {
     if (claims) {
       return (
@@ -39,6 +39,11 @@ export const Loadable = (Component: ComponentType) => {
 
 // Layouts
 export const MainLayout = Loadable(lazy(() => import('../layouts/Main.layout')));
+
+// Data
+export const DataListPage = Loadable(lazy(() => import('../pages/data/List.page')));
+export const DataCreatePage = Loadable(lazy(() => import('../pages/data/Create.page')));
+export const DataViewPage = Loadable(lazy(() => import('../pages/data/View.page')));
 
 // Auth
 export const LoginPage = Loadable(lazy(() => import('../pages/Login.page')));

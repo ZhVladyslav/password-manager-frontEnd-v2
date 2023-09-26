@@ -1,9 +1,11 @@
 class Routes {
   private ROOT_AUTH: string;
+  private ROOT_DATA: string;
   private ROOT_ERROR: string;
 
   constructor() {
     this.ROOT_AUTH = '/auth';
+    this.ROOT_DATA = '/data';
     this.ROOT_ERROR = '/error';
   }
 
@@ -14,6 +16,15 @@ class Routes {
   public home() {
     return {
       HOME: '/',
+    };
+  }
+
+  public data() {
+    const root = this.ROOT_DATA;
+    return {
+      VIEW: (id: string) => this.createPath(root, `/view/${id}`),
+      CREATE: this.createPath(root, '/create'),
+      LIST: this.createPath(root, '/list'),
     };
   }
 
@@ -38,5 +49,6 @@ class Routes {
 const routes = new Routes();
 
 export const PATH_HOME = routes.home();
+export const PATH_DATA = routes.data();
 export const PATH_AUTH = routes.auth();
 export const PATH_ERROR = routes.error();

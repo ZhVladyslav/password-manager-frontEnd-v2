@@ -11,6 +11,11 @@ import {
   // Layout
   MainLayout,
 
+  // Data
+  DataListPage,
+  DataViewPage,
+  DataCreatePage,
+
   // Auth
   LoginPage,
   RegistrationPage,
@@ -40,7 +45,7 @@ export default function Router() {
       ],
     },
 
-    // App
+    // Home
     {
       path: '',
       element: (
@@ -49,6 +54,21 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [{ path: '/', element: <HomePage /> }],
+    },
+
+    // Data
+    {
+      path: 'data',
+      element: (
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { path: 'list', element: <DataListPage /> },
+        { path: 'view/:id', element: <DataViewPage /> },
+        { path: 'create', element: <DataCreatePage /> },
+      ],
     },
 
     // Error routes
