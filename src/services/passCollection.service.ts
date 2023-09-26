@@ -13,16 +13,7 @@ interface IEditName extends Pick<IPassCollection, 'id' | 'name'> {}
 interface IEditEncryptDate extends Pick<IPassCollection, 'id' | 'encryptData'> {}
 interface IDelete extends Pick<IPassCollection, 'id'> {}
 
-interface IPassCollectionService {
-  getAll(): Promise<IPassCollection[] | IError>;
-  getById(data: IGetById): Promise<IPassCollection | IError>;
-  create(data: ICreate): Promise<IMessage | IError>;
-  editName(data: IEditName): Promise<IMessage | IError>;
-  editEncryptData(data: IEditEncryptDate): Promise<IMessage | IError>;
-  delete(data: IDelete): Promise<IMessage | IError>;
-}
-
-class PassCollectionService implements IPassCollectionService {
+class PassCollectionService {
   rootPath: string;
 
   constructor() {
@@ -42,23 +33,21 @@ class PassCollectionService implements IPassCollectionService {
    * delete
    */
 
-  async getAll(): Promise<IPassCollection[] | IError> {
+  async getAll() {
     try {
       const res = await axios.get<IPassCollection[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
     }
   }
 
-  async getById(data: IGetById): Promise<IPassCollection | IError> {
+  async getById(data: IGetById) {
     try {
-      const res = await axios.get<IPassCollection>(this.path('by-id'), { data });
+      const res = await axios.get<IPassCollection>(this.path('by-id'), { params: data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
     }
   }
 
