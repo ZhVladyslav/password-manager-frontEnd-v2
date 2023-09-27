@@ -11,7 +11,7 @@ interface iLoadable {
 /* eslint-disable react/display-name */
 const Loadable = (Component: ComponentType) => {
   return ({ claims, ...props }: iLoadable) => {
-    if (claims) {
+    if (claims) {      
       return (
         <Suspense fallback={<LoadingPage />}>
           <ClaimsGuard claims={claims}>
@@ -40,17 +40,26 @@ const Loadable = (Component: ComponentType) => {
 // Layouts
 export const MainLayout = Loadable(lazy(() => import('../layouts/Main.layout')));
 
-// Data
-export const DataListPage = Loadable(lazy(() => import('../pages/data/List.page')));
-export const DataCreatePage = Loadable(lazy(() => import('../pages/data/Create.page')));
-export const DataViewPage = Loadable(lazy(() => import('../pages/data/View.page')));
+// Home
+export const HomePage = Loadable(lazy(() => import('../pages/Home.page')));
 
 // Auth
 export const LoginPage = Loadable(lazy(() => import('../pages/Login.page')));
 export const RegistrationPage = Loadable(lazy(() => import('../pages/Registration.page')));
 
-// Home
-export const HomePage = Loadable(lazy(() => import('../pages/Home.page')));
+// User
+export const UserViewPage = Loadable(lazy(() => import('../pages/user/View.page')));
+export const UserSettingsPage = Loadable(lazy(() => import('../pages/user/Settings.page')));
+
+// Data
+export const DataListPage = Loadable(lazy(() => import('../pages/data/List.page')));
+export const DataCreatePage = Loadable(lazy(() => import('../pages/data/Create.page')));
+export const DataViewPage = Loadable(lazy(() => import('../pages/data/View.page')));
+
+// Role
+export const RoleListPage = Loadable(lazy(() => import('../pages/role/List.page')));
+export const RoleEditPage = Loadable(lazy(() => import('../pages/role/Edit.page')));
+export const RoleViewPage = Loadable(lazy(() => import('../pages/role/View.page')));
 
 // Errors
 export const Error403Page = Loadable(lazy(() => import('../pages/errors/Error403.page')));

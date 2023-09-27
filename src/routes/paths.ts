@@ -1,11 +1,15 @@
 class Routes {
   private ROOT_AUTH: string;
+  private ROOT_USER: string;
   private ROOT_DATA: string;
+  private ROOT_ROLE: string;
   private ROOT_ERROR: string;
 
   constructor() {
     this.ROOT_AUTH = '/auth';
+    this.ROOT_USER = '/user';
     this.ROOT_DATA = '/data';
+    this.ROOT_ROLE = '/role';
     this.ROOT_ERROR = '/error';
   }
 
@@ -13,9 +17,25 @@ class Routes {
     return `${root}${subLink}`;
   }
 
+  public auth() {
+    const root = this.ROOT_AUTH;
+    return {
+      LOGIN: this.createPath(root, '/login'),
+      REGISTRATION: this.createPath(root, '/registration'),
+    };
+  }
+
   public home() {
     return {
       HOME: '/',
+    };
+  }
+
+  public user() {
+    const root = this.ROOT_USER;
+    return {
+      VIEW: this.createPath(root, '/view'),
+      SETTINGS: this.createPath(root, '/settings'),
     };
   }
 
@@ -28,11 +48,12 @@ class Routes {
     };
   }
 
-  public auth() {
-    const root = this.ROOT_AUTH;
+  public role() {
+    const root = this.ROOT_ROLE;
     return {
-      LOGIN: this.createPath(root, '/login'),
-      REGISTRATION: this.createPath(root, '/registration'),
+      VIEW: this.createPath(root, '/view'),
+      EDIT: this.createPath(root, '/edit'),
+      LIST: this.createPath(root, '/list'),
     };
   }
 
@@ -49,6 +70,8 @@ class Routes {
 const routes = new Routes();
 
 export const PATH_HOME = routes.home();
-export const PATH_DATA = routes.data();
 export const PATH_AUTH = routes.auth();
+export const PATH_USER = routes.user();
+export const PATH_DATA = routes.data();
+export const ROOT_ROLE = routes.role();
 export const PATH_ERROR = routes.error();

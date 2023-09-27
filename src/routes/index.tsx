@@ -11,23 +11,33 @@ import {
   // Layout
   MainLayout,
 
-  // Data
-  DataListPage,
-  DataViewPage,
-  DataCreatePage,
+  // Home
+  HomePage,
 
   // Auth
   LoginPage,
   RegistrationPage,
 
-  // Home
-  HomePage,
+  // User
+  UserViewPage,
+  UserSettingsPage,
+
+  // Data
+  DataListPage,
+  DataViewPage,
+  DataCreatePage,
+
+  // Role
+  RoleViewPage,
+  RoleListPage,
+  RoleEditPage,
 
   // Errors
   Error403Page,
   Error404Page,
   Error500Page,
 } from './imports';
+import ClaimsGuard from '../guards/claim.guard';
 
 export default function Router() {
   return useRoutes([
@@ -56,6 +66,20 @@ export default function Router() {
       children: [{ path: '/', element: <HomePage /> }],
     },
 
+    // User
+    {
+      path: 'user',
+      element: (
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { path: 'view', element: <UserViewPage /> },
+        { path: 'settings', element: <UserSettingsPage /> },
+      ],
+    },
+
     // Data
     {
       path: 'data',
@@ -68,6 +92,21 @@ export default function Router() {
         { path: 'list', element: <DataListPage /> },
         { path: 'view/:id', element: <DataViewPage /> },
         { path: 'create', element: <DataCreatePage /> },
+      ],
+    },
+
+    // Role
+    {
+      path: 'role',
+      element: (
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { path: 'list', element: <RoleListPage claims={['test']} /> },
+        { path: 'edit', element: <RoleEditPage claims={['test']} /> },
+        { path: 'view', element: <RoleViewPage claims={['test']} /> },
       ],
     },
 
