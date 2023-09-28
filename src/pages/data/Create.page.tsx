@@ -6,21 +6,10 @@ import { uuid } from '../../utils/uuid';
 
 export default function DataCreatePage() {
   const [newDataName, setNewDataName] = useState<string>('');
-  const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([]);
-
-  useEffect(() => {
-    const count = 100;
-    const generatedArray: IDecryptDataRecord[] = Array.from({ length: count }, (_, index) => ({
-      id: uuid.generate(),
-      name: `stdfad asri ng_${index}`,
-      url: `test.com ${index}`,
-      email: `userEmail@gmail.com ${index}`,
-      password: `strsdfgasdafaffaerq45g56465746A6n37an47&%$%&sdfgsdfgsing_${index}`,
-      description: `stdgfsdSDJFGS LDKFBGSKLDHGLKSJHLGKJL Bsglkdgb ajkbglajdbg labg afgsdfgsdfgsdgring_${index}`,
-    }));
-
-    setNewDataRecords(generatedArray);
-  }, []);
+  const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>(['']);
+  const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([
+    { id: uuid.generate(), name: ``, url: ``, email: ``, password: ``, description: `` },
+  ]);
 
   const createData = async () => {
     if (!newDataRecords) return;
@@ -46,6 +35,8 @@ export default function DataCreatePage() {
       ...prom,
       { id: uuid.generate(), name: '', email: '', password: '', url: '', description: '' },
     ]);
+
+    setNewFieldsNameList((prom) => [...prom, 'qwe']);
   };
 
   const findValue = (id: string, name: string) => {
@@ -67,7 +58,37 @@ export default function DataCreatePage() {
     );
   };
 
-  console.log(newDataRecords);
+  // input
+
+  const addInput = (id: string, i: number) => {
+    if (newFieldsNameList[i] === '') return;
+
+    setNewDataRecords((prom) =>
+      prom.map((item) => {
+        if (item.id === id) {
+          const test = item;
+          test[newFieldsNameList[i]] = '';
+          return test;
+        }
+        return item;
+      }),
+    );
+  };
+
+  const writeInputName = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
+    setNewFieldsNameList((prom) =>
+      prom.map((item, index) => {
+        if (index === i) {
+          return e.target.value;
+        }
+        return item;
+      }),
+    );
+  };
+
+  const findAddInputValue = (i: number) => {
+    return newFieldsNameList[i];
+  };
 
   return (
     <>
@@ -79,38 +100,23 @@ export default function DataCreatePage() {
       />{' '}
       <br />
       <hr />
-      {newDataRecords.map((item) => (
+      {newDataRecords.map((item, i) => (
         <div key={item.id}>
-          <input
-            type="text"
-            placeholder="name"
-            onChange={(e) => inputDataInRecord(e, item.id, 'name')}
-            value={findValue(item.id, 'name')}
-          />
-          <input
-            type="text"
-            placeholder="url"
-            onChange={(e) => inputDataInRecord(e, item.id, 'url')}
-            value={findValue(item.id, 'url')}
-          />
-          <input
-            type="text"
-            placeholder="email"
-            onChange={(e) => inputDataInRecord(e, item.id, 'email')}
-            value={findValue(item.id, 'email')}
-          />
-          <input
-            type="text"
-            placeholder="password"
-            onChange={(e) => inputDataInRecord(e, item.id, 'password')}
-            value={findValue(item.id, 'password')}
-          />
-          <input
-            type="text"
-            placeholder="description"
-            onChange={(e) => inputDataInRecord(e, item.id, 'description')}
-            value={findValue(item.id, 'description')}
-          />
+          {Object.keys(item).map((itemKeys) => {
+            if (itemKeys === 'id') return <span key={`${item.id}_${itemKeys}`}></span>;
+            return (
+              <span key={`${item.id}_${itemKeys}`}>
+                <input
+                  type="text"
+                  onChange={(e) => inputDataInRecord(e, item.id, itemKeys)}
+                  value={findValue(item.id, itemKeys)}
+                />
+              </span>
+            );
+          })}
+
+          <button onClick={() => addInput(item.id, i)}>Add</button>
+          <input type="text" onChange={(e) => writeInputName(e, i)} value={findAddInputValue(i)} />
         </div>
       ))}
       <div>
