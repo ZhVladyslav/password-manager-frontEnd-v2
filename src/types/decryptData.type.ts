@@ -1,12 +1,15 @@
-export interface IDecryptData {
+export interface IDecryptData extends IDecryptDataMain {
+  collectionData: IDecryptDataRecord[];
+}
+
+export interface IDecryptDataMain {
   id: string;
   version: string;
   payload: string;
   date: {
-    createData: number;
-    lastUpdate: number;
+    createData: Date;
+    lastUpdate: Date;
   };
-  collectionData: IDecryptDataRecord[];
 }
 
 export interface IDecryptDataRecord {
