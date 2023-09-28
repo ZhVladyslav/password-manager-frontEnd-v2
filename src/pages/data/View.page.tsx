@@ -37,13 +37,14 @@ export default function DataViewPage() {
     <>
       <div>{data && <span>{data.name}</span>}</div>
       <div>
-        {decryptData && (
-          <div>
-            {decryptData.collectionData.map((item) => (
-              <div key={item.id}>{item.name}</div>
-            ))}
-          </div>
-        )}
+        {decryptData &&
+          decryptData.collectionData.map((item, i) => (
+            <div key={item.id}>
+              {Object.keys(item).map((itemKeys) => (
+                <div key={`${item.id}_${itemKeys}`}>{`${itemKeys}: ${item[itemKeys]}`}</div>
+              ))}
+            </div>
+          ))}
       </div>
     </>
   );
