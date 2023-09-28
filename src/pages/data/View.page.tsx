@@ -21,8 +21,8 @@ export default function DataViewPage() {
   const decryptDataFunc = () => {
     if (!data) return;
     const res = cryptoV1.decrypt({ key: 'test', str: data.encryptData });
-    console.log(res);
-    
+    if (!res) return;
+    setDecryptData(JSON.parse(res) as IDecryptData);
   };
 
   useEffect(() => {
@@ -35,8 +35,15 @@ export default function DataViewPage() {
 
   return (
     <>
+      <div>{data && <span>{data.name}</span>}</div>
       <div>
-        <span>{data?.name}</span>
+        {decryptData && (
+          <div>
+            {decryptData.collectionData.map((item) => (
+              <div key={item.id}>{item.name}</div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

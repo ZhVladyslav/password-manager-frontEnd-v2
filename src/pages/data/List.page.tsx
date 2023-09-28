@@ -16,6 +16,12 @@ export default function DataListPage() {
     setDataList(res);
   };
 
+  const deleteData = async (id: string) => {
+    const res = await passCollectionService.delete({ id });
+    if (!res) return;
+    setDataList((prom) => prom && prom.filter((item) => item.id !== id));
+  };
+
   useEffect(() => {
     getDataList();
   }, []);
@@ -34,6 +40,7 @@ export default function DataListPage() {
             </span>
             <span>{formatDate(item.createDate)}</span>
             <span>{formatDate(item.lastUpdate)}</span>
+            <span onClick={() => deleteData(item.id)}>DELETE</span>
           </div>
         ))}
     </>
