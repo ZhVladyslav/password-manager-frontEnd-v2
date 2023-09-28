@@ -81,13 +81,12 @@ class PassCollectionService {
     }
   }
 
-  async delete(data: IDelete): Promise<IMessage | IError> {
+  async delete(data: IDelete) {
     try {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
     }
   }
 }
