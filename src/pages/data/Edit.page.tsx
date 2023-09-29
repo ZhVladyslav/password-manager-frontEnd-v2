@@ -4,7 +4,7 @@ import { cryptoV1 } from '../../utils/crypto.v1';
 import { IDecryptData, IDecryptDataMain, IDecryptDataRecord } from '../../types/decryptData.type';
 import { uuid } from '../../utils/uuid';
 
-export default function DataCreatePage() {
+export default function DataEditPage() {
   const [newDataName, setNewDataName] = useState<string>('');
   const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>(['']);
   const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([

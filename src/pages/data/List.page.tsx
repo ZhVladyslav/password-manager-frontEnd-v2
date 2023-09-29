@@ -33,7 +33,7 @@ export default function DataListPage() {
           <div key={item.id} style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
             <span
               onClick={() => {
-                navigate(PATH_DATA.VIEW(item.id));
+                navigate(`${PATH_DATA.DECRYPT}/${item.id}`);
               }}
             >
               {item.name}
