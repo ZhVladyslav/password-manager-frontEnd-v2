@@ -1,11 +1,16 @@
 import React from 'react';
-import { cryptoV1 } from '../utils/crypto.v1';
-import { useSelector } from '../redux/store';
-import { IStore } from '../types/store.type';
+import { useNavigate } from 'react-router-dom';
+import { PATH_DATA } from '../routes/paths';
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
   // const sessionStore = useSelector((state: IStore) => state);
   // console.log(sessionStore);
 
-  return <>Home</>;
+  return (
+    <>
+      <button onClick={() => navigate(PATH_DATA.LIST)}>passCollection list</button>
+    </>
+  );
 }

@@ -5,7 +5,7 @@ import { IDecryptData } from '../../types/decryptData.type';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { passCollectionService } from '../../services/passCollection.service';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
-import { PATH_DATA } from '../../routes/paths';
+import { PATH_DATA, PATH_ERROR } from '../../routes/paths';
 
 export default function DataDecryptPage() {
   const { id } = useParams();
@@ -16,8 +16,13 @@ export default function DataDecryptPage() {
   const [inputPassword, setInputPassword] = useState<string>('');
 
   useEffect(() => {
-    if (id) getById();
-  }, []);
+    if (id) {
+      const checkId = uuid.check(id);
+
+      if (checkId) getById();
+      else navigate(PATH_ERROR[404]);
+    }
+  }, [id]);
 
   const createNewCollection = async () => {
     if (!name || !inputPassword || !passCollectionContext) return;
@@ -82,7 +87,7 @@ export default function DataDecryptPage() {
         value={inputPassword}
       />
 
-      <button onClick={submit}>Create</button>
+      <button onClick={submit}>{id ? 'Decrypt' : 'Create'}</button>
     </div>
   );
 }

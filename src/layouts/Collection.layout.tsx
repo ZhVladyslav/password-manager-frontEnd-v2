@@ -10,6 +10,7 @@ interface IPassCollectionContext {
   setDecryptCollectionData: (data: IDecryptData | null) => void;
   password: string;
   setPassword: (str: string) => void;
+  clearContext: () => void;
 }
 
 export const PassCollectionContext = createContext<IPassCollectionContext | null>(null);
@@ -18,6 +19,12 @@ export default function CollectionLayout() {
   const [collectionInDb, setCollectionInDb] = useState<IPassCollection | null>(null);
   const [decryptCollectionData, setDecryptCollectionData] = useState<IDecryptData | null>(null);
   const [password, setPassword] = useState<string>('');
+
+  const clearContext = () => {
+    setCollectionInDb(null);
+    setDecryptCollectionData(null);
+    setPassword('');
+  };
 
   return (
     <>
@@ -29,6 +36,7 @@ export default function CollectionLayout() {
           setDecryptCollectionData,
           password,
           setPassword,
+          clearContext,
         }}
       >
         <Outlet />

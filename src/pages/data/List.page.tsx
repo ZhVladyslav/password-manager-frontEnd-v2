@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { passCollectionService } from '../../services/passCollection.service';
 import { IPassCollection } from '../../types/passCollection.type';
 import { formatDate } from '../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
 import { PATH_DATA } from '../../routes/paths';
+import { PassCollectionContext } from '../../layouts/Collection.layout';
 
 export default function DataListPage() {
   const navigate = useNavigate();
+  const passCollectionContext = useContext(PassCollectionContext);
 
   const [dataList, setDataList] = useState<IPassCollection[] | null>(null);
 
@@ -24,6 +26,7 @@ export default function DataListPage() {
 
   useEffect(() => {
     getDataList();
+    if (passCollectionContext && passCollectionContext.clearContext) passCollectionContext.clearContext();
   }, []);
 
   return (
@@ -41,8 +44,11 @@ export default function DataListPage() {
             <span>{formatDate(item.createDate)}</span>
             <span>{formatDate(item.lastUpdate)}</span>
             <span onClick={() => deleteData(item.id)}>DELETE</span>
+            <span>EDIT</span>
           </div>
         ))}
+
+      <button onClick={() => navigate(PATH_DATA.DECRYPT)}>To create</button>
     </>
   );
 }

@@ -91,9 +91,10 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
+        { path: '', element: <DataListPage /> },
+        { path: 'list', element: <DataListPage /> },
         { path: 'decrypt', element: <DataDecryptPage /> },
         { path: 'decrypt/:id', element: <DataDecryptPage /> },
-        { path: 'list', element: <DataListPage /> },
         { path: 'view', element: <DataViewPage /> },
         { path: 'edit', element: <DataEditPage /> },
       ],
