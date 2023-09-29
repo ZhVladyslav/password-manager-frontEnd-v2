@@ -10,6 +10,7 @@ import GuestGuard from '../guards/guest.guard';
 import {
   // Layout
   MainLayout,
+  CollectionLayout,
 
   // Home
   HomePage,
@@ -23,9 +24,10 @@ import {
   UserSettingsPage,
 
   // Data
+  DataDecryptPage,
   DataListPage,
   DataViewPage,
-  DataCreatePage,
+  DataEditPage,
 
   // Role
   RoleViewPage,
@@ -85,13 +87,15 @@ export default function Router() {
       path: 'data',
       element: (
         <AuthGuard>
-          <MainLayout />
+          <CollectionLayout />
         </AuthGuard>
       ),
       children: [
+        { path: 'decrypt', element: <DataDecryptPage /> },
+        { path: 'decrypt/:id', element: <DataDecryptPage /> },
         { path: 'list', element: <DataListPage /> },
-        { path: 'view/:id', element: <DataViewPage /> },
-        { path: 'create', element: <DataCreatePage /> },
+        { path: 'view', element: <DataViewPage /> },
+        { path: 'edit', element: <DataEditPage /> },
       ],
     },
 

@@ -39,6 +39,7 @@ const Loadable = (Component: ComponentType) => {
 
 // Layouts
 export const MainLayout = Loadable(lazy(() => import('../layouts/Main.layout')));
+export const CollectionLayout = Loadable(lazy(() => import('../layouts/Collection.layout')));
 
 // Home
 export const HomePage = Loadable(lazy(() => import('../pages/Home.page')));
@@ -52,8 +53,9 @@ export const UserViewPage = Loadable(lazy(() => import('../pages/user/View.page'
 export const UserSettingsPage = Loadable(lazy(() => import('../pages/user/Settings.page')));
 
 // Data
+export const DataDecryptPage = Loadable(lazy(() => import('../pages/data/Decrypt.page')));
 export const DataListPage = Loadable(lazy(() => import('../pages/data/List.page')));
-export const DataCreatePage = Loadable(lazy(() => import('../pages/data/Create.page')));
+export const DataEditPage = Loadable(lazy(() => import('../pages/data/Edit.page')));
 export const DataViewPage = Loadable(lazy(() => import('../pages/data/View.page')));
 
 // Role

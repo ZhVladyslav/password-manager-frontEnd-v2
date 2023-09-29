@@ -42,8 +42,9 @@ class Routes {
   public data() {
     const root = this.ROOT_DATA;
     return {
-      VIEW: (id: string) => this.createPath(root, `/view/${id}`),
-      CREATE: this.createPath(root, '/create'),
+      DECRYPT: this.createPath(root, '/decrypt'),
+      VIEW: this.createPath(root, '/view'),
+      EDIT: this.createPath(root, '/edit'),
       LIST: this.createPath(root, '/list'),
     };
   }
