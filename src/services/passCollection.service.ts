@@ -51,13 +51,12 @@ class PassCollectionService {
     }
   }
 
-  async create(data: ICreate): Promise<IMessage | IError> {
+  async create(data: ICreate) {
     try {
-      const res = await axios.post<IMessage>(this.path('create'), data);
+      const res = await axios.post<{ id: string }>(this.path('create'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
     }
   }
 
