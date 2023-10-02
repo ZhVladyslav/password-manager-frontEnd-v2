@@ -95,7 +95,7 @@ export default function Router() {
         { path: 'list', element: <DataListPage /> },
         { path: 'decrypt', element: <DataDecryptPage /> },
         { path: 'decrypt/:id', element: <DataDecryptPage /> },
-        { path: 'view', element: <DataViewPage /> },
+        { path: 'view/:id', element: <DataViewPage /> },
         { path: 'edit', element: <DataEditPage /> },
       ],
     },

@@ -16,6 +16,9 @@ export default function DataDecryptPage() {
   const [inputPassword, setInputPassword] = useState<string>('');
 
   useEffect(() => {
+    setName('');
+    setInputPassword('');
+
     if (id) {
       const checkId = uuid.check(id);
 
@@ -62,7 +65,7 @@ export default function DataDecryptPage() {
     passCollectionContext.setDecryptCollectionData(decryptData);
     passCollectionContext.setPassword(inputPassword);
 
-    navigate(PATH_DATA.VIEW);
+    navigate(`${PATH_DATA.VIEW}/${id}`);
   };
 
   const submit = async () => {
