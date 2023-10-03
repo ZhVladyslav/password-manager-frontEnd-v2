@@ -65,7 +65,7 @@ export default function DataEditPage() {
       { id: uuid.generate(), name: '', email: '', password: '', url: '', description: '' },
     ]);
 
-    setNewFieldsNameList((prom) => [...prom, 'qwe']);
+    setNewFieldsNameList((prom) => [...prom, '']);
   };
 
   const findValue = (id: string, name: string) => {
@@ -119,6 +119,18 @@ export default function DataEditPage() {
     return newFieldsNameList[i];
   };
 
+  const deleteInput = (id: string, itemKeys: string) => {
+    setNewDataRecords((prom) =>
+      prom.map((item) => {
+        if (item.id === id) {
+          delete item[itemKeys];
+          return item;
+        }
+        return item;
+      }),
+    );
+  };
+
   return (
     <>
       <input type="text" placeholder="name collection" onChange={(e) => setDataName(e.target.value)} value={dataName} />
@@ -130,11 +142,21 @@ export default function DataEditPage() {
             if (itemKeys === 'id') return <span key={`${item.id}_${itemKeys}`}></span>;
             return (
               <span key={`${item.id}_${itemKeys}`}>
+                {itemKeys}
                 <input
                   type="text"
                   onChange={(e) => inputDataInRecord(e, item.id, itemKeys)}
                   value={findValue(item.id, itemKeys)}
                 />
+                {itemKeys === 'name' ||
+                itemKeys === 'email' ||
+                itemKeys === 'password' ||
+                itemKeys === 'url' ||
+                itemKeys === 'description' ? (
+                  <></>
+                ) : (
+                  <button onClick={() => deleteInput(item.id, itemKeys)}>X</button>
+                )}
               </span>
             );
           })}

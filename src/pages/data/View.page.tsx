@@ -43,6 +43,7 @@ export default function DataViewPage() {
             {Object.keys(item).map((itemKeys) => (
               <div key={`${item.id}_${itemKeys}`}>{`${itemKeys}: ${item[itemKeys]}`}</div>
             ))}
+            <br />
           </div>
         ))}
       </div>
