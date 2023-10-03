@@ -5,6 +5,7 @@ import { userSession } from '../auth/userSession';
 import { userService } from '../services/user.service';
 import { userActions } from '../redux/actions/userActions';
 import { roleService } from '../services/role.service';
+import { sessionActions } from '../redux/actions/sessionActions';
 
 interface IAuthContainer {
   children: React.ReactNode;
@@ -17,11 +18,16 @@ export default function AuthContainer(props: IAuthContainer) {
   const userInfo = async () => {
     const myAccountRes = await userService.myAccount();
 
-    if (!myAccountRes) return;
+    if (!myAccountRes) {
+      userActions.logout();
+      sessionActions.close();
+      userSession.close();
+      return;
+    }
 
     if (myAccountRes.roleId) {
       const RoleClaimsRes = await roleService.getById({ id: myAccountRes.roleId });
-      
+
       if (RoleClaimsRes) {
         userActions.myAccount({
           name: myAccountRes.name,
