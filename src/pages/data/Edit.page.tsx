@@ -1,30 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { passCollectionService } from '../../services/passCollection.service';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { IDecryptData, IDecryptDataMain, IDecryptDataRecord } from '../../types/decryptData.type';
 import { uuid } from '../../utils/uuid';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PATH_ERROR } from '../../routes/paths';
+import { PassCollectionContext } from '../../layouts/Collection.layout';
 
 export default function DataEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const passCollectionContext = useContext(PassCollectionContext);
 
-  const [newDataName, setNewDataName] = useState<string>('');
-  const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>(['']);
-  const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([
-    { id: uuid.generate(), name: ``, url: ``, email: ``, password: ``, description: `` },
-  ]);
+  const [dataName, setDataName] = useState<string>('');
+  const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>([]);
+  const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([]);
 
   useEffect(() => {
-    if (id) {
-      const checkId = uuid.check(id);
-      if (!checkId) navigate(PATH_ERROR[404]);
+    if (
+      !id ||
+      !passCollectionContext ||
+      !passCollectionContext.collectionInDb ||
+      !passCollectionContext.decryptCollectionData
+    ) {
+      return;
     }
+
+    const checkId = uuid.check(id);
+    if (!checkId) navigate(PATH_ERROR[404]);
+
+    setDataName(passCollectionContext.collectionInDb.name);
+    setNewDataRecords(passCollectionContext.decryptCollectionData.collectionData);
+    const generateArray = new Array(passCollectionContext.decryptCollectionData.collectionData.length).fill('');
+    setNewFieldsNameList(generateArray);
   }, [id]);
 
   const updateData = async () => {
-    if (!newDataRecords || !id) return;
+    if (!newDataRecords || !id || !passCollectionContext || !passCollectionContext.collectionInDb) return;
 
     const dataToEncrypt: IDecryptData = {
       id: uuid.generate(),
@@ -41,7 +53,10 @@ export default function DataEditPage() {
     if (!encryptData) return;
 
     await passCollectionService.editEncryptData({ id, encryptData: encryptData });
-    await passCollectionService.editName({ id, name: newDataName });
+
+    if (dataName !== passCollectionContext.collectionInDb.name) {
+      await passCollectionService.editName({ id, name: dataName });
+    }
   };
 
   const addRecord = () => {
@@ -72,7 +87,7 @@ export default function DataEditPage() {
     );
   };
 
-  // input
+  // new input
 
   const addInput = (id: string, i: number) => {
     if (newFieldsNameList[i] === '') return;
@@ -106,12 +121,7 @@ export default function DataEditPage() {
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="name collection"
-        onChange={(e) => setNewDataName(e.target.value)}
-        value={newDataName}
-      />
+      <input type="text" placeholder="name collection" onChange={(e) => setDataName(e.target.value)} value={dataName} />
       <br />
       <hr />
       {newDataRecords.map((item, i) => (

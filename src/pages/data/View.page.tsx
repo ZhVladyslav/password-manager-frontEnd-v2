@@ -25,7 +25,7 @@ export default function DataViewPage() {
     const res = await passCollectionService.delete({ id });
     passCollectionContext.clearContext();
   };
-
+  
   return (
     <>
       <div>
