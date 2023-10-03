@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
-import { PATH_DATA, PATH_ERROR, PATH_HOME } from './paths';
+import { PATH_PASS_COLLECTION, PATH_ERROR, PATH_HOME } from './paths';
 
 // Guard
 import AuthGuard from '../guards/auth.guard';
@@ -82,17 +82,30 @@ export default function Router() {
       ],
     },
 
-    // Data
+    // PassCollection
     {
-      path: 'data',
+      path: 'passCollection',
+      element: (
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { path: '', element: <Navigate to={PATH_PASS_COLLECTION.LIST} replace /> },
+        { path: 'list', element: <DataListPage /> },
+      ],
+    },
+
+    // PassCollectionDecrypt
+    {
+      path: 'passCollection-decrypt',
       element: (
         <AuthGuard>
           <CollectionLayout />
         </AuthGuard>
       ),
       children: [
-        { path: '', element: <Navigate to={PATH_DATA.LIST} replace /> },
-        { path: 'list', element: <DataListPage /> },
+        { path: '', element: <Navigate to={PATH_PASS_COLLECTION.LIST} replace /> },
         { path: 'decrypt', element: <DataDecryptPage /> },
         { path: 'decrypt/:id', element: <DataDecryptPage /> },
         { path: 'view/:id', element: <DataViewPage /> },

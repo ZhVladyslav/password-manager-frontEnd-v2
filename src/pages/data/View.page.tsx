@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { PATH_DATA, PATH_ERROR } from '../../routes/paths';
+import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR } from '../../routes/paths';
 import { passCollectionService } from '../../services/passCollection.service';
 import { uuid } from '../../utils/uuid';
 
@@ -18,7 +18,7 @@ export default function DataViewPage() {
   }, [id]);
 
   if (!passCollectionContext || !passCollectionContext.decryptCollectionData || !passCollectionContext.collectionInDb)
-    return <Navigate to={PATH_DATA.LIST} />;
+    return <Navigate to={PATH_PASS_COLLECTION.LIST} />;
 
   const deleteData = async () => {
     if (!id) return;
@@ -31,7 +31,7 @@ export default function DataViewPage() {
       <div>
         <button onClick={() => passCollectionContext.clearContext()}>To list</button>
         <button onClick={() => deleteData()}>DELETE</button>
-        <button onClick={() => navigate(`${PATH_DATA.EDIT}/${id}`)}>EDIT</button>
+        <button onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.EDIT}/${id}`)}>EDIT</button>
         <button onClick={() => passCollectionContext.clearContext()}>LOCK</button>
       </div>
       <div>

@@ -1,14 +1,16 @@
 class Routes {
   private ROOT_AUTH: string;
   private ROOT_USER: string;
-  private ROOT_DATA: string;
+  private ROOT_PASS_COLLECTION: string;
+  private ROOT_PASS_COLLECTION_DECRYPT: string;
   private ROOT_ROLE: string;
   private ROOT_ERROR: string;
 
   constructor() {
     this.ROOT_AUTH = '/auth';
     this.ROOT_USER = '/user';
-    this.ROOT_DATA = '/data';
+    this.ROOT_PASS_COLLECTION = '/passCollection';
+    this.ROOT_PASS_COLLECTION_DECRYPT = '/passCollection-decrypt';
     this.ROOT_ROLE = '/role';
     this.ROOT_ERROR = '/error';
   }
@@ -39,13 +41,19 @@ class Routes {
     };
   }
 
-  public data() {
-    const root = this.ROOT_DATA;
+  public passCollection() {
+    const root = this.ROOT_PASS_COLLECTION;
+    return {
+      LIST: this.createPath(root, '/list'),
+    };
+  }
+
+  public passCollectionDecrypt() {
+    const root = this.ROOT_PASS_COLLECTION_DECRYPT;
     return {
       DECRYPT: this.createPath(root, '/decrypt'),
       VIEW: this.createPath(root, '/view'),
       EDIT: this.createPath(root, '/edit'),
-      LIST: this.createPath(root, '/list'),
     };
   }
 
@@ -73,6 +81,7 @@ const routes = new Routes();
 export const PATH_HOME = routes.home();
 export const PATH_AUTH = routes.auth();
 export const PATH_USER = routes.user();
-export const PATH_DATA = routes.data();
+export const PATH_PASS_COLLECTION = routes.passCollection();
+export const PATH_PASS_COLLECTION_DECRYPT = routes.passCollectionDecrypt();
 export const ROOT_ROLE = routes.role();
 export const PATH_ERROR = routes.error();

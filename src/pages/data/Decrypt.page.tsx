@@ -5,7 +5,7 @@ import { IDecryptData } from '../../types/decryptData.type';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { passCollectionService } from '../../services/passCollection.service';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
-import { PATH_DATA, PATH_ERROR } from '../../routes/paths';
+import { PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR, PATH_PASS_COLLECTION } from '../../routes/paths';
 
 export default function DataDecryptPage() {
   const { id } = useParams();
@@ -43,7 +43,7 @@ export default function DataDecryptPage() {
 
     const res = await passCollectionService.create({ name, encryptData });
     if (!res) return;
-    navigate(`${PATH_DATA.DECRYPT}/${res.id}`);
+    navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${res.id}`);
   };
 
   const getById = async () => {
@@ -65,7 +65,7 @@ export default function DataDecryptPage() {
     passCollectionContext.setDecryptCollectionData(decryptData);
     passCollectionContext.setPassword(inputPassword);
 
-    navigate(`${PATH_DATA.VIEW}/${id}`);
+    navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`);
   };
 
   const submit = async () => {
@@ -91,6 +91,7 @@ export default function DataDecryptPage() {
       />
 
       <button onClick={submit}>{id ? 'Decrypt' : 'Create'}</button>
+      <button onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>To list</button>
     </div>
   );
 }

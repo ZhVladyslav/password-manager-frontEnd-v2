@@ -3,12 +3,10 @@ import { passCollectionService } from '../../services/passCollection.service';
 import { IPassCollection } from '../../types/passCollection.type';
 import { formatDate } from '../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
-import { PATH_DATA } from '../../routes/paths';
-import { PassCollectionContext } from '../../layouts/Collection.layout';
+import { PATH_HOME, PATH_PASS_COLLECTION_DECRYPT } from '../../routes/paths';
 
 export default function DataListPage() {
   const navigate = useNavigate();
-  const passCollectionContext = useContext(PassCollectionContext);
 
   const [dataList, setDataList] = useState<IPassCollection[] | null>(null);
 
@@ -26,9 +24,9 @@ export default function DataListPage() {
 
   useEffect(() => {
     getDataList();
-    if (passCollectionContext && passCollectionContext.clearContext) passCollectionContext.clearContext();
   }, []);
 
+  
   return (
     <>
       {dataList &&
@@ -36,7 +34,7 @@ export default function DataListPage() {
           <div key={item.id} style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
             <span
               onClick={() => {
-                navigate(`${PATH_DATA.DECRYPT}/${item.id}`);
+                navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
               }}
             >
               {item.name}
@@ -47,7 +45,8 @@ export default function DataListPage() {
           </div>
         ))}
 
-      <button onClick={() => navigate(PATH_DATA.DECRYPT)}>To create</button>
+      <button onClick={() => navigate(PATH_PASS_COLLECTION_DECRYPT.DECRYPT)}>To create</button>
+      <button onClick={() => navigate(PATH_HOME.HOME)}>To home</button>
     </>
   );
 }
