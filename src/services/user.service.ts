@@ -13,7 +13,6 @@ interface IEditPassword extends Pick<IUser, 'password'> {
 }
 interface IDelete extends Pick<IUser, 'password'> {}
 
-
 class UserService {
   rootPath: string;
 
@@ -38,7 +37,6 @@ class UserService {
       return res.data;
     } catch (error) {
       console.log(error);
-      
     }
   }
 
@@ -47,8 +45,7 @@ class UserService {
       const res = await axios.put<IMessage>(this.path('edit-name'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.log(error);
     }
   }
 
