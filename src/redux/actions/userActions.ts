@@ -9,6 +9,14 @@ class UserActions {
     dispatch(slice.actions.setUserRole(role));
     dispatch(slice.actions.setUserClaims(claims));
   }
+
+  editName(name: string) {
+    dispatch(slice.actions.setUserName(name));
+  }
+
+  logout() {
+    dispatch(slice.actions.logout());
+  }
 }
 
 export const userActions = new UserActions();
