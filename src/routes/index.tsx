@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
-import { PATH_ERROR, PATH_HOME } from './paths';
+import { PATH_DATA, PATH_ERROR, PATH_HOME } from './paths';
 
 // Guard
 import AuthGuard from '../guards/auth.guard';
@@ -91,12 +91,12 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
-        { path: '', element: <DataListPage /> },
+        { path: '', element: <Navigate to={PATH_DATA.LIST} replace /> },
         { path: 'list', element: <DataListPage /> },
         { path: 'decrypt', element: <DataDecryptPage /> },
         { path: 'decrypt/:id', element: <DataDecryptPage /> },
         { path: 'view/:id', element: <DataViewPage /> },
-        { path: 'edit', element: <DataEditPage /> },
+        { path: 'edit/:id', element: <DataEditPage /> },
       ],
     },
 
