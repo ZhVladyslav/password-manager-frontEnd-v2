@@ -16,18 +16,19 @@ export default function AuthContainer(props: IAuthContainer) {
 
   const userInfo = async () => {
     const myAccountRes = await userService.myAccount();
-    if (!myAccountRes) return;    
+
+    if (!myAccountRes) return;
+
     if (myAccountRes.roleId) {
       const RoleClaimsRes = await roleService.getById({ id: myAccountRes.roleId });
-      if (!RoleClaimsRes) {
-        userActions.myAccount({ name: myAccountRes.name, claims: null, role: null });
-        return;
+      
+      if (RoleClaimsRes) {
+        userActions.myAccount({
+          name: myAccountRes.name,
+          claims: RoleClaimsRes.claims.map((item) => item.claim),
+          role: myAccountRes.roleId,
+        });
       }
-      userActions.myAccount({
-        name: myAccountRes.name,
-        claims: RoleClaimsRes.claims.map((item) => item.claim),
-        role: myAccountRes.roleId,
-      });
     } else {
       userActions.myAccount({ name: myAccountRes.name, claims: null, role: null });
     }
