@@ -3,16 +3,28 @@ import { passCollectionService } from '../../services/passCollection.service';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { IDecryptData, IDecryptDataMain, IDecryptDataRecord } from '../../types/decryptData.type';
 import { uuid } from '../../utils/uuid';
+import { useNavigate, useParams } from 'react-router-dom';
+import { PATH_ERROR } from '../../routes/paths';
 
 export default function DataEditPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [newDataName, setNewDataName] = useState<string>('');
   const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>(['']);
   const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([
     { id: uuid.generate(), name: ``, url: ``, email: ``, password: ``, description: `` },
   ]);
 
-  const createData = async () => {
-    if (!newDataRecords) return;
+  useEffect(() => {
+    if (id) {
+      const checkId = uuid.check(id);
+      if (!checkId) navigate(PATH_ERROR[404]);
+    }
+  }, [id]);
+
+  const updateData = async () => {
+    if (!newDataRecords || !id) return;
 
     const dataToEncrypt: IDecryptData = {
       id: uuid.generate(),
@@ -27,7 +39,9 @@ export default function DataEditPage() {
 
     const encryptData = cryptoV1.encrypt({ key: 'test', str: JSON.stringify(dataToEncrypt) });
     if (!encryptData) return;
-    await passCollectionService.create({ name: newDataName, encryptData });
+
+    await passCollectionService.editEncryptData({ id, encryptData: encryptData });
+    await passCollectionService.editName({ id, name: newDataName });
   };
 
   const addRecord = () => {
@@ -97,7 +111,7 @@ export default function DataEditPage() {
         placeholder="name collection"
         onChange={(e) => setNewDataName(e.target.value)}
         value={newDataName}
-      />{' '}
+      />
       <br />
       <hr />
       {newDataRecords.map((item, i) => (
@@ -122,7 +136,7 @@ export default function DataEditPage() {
       <div>
         <button onClick={addRecord}>Add</button>
 
-        <button onClick={createData}>Create</button>
+        <button onClick={updateData}>Update</button>
       </div>
     </>
   );

@@ -44,7 +44,6 @@ export default function DataListPage() {
             <span>{formatDate(item.createDate)}</span>
             <span>{formatDate(item.lastUpdate)}</span>
             <span onClick={() => deleteData(item.id)}>DELETE</span>
-            <span>EDIT</span>
           </div>
         ))}
 

@@ -15,24 +15,23 @@ export default function DataViewPage() {
       const checkId = uuid.check(id);
       if (!checkId) navigate(PATH_ERROR[404]);
     }
-  }, []);
-
-  const deleteData = async () => {
-    if (!id) return;
-    const res = await passCollectionService.delete({ id });
-    if (!res) return;
-    navigate(PATH_DATA.LIST);
-  };
+  }, [id]);
 
   if (!passCollectionContext || !passCollectionContext.decryptCollectionData || !passCollectionContext.collectionInDb)
     return <Navigate to={PATH_DATA.LIST} />;
 
+  const deleteData = async () => {
+    if (!id) return;
+    const res = await passCollectionService.delete({ id });
+    passCollectionContext.clearContext();
+  };
+
   return (
     <>
       <div>
-        <button onClick={() => navigate(PATH_DATA.LIST)}>To list</button>
+        <button onClick={() => passCollectionContext.clearContext()}>To list</button>
         <button onClick={() => deleteData()}>DELETE</button>
-        <button>EDIT</button>
+        <button onClick={() => navigate(`${PATH_DATA.EDIT}/${id}`)}>EDIT</button>
         <button onClick={() => passCollectionContext.clearContext()}>LOCK</button>
       </div>
       <div>
