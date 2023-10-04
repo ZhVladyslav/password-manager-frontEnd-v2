@@ -12,12 +12,8 @@ export default function LoginPage() {
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const loginRes = await authService.login({ login, password });
-      if ('token' in loginRes) userSession.create(loginRes.token);
-    } catch (error) {
-      console.log(error);
-    }
+    const loginRes = await authService.login({ login, password });
+    if ('token' in loginRes) userSession.create(loginRes.token);
   };
 
   const inputLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
