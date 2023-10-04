@@ -1,3 +1,5 @@
+import { IClaim } from './claim.type';
+
 export interface IRole {
   id: string;
   name_en: string;
@@ -8,4 +10,8 @@ export interface IRole {
   description_ru: string;
   createDate: Date;
   lastUpdate: Date;
+}
+
+export interface IRoleAndClaims extends IRole {
+  claims: IClaim[];
 }
