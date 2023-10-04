@@ -122,9 +122,11 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
-        { path: 'list', element: <RoleListPage claims={['test']} /> },
-        { path: 'edit', element: <RoleEditPage claims={['test']} /> },
-        { path: 'view', element: <RoleViewPage claims={['test']} /> },
+        { path: 'list', element: <RoleListPage /> },
+        { path: 'view/:id', element: <RoleViewPage /> },
+        // { path: 'list', element: <RoleListPage claims={['test']} /> },
+        // { path: 'edit', element: <RoleEditPage claims={['test']} /> },
+        // { path: 'view', element: <RoleViewPage claims={['test']} /> },
       ],
     },
 

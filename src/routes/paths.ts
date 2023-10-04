@@ -83,5 +83,5 @@ export const PATH_AUTH = routes.auth();
 export const PATH_USER = routes.user();
 export const PATH_PASS_COLLECTION = routes.passCollection();
 export const PATH_PASS_COLLECTION_DECRYPT = routes.passCollectionDecrypt();
-export const ROOT_ROLE = routes.role();
+export const PATH_ROLE = routes.role();
 export const PATH_ERROR = routes.error();
