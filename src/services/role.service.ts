@@ -34,7 +34,7 @@ class RoleService {
   rootPath: string;
 
   constructor() {
-    this.rootPath = 'pass-collection';
+    this.rootPath = 'role';
   }
 
   private path(route: string) {
@@ -53,20 +53,19 @@ class RoleService {
 
   async getAll() {
     try {
-      const res = await axios.get<IRole>(this.path('all'));
+      const res = await axios.get<IRole[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.error(error);
     }
   }
 
   async getById(data: IGetById) {
     try {
-      const res = await axios.get<IGetByIdRes>(this.path('by-id'), { data });
+      const res = await axios.get<IGetByIdRes>(this.path('by-id'), { params: data });
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -85,8 +84,7 @@ class RoleService {
       const res = await axios.get<string[]>(this.path('claims'));
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.error(error);
     }
   }
 

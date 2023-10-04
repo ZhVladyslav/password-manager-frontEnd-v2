@@ -38,7 +38,7 @@ class PassCollectionService {
       const res = await axios.get<IPassCollection[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -47,7 +47,7 @@ class PassCollectionService {
       const res = await axios.get<IPassCollection>(this.path('by-id'), { params: data });
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -56,7 +56,7 @@ class PassCollectionService {
       const res = await axios.post<{ id: string }>(this.path('create'), data);
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -85,7 +85,7 @@ class PassCollectionService {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }

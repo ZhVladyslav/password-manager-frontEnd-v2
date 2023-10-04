@@ -36,7 +36,7 @@ class UserService {
       const res = await axios.get<IUser>(this.path('my-account'));
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -45,7 +45,7 @@ class UserService {
       const res = await axios.put<IMessage>(this.path('edit-name'), data);
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

@@ -12,7 +12,7 @@ class CryptoV1 {
     try {
       return aes256.encrypt({ str, key });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -20,7 +20,7 @@ class CryptoV1 {
     try {
       return aes256.decrypt({ str, key });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }
