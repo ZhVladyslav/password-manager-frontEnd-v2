@@ -16,16 +16,13 @@ export default function DataDecryptPage() {
   const [inputPassword, setInputPassword] = useState<string>('');
 
   useEffect(() => {
-    setName('');
-    setInputPassword('');
-
-    if (id) {
-      const checkId = uuid.check(id);
-
-      if (checkId) getById();
-      else navigate(PATH_ERROR[404]);
+    if (!id || !uuid.check(id)) {
+      navigate(PATH_ERROR[404]);
+      return;
     }
-  }, [id]);
+
+    getById();
+  }, []);
 
   const createNewCollection = async () => {
     if (!name || !inputPassword || !passCollectionContext) return;
