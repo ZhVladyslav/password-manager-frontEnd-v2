@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { IRoleAndClaims } from '../../types/role.type';
 import { roleService } from '../../services/role.service';
 import { PATH_ROLE } from '../../routes/paths';
+import { formatDate } from '../../utils/formatDate';
 
 export default function RoleViewPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [claimList, setClaimList] = useState<string[]>([]);
   const [role, setRole] = useState<IRoleAndClaims | null>(null);
@@ -28,7 +30,10 @@ export default function RoleViewPage() {
     setRole(roleInDb);
   };
 
-  console.log(role);
+  const editRole = () => {
+    if (!role) return;
+    navigate(`${PATH_ROLE.EDIT}/${role.id}`);
+  };
 
   if (!id) return <Navigate to={PATH_ROLE.LIST} />;
 
@@ -43,6 +48,23 @@ export default function RoleViewPage() {
       </div>
       <br />
       {role && <div>{role.name_en}</div>}
+      {role && <div>{formatDate(role.createDate)}</div>}
+      <br />
+      claims:
+      {role && (
+        <div>
+          {role.claims.map((item) => (
+            <div key={item.id}>
+              <div>
+                {item.claim}
+                {' - '}
+                {formatDate(item.createDate)}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <button onClick={editRole}>Edit</button>
     </>
   );
 }
