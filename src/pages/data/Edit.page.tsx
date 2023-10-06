@@ -23,6 +23,7 @@ export default function DataEditPage() {
       !passCollectionContext.collectionInDb ||
       !passCollectionContext.decryptCollectionData
     ) {
+      navigate(PATH_PASS_COLLECTION.LIST);
       return;
     }
 

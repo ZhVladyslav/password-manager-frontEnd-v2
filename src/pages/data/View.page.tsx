@@ -11,11 +11,11 @@ export default function DataViewPage() {
   const passCollectionContext = useContext(PassCollectionContext);
 
   useEffect(() => {
-    if (id) {
-      const checkId = uuid.check(id);
-      if (!checkId) navigate(PATH_ERROR[404]);
+    if (!id || !uuid.check(id)) {
+      navigate(PATH_ERROR[404]);
+      return;
     }
-  }, [id]);
+  }, []);
 
   if (!passCollectionContext || !passCollectionContext.decryptCollectionData || !passCollectionContext.collectionInDb)
     return <Navigate to={PATH_PASS_COLLECTION.LIST} />;
