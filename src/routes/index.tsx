@@ -124,7 +124,8 @@ export default function Router() {
       children: [
         { path: 'list', element: <RoleListPage /> },
         { path: 'view/:id', element: <RoleViewPage /> },
-        { path: 'edit/:id', element: <RoleEditPage  /> },
+        { path: 'edit/:id', element: <RoleEditPage /> },
+        { path: 'create', element: <RoleEditPage /> },
         // { path: 'list', element: <RoleListPage claims={['test']} /> },
       ],
     },

@@ -63,6 +63,7 @@ class Routes {
       VIEW: this.createPath(root, '/view'),
       EDIT: this.createPath(root, '/edit'),
       LIST: this.createPath(root, '/list'),
+      CREATE: this.createPath(root, '/create'),
     };
   }
 
