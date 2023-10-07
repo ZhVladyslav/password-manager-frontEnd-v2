@@ -19,7 +19,7 @@ export default function DataListPage() {
   const deleteData = async (id: string) => {
     const res = await passCollectionService.delete({ id });
     if (!res) return;
-    setDataList((prom) => prom && prom.filter((item) => item.id !== id));
+    setDataList((prev) => prev && prev.filter((item) => item.id !== id));
   };
 
   useEffect(() => {

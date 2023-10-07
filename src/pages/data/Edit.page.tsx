@@ -89,16 +89,16 @@ export default function DataEditPage() {
   };
 
   const addRecord = () => {
-    setNewDataRecords((prom) => [
-      ...prom,
+    setNewDataRecords((prev) => [
+      ...prev,
       { id: uuid.generate(), name: '', email: '', password: '', url: '', description: '' },
     ]);
 
-    setNewFieldsNameList((prom) => [...prom, '']);
+    setNewFieldsNameList((prev) => [...prev, '']);
   };
 
   const deleteRecord = (id: string) => {
-    setNewDataRecords((prom) => prom.filter((item) => item.id !== id));
+    setNewDataRecords((prev) => prev.filter((item) => item.id !== id));
   };
 
   const findValue = (id: string, name: string) => {
@@ -108,8 +108,8 @@ export default function DataEditPage() {
   };
 
   const inputDataInRecord = (e: React.ChangeEvent<HTMLInputElement>, id: string, name: string) => {
-    setNewDataRecords((prom) =>
-      prom.map((item) => {
+    setNewDataRecords((prev) =>
+    prev.map((item) => {
         if (id === item.id) {
           if (!(name in item)) return item;
           item[name] = e.target.value;
@@ -125,8 +125,8 @@ export default function DataEditPage() {
   const addInput = (id: string, i: number) => {
     if (newFieldsNameList[i] === '') return;
 
-    setNewDataRecords((prom) =>
-      prom.map((item) => {
+    setNewDataRecords((prev) =>
+    prev.map((item) => {
         if (item.id === id) {
           const test = item;
           test[newFieldsNameList[i]] = '';
@@ -138,8 +138,8 @@ export default function DataEditPage() {
   };
 
   const writeInputName = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-    setNewFieldsNameList((prom) =>
-      prom.map((item, index) => {
+    setNewFieldsNameList((prev) =>
+    prev.map((item, index) => {
         if (index === i) {
           return e.target.value;
         }
@@ -153,8 +153,8 @@ export default function DataEditPage() {
   };
 
   const deleteInput = (id: string, itemKeys: string) => {
-    setNewDataRecords((prom) =>
-      prom.map((item) => {
+    setNewDataRecords((prev) =>
+    prev.map((item) => {
         if (item.id === id) {
           delete item[itemKeys];
           return item;
