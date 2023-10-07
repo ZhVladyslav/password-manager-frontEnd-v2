@@ -13,6 +13,7 @@ export default function HomePage() {
       <button onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>passCollection list</button> <br />
       <button onClick={() => navigate(PATH_USER.SETTINGS)}>user</button> <br />
       <button onClick={() => navigate(PATH_ROLE.LIST)}>Roles</button> <br />
+      <button>logout</button> <br />
     </>
   );
 }
