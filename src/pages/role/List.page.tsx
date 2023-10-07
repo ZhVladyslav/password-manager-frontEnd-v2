@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { roleService } from '../../services/role.service';
 import { IRole } from '../../types/role.type';
 import { useNavigate } from 'react-router-dom';
-import { PATH_ROLE } from '../../routes/paths';
+import { PATH_HOME, PATH_ROLE } from '../../routes/paths';
 
 export default function RoleListPage() {
   const navigate = useNavigate();
@@ -23,11 +23,13 @@ export default function RoleListPage() {
     <>
       <div>
         {roleList.map((item) => (
-          <span key={item.id} onClick={() => navigate(`${PATH_ROLE.VIEW}/${item.id}`)}>
+          <div key={item.id} onClick={() => navigate(`${PATH_ROLE.VIEW}/${item.id}`)}>
             {item.name_en}
-          </span>
+          </div>
         ))}
       </div>
+      <button onClick={() => navigate(PATH_HOME.HOME)}>To home</button>
+      <button onClick={() => navigate(PATH_ROLE.CREATE)}>Create</button>
     </>
   );
 }

@@ -9,19 +9,11 @@ export default function RoleViewPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [claimList, setClaimList] = useState<string[]>([]);
   const [role, setRole] = useState<IRoleAndClaims | null>(null);
 
   useEffect(() => {
-    getClaimList();
     getRole();
   }, []);
-
-  const getClaimList = async () => {
-    const claimList = await roleService.getClaims();
-    if (!claimList) return;
-    setClaimList(claimList);
-  };
 
   const getRole = async () => {
     if (!id) return;
@@ -39,16 +31,20 @@ export default function RoleViewPage() {
 
   return (
     <>
-      <div>
-        {claimList.map((item, i) => (
-          <div key={i}>
-            <span>{item}</span> <br />
-          </div>
-        ))}
-      </div>
-      <br />
-      {role && <div>{role.name_en}</div>}
-      {role && <div>{formatDate(role.createDate)}</div>}
+      {role && (
+        <>
+          <div>{role.name_en}</div>
+          <div>{role.name_ua}</div>
+          <div>{role.name_ru}</div>
+          <br />
+          <div>{role.description_en}</div>
+          <div>{role.description_ua}</div>
+          <div>{role.description_ru}</div>
+          <br />
+          <div>{formatDate(role.createDate)}</div>
+          <div>{formatDate(role.lastUpdate)}</div>
+        </>
+      )}
       <br />
       claims:
       {role && (
@@ -65,6 +61,7 @@ export default function RoleViewPage() {
         </div>
       )}
       <button onClick={editRole}>Edit</button>
+      <button onClick={() => navigate(PATH_ROLE.LIST)}>To list</button>
     </>
   );
 }
