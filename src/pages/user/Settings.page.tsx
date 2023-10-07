@@ -16,6 +16,8 @@ export default function UserSettingsPage() {
   const [oldPass, setOldPass] = useState<string>('');
   const [newPass, setNewPass] = useState<string>('');
 
+  const [passwordToDelete, setPasswordToDelete] = useState<string>('');
+
   const updateName = async () => {
     if (newName === '') return;
     const editUserName = await userService.editName({ name: newName });
@@ -29,7 +31,12 @@ export default function UserSettingsPage() {
     if (!editUserPassword) return;
     userActions.logout();
     sessionActions.close();
-    userSession.close()
+    userSession.close();
+  };
+
+  const deleteUser = async () => {
+    if (passwordToDelete === '') return;
+    await userService.delete({ password: passwordToDelete });
   };
 
   return (
@@ -79,16 +86,21 @@ export default function UserSettingsPage() {
 
       <div>
         <br />
-        <button onClick={updatePassword}>Edit pass</button>
-        <br />
-        <br />
+        <span>Input password to delete account</span>
+        <input
+          name="delete_account"
+          type="text"
+          placeholder="password to delete"
+          onChange={(e) => setPasswordToDelete(e.target.value)}
+          value={passwordToDelete}
+        />
       </div>
 
       <div>
         <br />
+        <button onClick={updatePassword}>Edit pass</button>
         <button onClick={() => navigate(PATH_HOME.HOME)}>To home</button>
-        <br />
-        <br />
+        <button onClick={deleteUser}>Delete account</button>
       </div>
     </>
   );
