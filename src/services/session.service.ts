@@ -1,6 +1,5 @@
 import axios from '../config/axios';
 import { API } from '../config/config';
-import { IError, IErrorRes } from '../types/error.type';
 import { ISession } from '../types/session.type';
 
 interface IMessage {
@@ -10,13 +9,7 @@ interface IMessage {
 interface IGetById extends Pick<ISession, 'id'> {}
 interface IDelete extends Pick<ISession, 'id'> {}
 
-interface ISessionService {
-  getAll(): Promise<ISession[] | IError>;
-  getById(data: IGetById): Promise<ISession | IError>;
-  delete(data: IDelete): Promise<IMessage | IError>;
-}
-
-class SessionService implements ISessionService {
+class SessionService {
   rootPath: string;
 
   constructor() {
@@ -31,35 +24,42 @@ class SessionService implements ISessionService {
    * all
    * by-id
    * delete
+   * logout
    */
 
-  async getAll(): Promise<ISession[] | IError> {
+  async getAll() {
     try {
       const res = await axios.get<ISession[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.error(error);
     }
   }
 
-  async getById(data: IGetById): Promise<ISession | IError> {
+  async getById(data: IGetById) {
     try {
       const res = await axios.get<ISession>(this.path('by-id'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.error(error);
     }
   }
 
-  async delete(data: IDelete): Promise<IMessage | IError> {
+  async logout() {
+    try {
+      const res = await axios.delete<IMessage>(this.path('logout'));
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async delete(data: IDelete) {
     try {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      console.error(error);
     }
   }
 }
