@@ -32,7 +32,7 @@ class SessionService {
       const res = await axios.get<ISession[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -41,7 +41,7 @@ class SessionService {
       const res = await axios.get<ISession>(this.path('by-id'), { data });
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -50,7 +50,7 @@ class SessionService {
       const res = await axios.delete<IMessage>(this.path('logout'));
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -59,7 +59,7 @@ class SessionService {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 }

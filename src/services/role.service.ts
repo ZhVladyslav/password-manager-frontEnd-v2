@@ -56,7 +56,7 @@ class RoleService {
       const res = await axios.get<IRole[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -65,7 +65,7 @@ class RoleService {
       const res = await axios.get<IGetByIdRes>(this.path('by-id'), { params: data });
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -74,8 +74,7 @@ class RoleService {
       const res = await axios.get<IGetByNameRes>(this.path('by-name'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
@@ -84,7 +83,7 @@ class RoleService {
       const res = await axios.get<string[]>(this.path('claims'));
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -93,8 +92,7 @@ class RoleService {
       const res = await axios.post<IMessage>(this.path('create'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
@@ -103,8 +101,7 @@ class RoleService {
       const res = await axios.put<IMessage>(this.path('edit'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
@@ -113,8 +110,7 @@ class RoleService {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 }

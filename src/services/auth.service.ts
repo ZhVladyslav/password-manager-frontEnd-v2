@@ -14,12 +14,7 @@ interface ILogin extends Pick<IUser, 'login' | 'password'> {}
 interface IRegistrationResult extends Pick<IResults, 'message'> {}
 interface ILoginResult extends Pick<IResults, 'token'> {}
 
-interface IAuthService {
-  registration(data: IRegistration): Promise<IRegistrationResult | IError>;
-  login(data: ILogin): Promise<ILoginResult | IError>;
-}
-
-class AuthService implements IAuthService {
+class AuthService {
   rootPath: string;
 
   constructor() {
@@ -35,23 +30,21 @@ class AuthService implements IAuthService {
    * login
    */
 
-  async registration(data: IRegistration): Promise<IRegistrationResult | IError> {
+  async registration(data: IRegistration) {
     try {
       const res = await axios.post<IRegistrationResult>(this.path('registration'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
-  async login(data: ILogin): Promise<ILoginResult | IError> {
+  async login(data: ILogin) {
     try {
       const res = await axios.post<ILoginResult>(this.path('login'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 }

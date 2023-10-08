@@ -36,7 +36,7 @@ class UserService {
       const res = await axios.get<IUser>(this.path('my-account'));
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -45,7 +45,7 @@ class UserService {
       const res = await axios.put<IMessage>(this.path('edit-name'), data);
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -54,8 +54,7 @@ class UserService {
       const res = await axios.put<IMessage>(this.path('edit-password'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
@@ -64,8 +63,7 @@ class UserService {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 }

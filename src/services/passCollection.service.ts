@@ -38,7 +38,7 @@ class PassCollectionService {
       const res = await axios.get<IPassCollection[]>(this.path('all'));
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -47,7 +47,7 @@ class PassCollectionService {
       const res = await axios.get<IPassCollection>(this.path('by-id'), { params: data });
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
@@ -56,27 +56,25 @@ class PassCollectionService {
       const res = await axios.post<{ id: string }>(this.path('create'), data);
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 
-  async editName(data: IEditName): Promise<IMessage | IError> {
+  async editName(data: IEditName) {
     try {
       const res = await axios.put<IMessage>(this.path('edit-name'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
-  async editEncryptData(data: IEditEncryptDate): Promise<IMessage | IError> {
+  async editEncryptData(data: IEditEncryptDate) {
     try {
       const res = await axios.put<IMessage>(this.path('edit-encrypt-data'), data);
       return res.data;
     } catch (error) {
-      const err = error as IErrorRes;
-      return err.response.data;
+      return null;
     }
   }
 
@@ -85,7 +83,7 @@ class PassCollectionService {
       const res = await axios.delete<IMessage>(this.path('delete'), { data });
       return res.data;
     } catch (error) {
-      console.error(error);
+      return null;
     }
   }
 }
