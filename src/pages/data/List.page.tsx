@@ -3,7 +3,7 @@ import { passCollectionService } from '../../services/passCollection.service';
 import { IPassCollection } from '../../types/passCollection.type';
 import { formatDate } from '../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
-import { PATH_HOME, PATH_PASS_COLLECTION_DECRYPT } from '../../routes/paths';
+import { PATH_HOME, PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT } from '../../routes/paths';
 
 export default function DataListPage() {
   const navigate = useNavigate();
@@ -26,7 +26,6 @@ export default function DataListPage() {
     getDataList();
   }, []);
 
-  
   return (
     <>
       {dataList &&
@@ -45,7 +44,7 @@ export default function DataListPage() {
           </div>
         ))}
 
-      <button onClick={() => navigate(PATH_PASS_COLLECTION_DECRYPT.DECRYPT)}>To create</button>
+      <button onClick={() => navigate(PATH_PASS_COLLECTION.CREATE)}>To create</button>
       <button onClick={() => navigate(PATH_HOME.HOME)}>To home</button>
     </>
   );

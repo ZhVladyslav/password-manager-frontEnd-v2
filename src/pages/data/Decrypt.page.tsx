@@ -12,7 +12,6 @@ export default function DataDecryptPage() {
   const navigate = useNavigate();
   const passCollectionContext = useContext(PassCollectionContext);
 
-  const [name, setName] = useState<string>('');
   const [inputPassword, setInputPassword] = useState<string>('');
 
   useEffect(() => {
@@ -23,25 +22,6 @@ export default function DataDecryptPage() {
 
     getById();
   }, []);
-
-  const createNewCollection = async () => {
-    if (!name || !inputPassword || !passCollectionContext) return;
-
-    const dataToEncrypt: IDecryptData = {
-      id: uuid.generate(),
-      payload: uuid.generate(),
-      version: 'v1',
-      date: { createData: new Date(), lastUpdate: new Date() },
-      collectionData: [],
-    };
-
-    const encryptData = cryptoV1.encrypt({ key: inputPassword, str: JSON.stringify(dataToEncrypt) });
-    if (!encryptData) return;
-
-    const res = await passCollectionService.create({ name, encryptData });
-    if (!res) return;
-    navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${res.id}`);
-  };
 
   const getById = async () => {
     if (!id || !passCollectionContext) return;
@@ -66,24 +46,16 @@ export default function DataDecryptPage() {
   };
 
   const submit = async () => {
-    if (!id) await createNewCollection();
     if (id) await decryptCollection();
-  };
-
-  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === 'passCollectionName') setName(e.target.value);
-    if (e.target.name === 'passCollectionPassword') setInputPassword(e.target.value);
   };
 
   return (
     <div>
-      {!id && <input name="passCollectionName" type="text" placeholder="Name" onChange={changeInput} value={name} />}
-
       <input
         name="passCollectionPassword"
         type="text"
         placeholder="password"
-        onChange={changeInput}
+        onChange={(e) => setInputPassword(e.target.value)}
         value={inputPassword}
       />
 
