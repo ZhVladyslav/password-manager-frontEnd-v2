@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { authService } from '../services/auth.service';
-import { PATH_AUTH } from '../routes/paths';
-import { userSession } from '../auth/userSession';
+import { authService } from '../../services/auth.service';
+import { PATH_AUTH } from '../../routes/paths';
+import { userSession } from '../../auth/userSession';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
@@ -13,6 +13,7 @@ export default function LoginPage() {
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const loginRes = await authService.login({ login, password });
+    if (!loginRes) return
     if ('token' in loginRes) userSession.create(loginRes.token);
   };
 

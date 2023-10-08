@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { authService } from '../services/auth.service';
+import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
-import { PATH_AUTH } from '../routes/paths';
-import { userSession } from '../auth/userSession';
+import { PATH_AUTH } from '../../routes/paths';
+import { userSession } from '../../auth/userSession';
 
 export default function RegistrationPage() {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ export default function RegistrationPage() {
     const registrationRes = await authService.registration({ name, login, password });
     if (!registrationRes) return;
     const loginRes = await authService.login({ login, password });
+    if (!loginRes) return;
     if ('token' in loginRes) userSession.create(loginRes.token);
   };
 

@@ -11,7 +11,7 @@ interface iLoadable {
 /* eslint-disable react/display-name */
 const Loadable = (Component: ComponentType) => {
   return ({ claims, ...props }: iLoadable) => {
-    if (claims) {      
+    if (claims) {
       return (
         <Suspense fallback={<LoadingPage />}>
           <ClaimsGuard claims={claims}>
@@ -45,8 +45,8 @@ export const CollectionLayout = Loadable(lazy(() => import('../layouts/Collectio
 export const HomePage = Loadable(lazy(() => import('../pages/Home.page')));
 
 // Auth
-export const LoginPage = Loadable(lazy(() => import('../pages/Login.page')));
-export const RegistrationPage = Loadable(lazy(() => import('../pages/Registration.page')));
+export const LoginPage = Loadable(lazy(() => import('../pages/auth/Login.page')));
+export const RegistrationPage = Loadable(lazy(() => import('../pages/auth/Registration.page')));
 
 // User
 export const UserViewPage = Loadable(lazy(() => import('../pages/user/View.page')));
