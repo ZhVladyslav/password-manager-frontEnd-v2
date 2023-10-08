@@ -45,6 +45,7 @@ class Routes {
     const root = this.ROOT_PASS_COLLECTION;
     return {
       LIST: this.createPath(root, '/list'),
+      CREATE: this.createPath(root, '/create'),
     };
   }
 

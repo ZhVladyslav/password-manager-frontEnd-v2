@@ -24,8 +24,9 @@ import {
   UserSettingsPage,
 
   // Data
-  DataDecryptPage,
   DataListPage,
+  DataCreatePage,
+  DataDecryptPage,
   DataViewPage,
   DataEditPage,
 
@@ -93,6 +94,7 @@ export default function Router() {
       children: [
         { path: '', element: <Navigate to={PATH_PASS_COLLECTION.LIST} replace /> },
         { path: 'list', element: <DataListPage /> },
+        { path: 'create', element: <DataCreatePage /> },
       ],
     },
 
@@ -106,7 +108,6 @@ export default function Router() {
       ),
       children: [
         { path: '', element: <Navigate to={PATH_PASS_COLLECTION.LIST} replace /> },
-        { path: 'decrypt', element: <DataDecryptPage /> },
         { path: 'decrypt/:id', element: <DataDecryptPage /> },
         { path: 'view/:id', element: <DataViewPage /> },
         { path: 'edit/:id', element: <DataEditPage /> },
