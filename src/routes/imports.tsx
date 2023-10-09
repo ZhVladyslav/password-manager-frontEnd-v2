@@ -38,6 +38,7 @@ const Loadable = (Component: ComponentType) => {
 // ----------------------------------------------------------------------
 
 // Layouts
+export const AuthLayout = Loadable(lazy(() => import('../layouts/Auth.layout')));
 export const MainLayout = Loadable(lazy(() => import('../layouts/Main.layout')));
 export const CollectionLayout = Loadable(lazy(() => import('../layouts/Collection.layout')));
 

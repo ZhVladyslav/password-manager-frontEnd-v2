@@ -9,6 +9,7 @@ import GuestGuard from '../guards/guest.guard';
 // Imports
 import {
   // Layout
+  AuthLayout,
   MainLayout,
   CollectionLayout,
 
@@ -49,7 +50,7 @@ export default function Router() {
       path: 'auth',
       element: (
         <GuestGuard>
-          <MainLayout />
+          <AuthLayout />
         </GuestGuard>
       ),
       children: [
