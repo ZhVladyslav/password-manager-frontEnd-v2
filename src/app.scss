@@ -67,38 +67,32 @@ svg {
   max-height: 100%;
 }
 
-body {
-  // overflow: hidden;
-}
+// body {
+
+// }
 
 /* ROOT */
 
-* {
-  // user-select: none;
-}
+// * {
+// user-select: none;
+// }
 
 #root {
-  min-width: 350px;
+  width: 100vw;
   height: 100vh;
-  // overflow: hidden;
+  overflow: hidden;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   background-color: #161c24;
 
   // backdrop-filter: blur(20px);
-  background-image: url(assets/cyan-blur.png), url(assets/red-blur.png);
-  background-repeat: no-repeat, no-repeat;
-  background-position: right top, left bottom;
-  background-size: 50%, 50%;
+  // background-image: url(assets/cyan-blur.png), url(assets/red-blur.png);
+  // background-repeat: no-repeat, no-repeat;
+  // background-position: right top, left bottom;
+  // background-size: 50%, 50%;
 
-  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   color: #fff;
-
-  #innerRoot {
-    width: 100%;
-    height: 100%;
-  }
 }
