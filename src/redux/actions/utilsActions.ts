@@ -3,11 +3,11 @@ import slice from '../slices/utilsSlice';
 
 class UtilsActions {
   public hasError(error: string) {
-    dispatch(slice.actions.setLoader(error));
+    dispatch(slice.actions.setLoading(error));
   }
-  
+
   public loading(isLoading: boolean) {
-    dispatch(slice.actions.setLoader(isLoading));
+    dispatch(slice.actions.setLoading(isLoading));
   }
 }
 
