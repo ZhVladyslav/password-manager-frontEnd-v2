@@ -21,10 +21,7 @@ export default function HomePage() {
 
   return (
     <>
-      <button onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>passCollection list</button> <br />
-      <button onClick={() => navigate(PATH_USER.SETTINGS)}>user</button> <br />
-      <button onClick={() => navigate(PATH_ROLE.LIST)}>Roles</button> <br />
-      <button onClick={logout}>logout</button> <br />
+      This project create to demonstration my skills in web technologies
     </>
   );
 }
