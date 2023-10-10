@@ -1,27 +1,20 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PATH_PASS_COLLECTION, PATH_USER, PATH_ROLE } from '../routes/paths';
-import { userActions } from '../redux/actions/userActions';
-import { sessionActions } from '../redux/actions/sessionActions';
-import { userSession } from '../auth/userSession';
-import { sessionService } from '../services/session.service';
+import Logo from '../assets/logo.png';
+import style from './home.page.module.scss';
 
 export default function HomePage() {
-  const navigate = useNavigate();
-
-  // const sessionStore = useSelector((state: IStore) => state);
-  // console.log(sessionStore);
-
-  const logout = async () => {
-    await sessionService.logout();
-    userActions.logout();
-    sessionActions.close();
-    userSession.close();
-  };
-
+  console.log(process.env.REACT_APP_DESCRIPTION);
+  
   return (
     <>
-      This project create to demonstration my skills in web technologies
+      <div className={style.container}>
+        <div className={style.img}>
+          <img src={Logo} />
+        </div>
+        <div className={style.text}>
+          <span>{process.env.REACT_APP_DESCRIPTION}</span>
+        </div>
+      </div>
     </>
   );
 }
