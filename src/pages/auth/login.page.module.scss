@@ -1,43 +1,93 @@
 .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
-  padding: 100px 200px;
+  min-width: 900px;
+  min-height: 700px;
+  padding: 100px;
 
-  .inner_container {
+  .content_container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
-    padding: 20px;
     width: 100%;
     height: 100%;
-    background-color: rgb(33, 43, 54);
-    border-radius: 44px;
+    max-width: 900px;
+    min-height: 600px;
+    overflow: hidden;
+    border-radius: 48px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 12px 24px -4px;
 
-    .content {
+    .content_block {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       flex-direction: column;
+      padding: 20px;
 
       h1 {
-        color: #000;
-        font-size: 3em;
-        font-weight: 900;
+        font-size: 4em;
+        font-family: 'Courgette', cursive;
       }
-      
+
       h2 {
-        color: #474747;
-        font-size: 1em;
-        font-weight: 900;
+        font-size: 2em;
+        color: rgb(145, 158, 171);
+        font-family: 'Courgette', cursive;
+      }
+
+      form {
+        padding: 20px;
+        margin: 10px 0;
+
+        .inputBlock {
+          margin-bottom: 15px;
+
+          & > *:not(:last-child) {
+            margin-bottom: 5px;
+          }
+        }
+
+        .formButton {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .linkButton {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          height: 30px;
+          margin-top: 10px;
+
+          span {
+            color: rgb(145, 158, 171);
+            font-family: 'Courgette', cursive;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
       }
     }
 
     .img {
       display: flex;
-      justify-content: center;
       align-items: center;
-      // background-color: #000;
-      border-radius: 44px;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        max-width: 500px;
+        max-height: 500px;
+        object-fit: contain;
+      }
     }
   }
 }
