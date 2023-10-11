@@ -7,10 +7,11 @@ import style from './login.page.module.scss';
 import { PATH_AUTH } from '../../routes/paths';
 import InputText from '../../components/InputText.component';
 import { useInputText } from '../../hooks/useInputText.hook';
+import Button from '../../components/Button.component';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const loginInput = useInputText({reg: /[0-9]/, errorText: 'test'});
+  const loginInput = useInputText({ reg: /[0-9]/, errorText: 'test' });
   const passwordInput = useInputText();
 
   const [login, setLogin] = useState<string>('');
@@ -23,14 +24,6 @@ export default function LoginPage() {
     if ('token' in loginRes) userSession.create(loginRes.token);
   };
 
-  const inputLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLogin(e.target.value);
-  };
-
-  const inputPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
   return (
     <>
       <div className={style.container}>
@@ -41,9 +34,9 @@ export default function LoginPage() {
             <form onSubmit={submit}>
               <InputText title="Login" name="login" inputHook={loginInput} />
               <InputText title="Password" name="password" inputHook={passwordInput} />
-              <button type="submit">submit</button>
+              <Button type="submit" title="submit" />
             </form>
-            {/* <button onClick={() => navigate(PATH_AUTH.REGISTRATION)}>To registration</button> */}
+            <Button onClick={() => navigate(PATH_AUTH.REGISTRATION)} title="To registration" />
           </div>
           <div className={style.img}>
             <img src={Logo} />

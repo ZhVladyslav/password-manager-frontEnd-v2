@@ -41,7 +41,6 @@ import {
   Error404Page,
   Error500Page,
 } from './imports';
-import ClaimsGuard from '../guards/claim.guard';
 
 export default function Router() {
   return useRoutes([
