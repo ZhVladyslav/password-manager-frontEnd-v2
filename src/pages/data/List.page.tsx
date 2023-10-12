@@ -4,6 +4,7 @@ import { IPassCollection } from '../../types/passCollection.type';
 import { formatDate } from '../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
 import { PATH_HOME, PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT } from '../../routes/paths';
+import style from './list.page.module.scss';
 
 export default function DataListPage() {
   const navigate = useNavigate();
@@ -28,24 +29,36 @@ export default function DataListPage() {
 
   return (
     <>
-      {dataList &&
-        dataList.map((item) => (
-          <div key={item.id} style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
-            <span
-              onClick={() => {
-                navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
-              }}
-            >
-              {item.name}
-            </span>
-            <span>{formatDate(item.createDate)}</span>
-            <span>{formatDate(item.lastUpdate)}</span>
-            <span onClick={() => deleteData(item.id)}>DELETE</span>
-          </div>
-        ))}
+      <div className={style.tableContainer}>
+        <div className={style.tableRow_head}>
+          <div className={style.tableColumn}>Test</div>
+        </div>
+        <div className={style.tableRow_body}>
+          {dataList &&
+            dataList.map((item) => (
+              <div key={item.id} className={style.tableColumn_container}>
+                <div
+                  className={style.tableColumn}
+                  onClick={() => {
+                    navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
+                  }}
+                >
+                  {item.name}
+                </div>
+                <div className={style.tableColumn}>{formatDate(item.createDate)}</div>
+                <div className={style.tableColumn}>{formatDate(item.lastUpdate)}</div>
+                <div className={style.tableColumn} onClick={() => deleteData(item.id)}>
+                  DELETE
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
 
-      <button onClick={() => navigate(PATH_PASS_COLLECTION.CREATE)}>To create</button>
-      <button onClick={() => navigate(PATH_HOME.HOME)}>To home</button>
+      <div className={style.buttonsBlock}>
+        <button onClick={() => navigate(PATH_PASS_COLLECTION.CREATE)}>To create</button>
+        <button onClick={() => navigate(PATH_HOME.HOME)}>To home</button>
+      </div>
     </>
   );
 }
