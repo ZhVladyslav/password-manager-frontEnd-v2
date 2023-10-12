@@ -34,7 +34,7 @@ export default function LoginPage() {
                 <InputText title="Password" name="password" inputHook={passwordInput} />
               </div>
               <div className={style.formButton}>
-                <Button type="submit" title="submit" />
+                <Button type="submit" title="Login" />
               </div>
               <div className={style.linkButton}>
                 <span onClick={() => navigate(PATH_AUTH.REGISTRATION)}>Registration</span>
