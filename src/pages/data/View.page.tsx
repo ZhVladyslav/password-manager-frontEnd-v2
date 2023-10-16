@@ -1,9 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR } from '../../routes/paths';
+import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR, PATH_HOME } from '../../routes/paths';
 import { passCollectionService } from '../../services/passCollection.service';
 import { uuid } from '../../utils/uuid';
+import Button from '../../components/Button.component';
+import style from './list.page.module.scss';
 
 export default function DataViewPage() {
   const { id } = useParams();
@@ -25,27 +27,44 @@ export default function DataViewPage() {
     const res = await passCollectionService.delete({ id });
     passCollectionContext.clearContext();
   };
-  
+
   return (
     <>
-      <div>
-        <button onClick={() => passCollectionContext.clearContext()}>To list</button>
-        <button onClick={() => deleteData()}>DELETE</button>
-        <button onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.EDIT}/${id}`)}>EDIT</button>
-        <button onClick={() => passCollectionContext.clearContext()}>LOCK</button>
-      </div>
-      <div>
-        <span>{passCollectionContext.collectionInDb.name}</span>
-      </div>
-      <div>
-        {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
-          <div key={item.id}>
-            {Object.keys(item).map((itemKeys) => (
-              <div key={`${item.id}_${itemKeys}`}>{`${itemKeys}: ${item[itemKeys]}`}</div>
-            ))}
-            <br />
-          </div>
-        ))}
+      <div className={style.contentContainer}>
+        <div className={style.buttonContainer}>
+          <Button type="submit" title="To list" onClick={() => passCollectionContext.clearContext()} />
+          <Button type="submit" title="Delete collection" onClick={() => deleteData()} />
+          <Button type="submit" title="Edit" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.EDIT}/${id}`)} />
+          <Button type="submit" title="Lock" onClick={() => passCollectionContext.clearContext()} />
+        </div>
+
+        <div className={style.tableContainer}>
+          <table>
+            {/* HEAD */}
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th></th>
+              </tr>
+            </thead>
+            {/* BODY */}
+            <tbody>
+              {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
+                <>
+                  <tr key={item.id}>
+                    <td>{i + 1}</td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.password}</td>
+                  </tr>
+                </>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

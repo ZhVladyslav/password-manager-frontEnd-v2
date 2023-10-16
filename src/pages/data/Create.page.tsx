@@ -34,7 +34,8 @@ export default function DataCreatePage() {
     navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${res.id}`);
   };
 
-  const submit = async () => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     await createNewCollection();
   };
 

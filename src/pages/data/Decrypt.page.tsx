@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uuid } from '../../utils/uuid';
 import { IDecryptData } from '../../types/decryptData.type';
@@ -16,8 +16,6 @@ export default function DataDecryptPage() {
   const navigate = useNavigate();
   const passCollectionContext = useContext(PassCollectionContext);
   const passwordInput = useInputText();
-
-  const [inputPassword, setInputPassword] = useState<string>('');
 
   useEffect(() => {
     if (!id || !uuid.check(id)) {
@@ -40,17 +38,18 @@ export default function DataDecryptPage() {
   const decryptCollection = async () => {
     if (!id || !passCollectionContext || !passCollectionContext.collectionInDb) return;
 
-    const res = cryptoV1.decrypt({ key: inputPassword, str: passCollectionContext.collectionInDb.encryptData });
+    const res = cryptoV1.decrypt({ key: passwordInput.value, str: passCollectionContext.collectionInDb.encryptData });
     if (!res) return;
 
     const decryptData = JSON.parse(res) as IDecryptData;
     passCollectionContext.setDecryptCollectionData(decryptData);
-    passCollectionContext.setPassword(inputPassword);
+    passCollectionContext.setPassword(passwordInput.value);
 
     navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`);
   };
 
-  const submit = async () => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (id) await decryptCollection();
   };
 
