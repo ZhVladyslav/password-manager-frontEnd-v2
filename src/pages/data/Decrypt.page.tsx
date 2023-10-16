@@ -6,11 +6,16 @@ import { cryptoV1 } from '../../utils/crypto.v1';
 import { passCollectionService } from '../../services/passCollection.service';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
 import { PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR, PATH_PASS_COLLECTION } from '../../routes/paths';
+import style from './create.page.module.scss';
+import { useInputText } from '../../hooks/useInputText.hook';
+import InputText from '../../components/InputText.component';
+import Button from '../../components/Button.component';
 
 export default function DataDecryptPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const passCollectionContext = useContext(PassCollectionContext);
+  const passwordInput = useInputText();
 
   const [inputPassword, setInputPassword] = useState<string>('');
 
@@ -50,17 +55,28 @@ export default function DataDecryptPage() {
   };
 
   return (
-    <div>
-      <input
-        name="passCollectionPassword"
-        type="text"
-        placeholder="password"
-        onChange={(e) => setInputPassword(e.target.value)}
-        value={inputPassword}
-      />
-
-      <button onClick={submit}>{id ? 'Decrypt' : 'Create'}</button>
-      <button onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>To list</button>
-    </div>
+    <>
+      <div className={style.container}>
+        <div className={style.content_container}>
+          <div className={style.content_block}>
+            <div className={style.textBlock}>
+              <h1>Decrypt</h1>
+              <h2>Decrypt password collection</h2>
+            </div>
+            <form onSubmit={submit}>
+              <div className={style.inputBlock}>
+                <InputText title="Password" name="password" inputHook={passwordInput} />
+              </div>
+              <div className={style.formButton}>
+                <Button type="submit" title="Decrypt" />
+              </div>
+              <div className={style.linkButton}>
+                <span onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>To list</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

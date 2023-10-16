@@ -5,15 +5,18 @@ import { IDecryptData } from '../../types/decryptData.type';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { passCollectionService } from '../../services/passCollection.service';
 import { PATH_PASS_COLLECTION_DECRYPT, PATH_PASS_COLLECTION } from '../../routes/paths';
+import style from './create.page.module.scss';
+import InputText from '../../components/InputText.component';
+import Button from '../../components/Button.component';
+import { useInputText } from '../../hooks/useInputText.hook';
 
 export default function DataCreatePage() {
   const navigate = useNavigate();
-
-  const [name, setName] = useState<string>('');
-  const [inputPassword, setInputPassword] = useState<string>('');
+  const nameInput = useInputText();
+  const passwordInput = useInputText();
 
   const createNewCollection = async () => {
-    if (!name || !inputPassword) return;
+    if (!nameInput.value || !passwordInput.value) return;
 
     const dataToEncrypt: IDecryptData = {
       id: uuid.generate(),
@@ -23,10 +26,10 @@ export default function DataCreatePage() {
       collectionData: [],
     };
 
-    const encryptData = cryptoV1.encrypt({ key: inputPassword, str: JSON.stringify(dataToEncrypt) });
+    const encryptData = cryptoV1.encrypt({ key: passwordInput.value, str: JSON.stringify(dataToEncrypt) });
     if (!encryptData) return;
 
-    const res = await passCollectionService.create({ name, encryptData });
+    const res = await passCollectionService.create({ name: nameInput.value, encryptData });
     if (!res) return;
     navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${res.id}`);
   };
@@ -36,25 +39,29 @@ export default function DataCreatePage() {
   };
 
   return (
-    <div>
-      <input
-        name="passCollectionName"
-        type="text"
-        placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
-        value={name}
-      />
-
-      <input
-        name="passCollectionPassword"
-        type="text"
-        placeholder="password"
-        onChange={(e) => setInputPassword(e.target.value)}
-        value={inputPassword}
-      />
-
-      <button onClick={submit}>Create</button>
-      <button onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>To list</button>
-    </div>
+    <>
+      <div className={style.container}>
+        <div className={style.content_container}>
+          <div className={style.content_block}>
+            <div className={style.textBlock}>
+              <h1>Create</h1>
+              <h2>Create new password collection</h2>
+            </div>
+            <form onSubmit={submit}>
+              <div className={style.inputBlock}>
+                <InputText title="Name" name="name" inputHook={nameInput} />
+                <InputText title="Password" name="password" inputHook={passwordInput} />
+              </div>
+              <div className={style.formButton}>
+                <Button type="submit" title="Create" />
+              </div>
+              <div className={style.linkButton}>
+                <span onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>To list</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
