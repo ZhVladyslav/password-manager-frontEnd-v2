@@ -26,8 +26,10 @@ export default function LoginPage() {
       <div className={style.container}>
         <div className={style.content_container}>
           <div className={style.content_block}>
-            <h1>Welcome</h1>
-            <h2>Login in your account</h2>
+            <div className={style.textBlock}>
+              <h1>Welcome</h1>
+              <h2>Login in your account</h2>
+            </div>
             <form onSubmit={submit}>
               <div className={style.inputBlock}>
                 <InputText title="Login" name="login" inputHook={loginInput} />
@@ -40,10 +42,6 @@ export default function LoginPage() {
                 <span onClick={() => navigate(PATH_AUTH.REGISTRATION)}>Registration</span>
               </div>
             </form>
-          </div>
-
-          <div className={style.img}>
-            <img src={Logo} />
           </div>
         </div>
       </div>
