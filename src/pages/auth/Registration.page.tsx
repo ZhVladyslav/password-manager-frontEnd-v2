@@ -5,9 +5,7 @@ import { PATH_AUTH } from '../../routes/paths';
 import { userSession } from '../../auth/userSession';
 import InputText from '../../components/InputText.component';
 import { useInputText } from '../../hooks/useInputText.hook';
-import style from './login.page.module.scss';
-import Button from '../../components/Button.component';
-import Logo from '../../assets/logo.png';
+import Form from '../../components/Form_1.component';
 
 export default function RegistrationPage() {
   const navigate = useNavigate();
@@ -16,9 +14,7 @@ export default function RegistrationPage() {
   const loginInput = useInputText();
   const passwordInput = useInputText();
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const submit = async () => {
     const registrationRes = await authService.registration({
       name: nameInput.value,
       login: loginInput.value,
@@ -32,29 +28,18 @@ export default function RegistrationPage() {
 
   return (
     <>
-      <div className={style.container}>
-        <div className={style.content_container}>
-          <div className={style.content_block}>
-            <div className={style.textBlock}>
-              <h1>Registration</h1>
-              <h2>Create your account</h2>
-            </div>
-            <form onSubmit={submit}>
-              <div className={style.inputBlock}>
-                <InputText title="Name" name="name" inputHook={nameInput} />
-                <InputText title="Login" name="login" inputHook={loginInput} />
-                <InputText title="Password" name="password" inputHook={passwordInput} />
-              </div>
-              <div className={style.formButton}>
-                <Button type="submit" title="Registration" />
-              </div>
-              <div className={style.linkButton}>
-                <span onClick={() => navigate(PATH_AUTH.LOGIN)}>Login</span>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <Form
+        title="Registration"
+        smallTitle="Create your account"
+        submitName="Registration"
+        onSubmit={submit}
+        backName="Login"
+        onBack={() => navigate(PATH_AUTH.LOGIN)}
+      >
+        <InputText title="Name" name="name" inputHook={nameInput} />
+        <InputText title="Login" name="login" inputHook={loginInput} />
+        <InputText title="Password" name="password" inputHook={passwordInput} />
+      </Form>
     </>
   );
 }

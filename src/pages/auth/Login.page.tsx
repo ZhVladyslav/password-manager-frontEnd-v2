@@ -2,20 +2,17 @@ import React from 'react';
 import { authService } from '../../services/auth.service';
 import { userSession } from '../../auth/userSession';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/logo.png';
-import style from './login.page.module.scss';
 import { PATH_AUTH } from '../../routes/paths';
 import InputText from '../../components/InputText.component';
 import { useInputText } from '../../hooks/useInputText.hook';
-import Button from '../../components/Button.component';
+import Form from '../../components/Form_1.component';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const loginInput = useInputText(/* { reg: /[0-9]/, errorText: 'test' } */);
   const passwordInput = useInputText();
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submit = async () => {
     const loginRes = await authService.login({ login: loginInput.value, password: passwordInput.value });
     if (!loginRes) return;
     if ('token' in loginRes) userSession.create(loginRes.token);
@@ -23,28 +20,17 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className={style.container}>
-        <div className={style.content_container}>
-          <div className={style.content_block}>
-            <div className={style.textBlock}>
-              <h1>Welcome</h1>
-              <h2>Login in your account</h2>
-            </div>
-            <form onSubmit={submit}>
-              <div className={style.inputBlock}>
-                <InputText title="Login" name="login" inputHook={loginInput} />
-                <InputText title="Password" name="password" inputHook={passwordInput} />
-              </div>
-              <div className={style.formButton}>
-                <Button type="submit" title="Login" />
-              </div>
-              <div className={style.linkButton}>
-                <span onClick={() => navigate(PATH_AUTH.REGISTRATION)}>Registration</span>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <Form
+        title="Welcome"
+        smallTitle="Login in your account"
+        submitName="Login"
+        onSubmit={submit}
+        backName="Registration"
+        onBack={() => navigate(PATH_AUTH.REGISTRATION)}
+      >
+        <InputText title="Login" name="login" inputHook={loginInput} />
+        <InputText title="Password" name="password" inputHook={passwordInput} />
+      </Form>
     </>
   );
 }
