@@ -6,6 +6,7 @@ import { passCollectionService } from '../../services/passCollection.service';
 import { uuid } from '../../utils/uuid';
 import Button from '../../components/Button.component';
 import style from './list.page.module.scss';
+import Table from '../../components/Table.component';
 
 export default function DataViewPage() {
   const { id } = useParams();
@@ -39,31 +40,18 @@ export default function DataViewPage() {
         </div>
 
         <div className={style.tableContainer}>
-          <table>
-            {/* HEAD */}
-            <thead>
-              <tr>
-                <th>Number</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th></th>
-              </tr>
-            </thead>
-            {/* BODY */}
-            <tbody>
-              {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
-                <>
-                  <tr key={item.id}>
-                    <td>{i + 1}</td>
-                    <td>{item.name}</td>
-                    <td>{item.email}</td>
-                    <td>{item.password}</td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-          </table>
+          <Table head={['Number', 'Name', 'Email', 'Password', '']}>
+            {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
+              <>
+                <tr key={item.id}>
+                  <td>{i + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{item.password}</td>
+                </tr>
+              </>
+            ))}
+          </Table>
         </div>
       </div>
     </>

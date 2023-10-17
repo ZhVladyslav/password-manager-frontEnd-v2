@@ -5,10 +5,9 @@ import { IDecryptData } from '../../types/decryptData.type';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { passCollectionService } from '../../services/passCollection.service';
 import { PATH_PASS_COLLECTION_DECRYPT, PATH_PASS_COLLECTION } from '../../routes/paths';
-import style from './create.page.module.scss';
 import InputText from '../../components/InputText.component';
-import Button from '../../components/Button.component';
 import { useInputText } from '../../hooks/useInputText.hook';
+import Form from '../../components/Form_1.component';
 
 export default function DataCreatePage() {
   const navigate = useNavigate();
@@ -34,35 +33,23 @@ export default function DataCreatePage() {
     navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${res.id}`);
   };
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submit = async () => {
     await createNewCollection();
   };
 
   return (
     <>
-      <div className={style.container}>
-        <div className={style.content_container}>
-          <div className={style.content_block}>
-            <div className={style.textBlock}>
-              <h1>Create</h1>
-              <h2>Create new password collection</h2>
-            </div>
-            <form onSubmit={submit}>
-              <div className={style.inputBlock}>
-                <InputText title="Name" name="name" inputHook={nameInput} />
-                <InputText title="Password" name="password" inputHook={passwordInput} />
-              </div>
-              <div className={style.formButton}>
-                <Button type="submit" title="Create" />
-              </div>
-              <div className={style.linkButton}>
-                <span onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}>To list</span>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <Form
+        title="Create"
+        smallTitle="Create new password collection"
+        submitName="Create"
+        onSubmit={submit}
+        backName="To list"
+        onBack={() => navigate(PATH_PASS_COLLECTION.LIST)}
+      >
+        <InputText title="Name" name="name" inputHook={nameInput} />
+        <InputText title="Password" name="password" inputHook={passwordInput} />
+      </Form>
     </>
   );
 }
