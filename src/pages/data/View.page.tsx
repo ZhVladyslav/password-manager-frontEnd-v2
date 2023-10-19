@@ -39,20 +39,16 @@ export default function DataViewPage() {
           <Button type="submit" title="Lock" onClick={() => passCollectionContext.clearContext()} />
         </div>
 
-        <div className={style.tableContainer}>
-          <Table head={['Number', 'Name', 'Email', 'Password', '']}>
-            {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
-              <>
-                <tr key={item.id}>
-                  <td>{i + 1}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.password}</td>
-                </tr>
-              </>
-            ))}
-          </Table>
-        </div>
+        <Table head={['Number', 'Name', 'Email', 'Password', '']}>
+          {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
+            <tr key={item.id}>
+              <td>{i + 1}</td>
+              <td>{item.name}</td>
+              <td>{item.email}</td>
+              <td>{item.password}</td>
+            </tr>
+          ))}
+        </Table>
       </div>
     </>
   );

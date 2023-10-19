@@ -37,28 +37,26 @@ export default function DataListPage() {
           <Button type="submit" title="To home" onClick={() => navigate(PATH_HOME.HOME)} />
         </div>
 
-        <div className={style.tableContainer}>
-          <Table head={['Name', 'Last update', 'Create date', '']}>
-            {dataList &&
-              dataList.map((item) => (
-                <tr key={item.id}>
-                  <td>
-                    <span
-                      className={style.tableRowName}
-                      onClick={() => {
-                        navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
-                      }}
-                    >
-                      {item.name}
-                    </span>
-                  </td>
-                  <td>{formatDate(item.lastUpdate)}</td>
-                  <td>{formatDate(item.createDate)}</td>
-                  <td onClick={() => deleteData(item.id)}>DELETE</td>
-                </tr>
-              ))}
-          </Table>
-        </div>
+        <Table head={['Name', 'Last update', 'Create date', '']}>
+          {dataList &&
+            dataList.map((item) => (
+              <tr key={item.id}>
+                <td>
+                  <span
+                    className={style.tableRowName}
+                    onClick={() => {
+                      navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
+                    }}
+                  >
+                    {item.name}
+                  </span>
+                </td>
+                <td>{formatDate(item.lastUpdate)}</td>
+                <td>{formatDate(item.createDate)}</td>
+                <td onClick={() => deleteData(item.id)}>DELETE</td>
+              </tr>
+            ))}
+        </Table>
       </div>
     </>
   );

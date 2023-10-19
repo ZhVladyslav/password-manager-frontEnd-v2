@@ -1,0 +1,20 @@
+.nameContainer {
+  display: flex;
+  width: 350px;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: 1fr;
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      display: block;
+    }
+    // background-color: red;
+  }
+}

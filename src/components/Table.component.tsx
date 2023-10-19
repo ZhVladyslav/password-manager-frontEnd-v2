@@ -4,11 +4,15 @@ import style from './table.component.module.scss';
 interface ITable {
   head: string[];
   children: React.ReactNode;
+  size?: {
+    width: string;
+    height: string;
+  };
 }
 
-export default function Table({ head, children }: ITable) {
+export default function Table({ head, children, size = { width: '100vw', height: '100vh' } }: ITable) {
   return (
-    <div className={style.tableContainer}>
+    <div className={style.tableContainer} style={{ width: size.width, height: size.height }}>
       <table>
         {/* HEAD */}
         <thead>

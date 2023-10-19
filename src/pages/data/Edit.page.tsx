@@ -6,15 +6,22 @@ import { uuid } from '../../utils/uuid';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR } from '../../routes/paths';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
+import style from './edit.page.module.scss';
+import InputText from '../../components/InputText.component';
+import { useInputText } from '../../hooks/useInputText.hook';
+import Table from '../../components/Table.component';
+import Button from '../../components/Button.component';
 
 export default function DataEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const passCollectionContext = useContext(PassCollectionContext);
+  const inputName = useInputText();
 
   const [dataName, setDataName] = useState<string>('');
   const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>([]);
   const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([]);
+  const [viewIndex, setViewIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (
@@ -109,7 +116,7 @@ export default function DataEditPage() {
 
   const inputDataInRecord = (e: React.ChangeEvent<HTMLInputElement>, id: string, name: string) => {
     setNewDataRecords((prev) =>
-    prev.map((item) => {
+      prev.map((item) => {
         if (id === item.id) {
           if (!(name in item)) return item;
           item[name] = e.target.value;
@@ -126,7 +133,7 @@ export default function DataEditPage() {
     if (newFieldsNameList[i] === '') return;
 
     setNewDataRecords((prev) =>
-    prev.map((item) => {
+      prev.map((item) => {
         if (item.id === id) {
           const test = item;
           test[newFieldsNameList[i]] = '';
@@ -139,7 +146,7 @@ export default function DataEditPage() {
 
   const writeInputName = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
     setNewFieldsNameList((prev) =>
-    prev.map((item, index) => {
+      prev.map((item, index) => {
         if (index === i) {
           return e.target.value;
         }
@@ -154,7 +161,7 @@ export default function DataEditPage() {
 
   const deleteInput = (id: string, itemKeys: string) => {
     setNewDataRecords((prev) =>
-    prev.map((item) => {
+      prev.map((item) => {
         if (item.id === id) {
           delete item[itemKeys];
           return item;
@@ -164,50 +171,95 @@ export default function DataEditPage() {
     );
   };
 
+  const viewRecord = (id: string) => {
+    const index = newDataRecords.findIndex((item) => item.id === id);
+    setViewIndex(index);
+    console.log(newDataRecords[index]);
+  };
+
   if (!passCollectionContext || !passCollectionContext.decryptCollectionData || !passCollectionContext.collectionInDb)
     return <Navigate to={PATH_PASS_COLLECTION.LIST} />;
 
   return (
     <>
-      <input type="text" placeholder="name collection" onChange={(e) => setDataName(e.target.value)} value={dataName} />
-      <br />
-      <hr />
-      {newDataRecords.map((item, i) => (
-        <div key={item.id}>
-          {Object.keys(item).map((itemKeys) => {
-            if (itemKeys === 'id') return <span key={`${item.id}_${itemKeys}`}></span>;
-            return (
-              <span key={`${item.id}_${itemKeys}`}>
-                {itemKeys}
-                <input
-                  type="text"
-                  onChange={(e) => inputDataInRecord(e, item.id, itemKeys)}
-                  value={findValue(item.id, itemKeys)}
-                />
-                {itemKeys === 'name' ||
-                itemKeys === 'email' ||
-                itemKeys === 'password' ||
-                itemKeys === 'url' ||
-                itemKeys === 'description' ? (
-                  <></>
-                ) : (
-                  <button onClick={() => deleteInput(item.id, itemKeys)}>X</button>
-                )}
-              </span>
-            );
-          })}
+      <div className={style.nameContainer}>
+        <InputText inputHook={inputName} title="Name" name="passCollection-name" />
 
-          <button onClick={() => addInput(item.id, i)}>Add</button>
-          <input type="text" onChange={(e) => writeInputName(e, i)} value={findAddInputValue(i)} />
-          <button onClick={() => deleteRecord(item.id)}>Delete</button>
+        <Button title="Add" onClick={addRecord} />
+        <Button title="Update" onClick={updateData} />
+        <Button title="Close" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`)} />
+      </div>
+
+      <div className={style.main}>
+        <Table head={['Name', 'Email', '']} size={{ width: 'calc(100vw - 400px)', height: 'calc(100vh - 90px)' }}>
+          {newDataRecords.map((item, i) => (
+            <tr key={item.id}>
+              <td onClick={() => viewRecord(item.id)}>{item.name}</td>
+              <td>{item.email}</td>
+              <td></td>
+            </tr>
+          ))}
+        </Table>
+
+        <div className={style.sidebar}>
+          {viewIndex !== null && (
+            <div>
+              <input
+                type="text"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'name')}
+                value={findValue(newDataRecords[viewIndex].id, 'name')}
+              />
+              <input
+                type="text"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'url')}
+                value={findValue(newDataRecords[viewIndex].id, 'url')}
+              />
+              <input
+                type="text"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'email')}
+                value={findValue(newDataRecords[viewIndex].id, 'email')}
+              />
+              <input
+                type="text"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'password')}
+                value={findValue(newDataRecords[viewIndex].id, 'password')}
+              />
+              <input
+                type="text"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'description')}
+                value={findValue(newDataRecords[viewIndex].id, 'description')}
+              />
+
+              {/*  */}
+
+              {Object.keys(newDataRecords[viewIndex]).map((itemKeys, i) => {
+                if (itemKeys === 'id') return null;
+                if (itemKeys === 'name') return null;
+                if (itemKeys === 'url') return null;
+                if (itemKeys === 'email') return null;
+                if (itemKeys === 'password') return null;
+                if (itemKeys === 'description') return null;
+
+                return (
+                  <div key={i}>
+                    <input
+                      type="text"
+                      onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, itemKeys)}
+                      value={findValue(newDataRecords[viewIndex].id, itemKeys)}
+                    />
+                    <button onClick={() => deleteInput(newDataRecords[viewIndex].id, itemKeys)}>X</button>
+                  </div>
+                );
+              })}
+
+              {/*  */}
+
+              <button onClick={() => addInput(newDataRecords[viewIndex].id, viewIndex)}>Add</button>
+              <input type="text" onChange={(e) => writeInputName(e, viewIndex)} value={findAddInputValue(viewIndex)} />
+              <button onClick={() => deleteRecord(newDataRecords[viewIndex].id)}>Delete</button>
+            </div>
+          )}
         </div>
-      ))}
-      <div>
-        <button onClick={addRecord}>Add</button>
-
-        <button onClick={updateData}>Update</button>
-
-        <button onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`)}>Close</button>
       </div>
     </>
   );
