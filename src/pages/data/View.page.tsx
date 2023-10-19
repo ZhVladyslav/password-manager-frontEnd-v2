@@ -39,7 +39,7 @@ export default function DataViewPage() {
           <Button type="submit" title="Lock" onClick={() => passCollectionContext.clearContext()} />
         </div>
 
-        <Table head={['Number', 'Name', 'Email', 'Password', '']}>
+        <Table head={['Number', 'Name', 'Email', 'Password', '']} size={{ width: '100vw', height: 'calc(100vh - 90px)' }}> 
           {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
             <tr key={item.id}>
               <td>{i + 1}</td>

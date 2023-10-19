@@ -183,15 +183,19 @@ export default function DataEditPage() {
   return (
     <>
       <div className={style.nameContainer}>
-        <InputText inputHook={inputName} title="Name" name="passCollection-name" />
+        <div className={style.inputBlock}>
+          <InputText inputHook={inputName} title="Name" name="passCollection-name" />
+        </div>
 
-        <Button title="Add" onClick={addRecord} />
-        <Button title="Update" onClick={updateData} />
-        <Button title="Close" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`)} />
+        <div className={style.buttonBlock}>
+          <Button title="Add" onClick={addRecord} />
+          <Button title="Update" onClick={updateData} />
+          <Button title="Close" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`)} />
+        </div>
       </div>
 
       <div className={style.main}>
-        <Table head={['Name', 'Email', '']} size={{ width: 'calc(100vw - 400px)', height: 'calc(100vh - 90px)' }}>
+        <Table head={['Name', 'Email', '']} size={{ width: 'calc(100vw - 400px)', height: 'calc(100vh - 110px)' }}>
           {newDataRecords.map((item, i) => (
             <tr key={item.id}>
               <td onClick={() => viewRecord(item.id)}>{item.name}</td>
@@ -204,6 +208,8 @@ export default function DataEditPage() {
         <div className={style.sidebar}>
           {viewIndex !== null && (
             <div>
+              <h2>{newDataRecords[viewIndex].name}</h2>
+
               <input
                 type="text"
                 onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'name')}

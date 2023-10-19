@@ -37,7 +37,7 @@ export default function DataListPage() {
           <Button type="submit" title="To home" onClick={() => navigate(PATH_HOME.HOME)} />
         </div>
 
-        <Table head={['Name', 'Last update', 'Create date', '']}>
+        <Table head={['Name', 'Last update', 'Create date', '']} size={{ width: 'calc(100vw - 300px)', height: 'calc(100vh - 90px)' }}>
           {dataList &&
             dataList.map((item) => (
               <tr key={item.id}>

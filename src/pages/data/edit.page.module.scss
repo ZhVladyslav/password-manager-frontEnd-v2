@@ -1,6 +1,20 @@
 .nameContainer {
   display: flex;
-  width: 350px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  padding: 0 10px;
+
+  .inputBlock {
+    width: 350px;
+  }
+
+  .buttonBlock {
+    & > *:not(:first-child) {
+      margin-left: 10px;
+    }
+  }
 }
 
 .main {
@@ -11,6 +25,10 @@
   .sidebar {
     display: flex;
     flex-direction: column;
+    background-color: rgb(33, 43, 54);
+    margin: 0 10px;
+    padding: 20px;
+    border-radius: 16px;
 
     input {
       display: block;

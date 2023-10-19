@@ -31,7 +31,7 @@ export default function RoleListPage() {
         </div>
 
         <div className={style.tableContainer}>
-          <Table head={['Name']}>
+          <Table head={['Name']} size={{ width: 'calc(100vw - 300px)', height: 'calc(100vh - 90px)' }}>
             {roleList &&
               roleList.map((item) => (
                 <tr key={item.id}>
