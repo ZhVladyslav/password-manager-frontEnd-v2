@@ -1,0 +1,213 @@
+.inputText_Container {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0px;
+  padding: 0px;
+  margin-top: 10px;
+  border: 0px none;
+  vertical-align: top;
+  width: 100%;
+
+  label {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: block;
+    line-height: 1.4375em;
+    font-size: 1rem;
+    padding: 0px;
+    transform-origin: left top 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 24px);
+    transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms, transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+      max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .inputContainer {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 8px;
+    line-height: 1.4375em;
+    font-size: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    input {
+      display: block;
+      font: inherit;
+      letter-spacing: inherit;
+      color: currentcolor;
+      border: 0px none;
+      box-sizing: content-box;
+      background: none;
+      height: 1.4375em;
+      margin: 0px;
+      min-width: 0px;
+      width: 100%;
+      animation-duration: 10ms;
+      background-color: transparent;
+      outline: none;
+      cursor: text;
+    }
+
+    fieldset {
+      text-align: left;
+      position: absolute;
+      margin: 0px;
+      padding: 0px 8px;
+      inset: -5px 0px 0px;
+      pointer-events: none;
+      border-radius: inherit;
+      border-style: solid;
+      border-width: 1px;
+      min-width: 0%;
+      overflow: hidden;
+
+      legend {
+        float: unset;
+        width: auto;
+        display: block;
+        padding: 0px;
+        height: 11px;
+        font-size: 0.75em;
+        white-space: nowrap;
+        overflow: hidden;
+        visibility: hidden;
+        max-width: 0.01px;
+        transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+        span {
+          padding-left: 5px;
+          padding-right: 5px;
+          display: inline-block;
+          opacity: 0;
+          visibility: visible;
+        }
+      }
+    }
+  }
+}
+
+// SIZE
+
+.inputText_size_small {
+  label {
+    transform: translate(14px, 10px) scale(1);
+  }
+
+  .inputContainer {
+    input {
+      padding: 10.5px 14px;
+    }
+  }
+}
+
+.inputText_size_middle {
+  label {
+    transform: translate(14px, 16px) scale(1);
+  }
+
+  .inputContainer {
+    input {
+      padding: 16.5px 14px;
+    }
+  }
+}
+
+.inputText_size_big {
+  label {
+    transform: translate(14px, 20px) scale(1);
+  }
+  
+  .inputContainer {
+    input {
+      padding: 20.5px 14px;
+    }
+  }
+}
+
+// STATE
+
+.inputText_Default {
+  label {
+    color: rgb(99, 115, 129);
+  }
+
+  .inputContainer {
+    color: rgb(255, 255, 255);
+
+    input {
+      &:hover + fieldset {
+        border-color: rgb(255, 255, 255);
+      }
+    }
+
+    fieldset {
+      border-color: rgba(145, 158, 171, 0.32);
+    }
+  }
+}
+
+.inputText_Change {
+  label {
+    transform: translate(14px, -9px) scale(0.75);
+    max-width: calc(133% - 24px);
+  }
+
+  .inputContainer {
+    fieldset {
+      legend {
+        max-width: 100%;
+        transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+      }
+    }
+  }
+}
+
+.inputText_Error {
+  label {
+    color: rgb(255, 86, 48);
+  }
+
+  .inputContainer {
+    fieldset {
+      border-color: rgb(255, 86, 48);
+    }
+  }
+
+  .inputTextError {
+    color: rgb(255, 86, 48);
+    line-height: 1.5;
+    font-size: 14px;
+    text-align: left;
+    margin: 8px 14px 4px;
+  }
+}
+
+.inputText_Focus {
+  label {
+    color: rgb(255, 255, 255);
+    transform: translate(14px, -9px) scale(0.75);
+    max-width: calc(133% - 24px);
+  }
+
+  .inputContainer {
+    fieldset {
+      border-color: rgb(255, 255, 255);
+      border-width: 2px;
+
+      legend {
+        max-width: 100%;
+        transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+      }
+    }
+  }
+}
+
