@@ -3,6 +3,10 @@
   border-radius: 16px;
   overflow: scroll;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   &::before {
     content: ' ';
     display: table;
@@ -118,7 +122,6 @@
   //   height: 100%;
   // }
 
-  
   //   }
   // }
 }

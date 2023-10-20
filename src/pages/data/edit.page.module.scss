@@ -32,6 +32,10 @@
     overflow-x: hidden;
     overflow-y: scroll;
 
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     .sidebar_container {
       color: rgb(99, 115, 129);
 

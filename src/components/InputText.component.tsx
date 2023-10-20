@@ -11,9 +11,10 @@ interface IProps {
   };
   title: string;
   name?: string;
+  inputRef?: React.LegacyRef<HTMLInputElement>;
 }
 
-export default function InputText({ title, name, inputHook }: IProps) {
+export default function InputText({ title, name, inputHook, inputRef }: IProps) {
   const { errorText, errorStatus, onBlur, onChange, value } = inputHook;
   const [focus, setFocus] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ export default function InputText({ title, name, inputHook }: IProps) {
       <label>{title}</label>
       <div className={style.inputContainer}>
         <input
+          ref={inputRef}
           type="text"
           onFocus={onFocusFunc}
           onBlur={onBlurFunc}

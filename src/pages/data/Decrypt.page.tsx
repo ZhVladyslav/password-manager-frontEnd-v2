@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, FormEvent } from 'react';
+import React, { useState, useEffect, useContext, FormEvent, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uuid } from '../../utils/uuid';
 import { IDecryptData } from '../../types/decryptData.type';
@@ -16,6 +16,8 @@ export default function DataDecryptPage() {
   const passCollectionContext = useContext(PassCollectionContext);
   const passwordInput = useInputText();
 
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (!id || !uuid.check(id)) {
       navigate(PATH_ERROR[404]);
@@ -24,6 +26,12 @@ export default function DataDecryptPage() {
 
     getById();
   }, []);
+
+  useEffect(() => {
+    if (passwordInputRef.current) {
+      passwordInputRef.current.focus();
+    }
+  }, [passwordInputRef]);
 
   const getById = async () => {
     if (!id || !passCollectionContext) return;
@@ -61,7 +69,7 @@ export default function DataDecryptPage() {
         backName="To list"
         onBack={() => navigate(PATH_PASS_COLLECTION.LIST)}
       >
-        <InputText title="Password" name="password" inputHook={passwordInput} />
+        <InputText inputRef={passwordInputRef} title="Password" name="password" inputHook={passwordInput} />
       </Form>
     </>
   );

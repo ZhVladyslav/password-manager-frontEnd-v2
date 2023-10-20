@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { uuid } from '../../utils/uuid';
 import { IDecryptData } from '../../types/decryptData.type';
@@ -13,6 +13,14 @@ export default function DataCreatePage() {
   const navigate = useNavigate();
   const nameInput = useInputText();
   const passwordInput = useInputText();
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
+  }, [nameInputRef]);
 
   const createNewCollection = async () => {
     if (!nameInput.value || !passwordInput.value) return;
@@ -47,7 +55,7 @@ export default function DataCreatePage() {
         backName="To list"
         onBack={() => navigate(PATH_PASS_COLLECTION.LIST)}
       >
-        <InputText title="Name" name="name" inputHook={nameInput} />
+        <InputText inputRef={nameInputRef} title="Name" name="name" inputHook={nameInput} />
         <InputText title="Password" name="password" inputHook={passwordInput} />
       </Form>
     </>
