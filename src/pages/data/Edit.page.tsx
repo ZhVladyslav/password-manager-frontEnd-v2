@@ -11,6 +11,7 @@ import InputText from '../../components/InputText.component';
 import { useInputText } from '../../hooks/useInputText.hook';
 import Table from '../../components/Table.component';
 import Button from '../../components/Button.component';
+import InputTextIndependent from '../../components/InputTextIndependent.component';
 
 export default function DataEditPage() {
   const { id } = useParams();
@@ -207,33 +208,47 @@ export default function DataEditPage() {
 
         <div className={style.sidebar}>
           {viewIndex !== null && (
-            <div>
-              <h2>{newDataRecords[viewIndex].name}</h2>
+            <div className={style.sidebar_container}>
+              <h2>{newDataRecords[viewIndex].name ? newDataRecords[viewIndex].name : 'Name'}</h2>
 
-              <input
-                type="text"
-                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'name')}
+              <InputTextIndependent
+                title="Name"
                 value={findValue(newDataRecords[viewIndex].id, 'name')}
+                name="name"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'name')}
+                size="small"
               />
-              <input
-                type="text"
-                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'url')}
+
+              <InputTextIndependent
+                title="Url"
                 value={findValue(newDataRecords[viewIndex].id, 'url')}
+                name="url"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'url')}
+                size="small"
               />
-              <input
-                type="text"
-                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'email')}
+
+              <InputTextIndependent
+                title="Email"
                 value={findValue(newDataRecords[viewIndex].id, 'email')}
+                name="email"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'email')}
+                size="small"
               />
-              <input
-                type="text"
-                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'password')}
+
+              <InputTextIndependent
+                title="Password"
                 value={findValue(newDataRecords[viewIndex].id, 'password')}
+                name="password"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'password')}
+                size="small"
               />
-              <input
-                type="text"
-                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'description')}
+
+              <InputTextIndependent
+                title="Description"
                 value={findValue(newDataRecords[viewIndex].id, 'description')}
+                name="description"
+                onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, 'description')}
+                size="small"
               />
 
               {/*  */}
@@ -247,22 +262,37 @@ export default function DataEditPage() {
                 if (itemKeys === 'description') return null;
 
                 return (
-                  <div key={i}>
-                    <input
-                      type="text"
-                      onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, itemKeys)}
+                  <div key={i} className={style.additionalField}>
+                    <InputTextIndependent
+                      title={itemKeys}
                       value={findValue(newDataRecords[viewIndex].id, itemKeys)}
+                      name={itemKeys}
+                      onChange={(e) => inputDataInRecord(e, newDataRecords[viewIndex].id, itemKeys)}
+                      size="small"
                     />
-                    <button onClick={() => deleteInput(newDataRecords[viewIndex].id, itemKeys)}>X</button>
+
+                    <Button title="Delete" onClick={() => deleteInput(newDataRecords[viewIndex].id, itemKeys)} />
                   </div>
                 );
               })}
 
               {/*  */}
 
-              <button onClick={() => addInput(newDataRecords[viewIndex].id, viewIndex)}>Add</button>
-              <input type="text" onChange={(e) => writeInputName(e, viewIndex)} value={findAddInputValue(viewIndex)} />
-              <button onClick={() => deleteRecord(newDataRecords[viewIndex].id)}>Delete</button>
+              <div className={style.additionalField}>
+                <InputTextIndependent
+                  title="New field name"
+                  value={findAddInputValue(viewIndex)}
+                  name="newFiled"
+                  onChange={(e) => writeInputName(e, viewIndex)}
+                  size="small"
+                />
+
+                <Button title="Add" onClick={() => addInput(newDataRecords[viewIndex].id, viewIndex)} />
+              </div>
+
+              {/* <div className={style.sidebarButtonBlock}>
+                <Button title="Delete" onClick={() => deleteRecord(newDataRecords[viewIndex].id)} />
+              </div> */}
             </div>
           )}
         </div>

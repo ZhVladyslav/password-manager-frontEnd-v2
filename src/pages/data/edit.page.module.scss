@@ -20,7 +20,7 @@
 .main {
   display: grid;
   grid-template-columns: 1fr 400px;
-  grid-template-rows: 1fr;
+  grid-template-rows: calc(100vh - 110px);
 
   .sidebar {
     display: flex;
@@ -29,6 +29,36 @@
     margin: 0 10px;
     padding: 20px;
     border-radius: 16px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .sidebar_container {
+      color: rgb(99, 115, 129);
+
+      & > * {
+        margin-bottom: 5px;
+      }
+    }
+
+    .additionalField {
+      display: flex;
+      align-items: center;
+
+      & > *:last-child {
+        margin-left: 10px;
+        margin-top: 10px;
+      }
+    }
+
+    .sidebarButtonBlock {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+
+      & > * {
+        margin-left: 10px;
+      }
+    }
 
     input {
       display: block;
