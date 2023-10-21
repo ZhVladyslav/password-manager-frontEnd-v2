@@ -1,27 +1,45 @@
-.nameContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.contentContainer {
   width: 100%;
-  height: 100px;
+  height: 100vh;
+  border-radius: 16px;
+  overflow: hidden;
   padding: 0 10px;
 
-  .inputBlock {
-    width: 350px;
-  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  .buttonBlock {
-    & > *:not(:first-child) {
-      margin-left: 10px;
+    h2 {
+      font-size: 26px;
+      color: rgb(145, 158, 171);
     }
+
+    .buttonContainer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 80px;
+
+      & > *:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.tableRowName {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 
 .main {
   display: grid;
   grid-template-columns: 1fr 400px;
-  grid-template-rows: calc(100vh - 110px);
-  margin-left: 10px;
+  grid-template-rows: calc(100vh - 90px);
 
   .sidebar {
     display: flex;
@@ -62,6 +80,8 @@
     //
 
     .sidebar_container {
+      display: flex;
+      flex-direction: column;
       color: rgb(99, 115, 129);
 
       & > * {
@@ -93,28 +113,5 @@
       display: block;
     }
     // background-color: red;
-  }
-}
-
-.addButton {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-  cursor: pointer;
-  border-top: 1px dashed rgba(145, 158, 171, 0.2);
-  border-bottom: 1px dashed rgba(145, 158, 171, 0.2);
-  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-
-  .svgContainer {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
-
-  &:hover {
-    background-color: rgba(145, 158, 171, 0.2);
   }
 }

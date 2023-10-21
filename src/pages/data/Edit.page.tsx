@@ -213,7 +213,7 @@ export default function DataEditPage() {
       <div className={style.main}>
         <Table
           head={['Number', 'Name', 'Email', '']}
-          size={{ width: 'calc(100vw - 400px)', height: 'calc(100vh - 110px)' }}
+          size={{ width: 'calc(100vw - 410px)', height: 'calc(100vh - 110px)' }}
         >
           {newDataRecords.map((item, i) => (
             <tr key={item.id}>
