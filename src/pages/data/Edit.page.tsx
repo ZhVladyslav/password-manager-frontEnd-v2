@@ -12,6 +12,7 @@ import { useInputText } from '../../hooks/useInputText.hook';
 import Table from '../../components/Table.component';
 import Button from '../../components/Button.component';
 import InputTextIndependent from '../../components/InputTextIndependent.component';
+import { SvgHiddenPassword, SvgPlus } from '../../assets';
 
 export default function DataEditPage() {
   const { id } = useParams();
@@ -19,10 +20,22 @@ export default function DataEditPage() {
   const passCollectionContext = useContext(PassCollectionContext);
   const inputName = useInputText();
 
-  const [dataName, setDataName] = useState<string>('');
   const [newFieldsNameList, setNewFieldsNameList] = useState<string[]>([]);
   const [newDataRecords, setNewDataRecords] = useState<IDecryptDataRecord[]>([]);
   const [viewIndex, setViewIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     if (
@@ -38,7 +51,7 @@ export default function DataEditPage() {
     const checkId = uuid.check(id);
     if (!checkId) navigate(PATH_ERROR[404]);
 
-    setDataName(passCollectionContext.collectionInDb.name);
+    inputName.setValue(passCollectionContext.collectionInDb.name);
     setNewDataRecords(copyArray());
 
     const generateArray = new Array(passCollectionContext.decryptCollectionData.collectionData.length).fill('');
@@ -85,9 +98,9 @@ export default function DataEditPage() {
 
     await passCollectionService.editEncryptData({ id, encryptData: encryptData });
 
-    if (dataName !== passCollectionContext.collectionInDb.name) {
-      await passCollectionService.editName({ id, name: dataName });
-      passCollectionContext.collectionInDb.name = dataName;
+    if (inputName.value !== passCollectionContext.collectionInDb.name) {
+      await passCollectionService.editName({ id, name: inputName.value });
+      passCollectionContext.collectionInDb.name = inputName.value;
     }
 
     passCollectionContext.decryptCollectionData.collectionData = newDataRecords;
@@ -106,6 +119,10 @@ export default function DataEditPage() {
   };
 
   const deleteRecord = (id: string) => {
+    const deleteIndex = newDataRecords.findIndex((item) => item.id === id);
+    if (deleteIndex === viewIndex) {
+      setViewIndex(null);
+    }
     setNewDataRecords((prev) => prev.filter((item) => item.id !== id));
   };
 
@@ -175,7 +192,6 @@ export default function DataEditPage() {
   const viewRecord = (id: string) => {
     const index = newDataRecords.findIndex((item) => item.id === id);
     setViewIndex(index);
-    console.log(newDataRecords[index]);
   };
 
   if (!passCollectionContext || !passCollectionContext.decryptCollectionData || !passCollectionContext.collectionInDb)
@@ -189,24 +205,42 @@ export default function DataEditPage() {
         </div>
 
         <div className={style.buttonBlock}>
-          <Button title="Add" onClick={addRecord} />
           <Button title="Update" onClick={updateData} />
           <Button title="Close" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.VIEW}/${id}`)} />
         </div>
       </div>
 
       <div className={style.main}>
-        <Table head={['Name', 'Email', '']} size={{ width: 'calc(100vw - 400px)', height: 'calc(100vh - 110px)' }}>
+        <Table
+          head={['Number', 'Name', 'Email', '']}
+          size={{ width: 'calc(100vw - 400px)', height: 'calc(100vh - 110px)' }}
+        >
           {newDataRecords.map((item, i) => (
             <tr key={item.id}>
-              <td onClick={() => viewRecord(item.id)}>{item.name}</td>
-              <td>{item.email}</td>
-              <td></td>
+              <td data-size='100px'>{i}</td>
+              <td data-size='200px' onClick={() => viewRecord(item.id)}>{item.name}</td>
+              <td data-size='200px'>{item.email}</td>
+              <td data-size='100px' onClick={() => deleteRecord(item.id)}>DELETE</td>
             </tr>
           ))}
+          <div className={style.addButton} onClick={addRecord}>
+            <div className={style.svgContainer}>
+              <SvgPlus />
+            </div>
+            Add record
+          </div>
         </Table>
 
         <div className={style.sidebar}>
+          {viewIndex === null && (
+            <div className={style.notSetIndexCollection}>
+              <div className={style.svgContainer}>
+                <SvgHiddenPassword />
+              </div>
+              <span>Select your record to view and edit it content</span>
+            </div>
+          )}
+
           {viewIndex !== null && (
             <div className={style.sidebar_container}>
               <h2>{newDataRecords[viewIndex].name ? newDataRecords[viewIndex].name : 'Name'}</h2>

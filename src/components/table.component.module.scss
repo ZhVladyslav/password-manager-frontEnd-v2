@@ -13,6 +13,7 @@
   }
 
   table {
+    position: relative;
     display: table;
     width: 100%;
     border-collapse: collapse;
@@ -40,7 +41,7 @@
           color: rgb(145, 158, 171);
           font-weight: 600;
           background-color: rgba(145, 158, 171, 0.12);
-          width: 200px;
+          // width: 200px;
         }
       }
     }
@@ -67,6 +68,22 @@
           color: rgb(255, 255, 255);
           white-space: nowrap;
           width: 200px;
+
+          &[data-size='50px'] {
+            width: 50px;
+          }
+
+          &[data-size='100px'] {
+            width: 100px;
+          }
+
+          &[data-size='150px'] {
+            width: 150px;
+          }
+
+          &[data-size='200px'] {
+            width: 200px;
+          }
         }
 
         &:hover {
