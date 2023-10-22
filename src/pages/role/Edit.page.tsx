@@ -4,13 +4,21 @@ import { IRoleAndClaims } from '../../types/role.type';
 import { roleService } from '../../services/role.service';
 import { PATH_ERROR, PATH_ROLE } from '../../routes/paths';
 import { uuid } from '../../utils/uuid';
+import style from './edit.page.module.scss';
+import Button from '../../components/Button.component';
+import { useInputText } from '../../hooks/useInputText.hook';
+import InputText from '../../components/InputText.component';
 
 export default function RoleEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [roleNames, setRoleNames] = useState<string[]>(['', '', '']);
-  const [roleDescriptions, setRoleDescriptions] = useState<string[]>(['', '', '']);
+  const nameEn = useInputText();
+  const nameUa = useInputText();
+  const nameRu = useInputText();
+  const descriptionEn = useInputText();
+  const descriptionUa = useInputText();
+  const descriptionRu = useInputText();
 
   const [claimList, setClaimList] = useState<string[]>([]);
   const [role, setRole] = useState<IRoleAndClaims | null>(null);
@@ -39,8 +47,14 @@ export default function RoleEditPage() {
     if (!roleInDb) return;
     setRole(roleInDb);
     setRoleClaims(roleInDb.claims.map((item) => item.claim));
-    setRoleNames([roleInDb.name_en, roleInDb.name_ua, roleInDb.name_ru]);
-    setRoleDescriptions([roleInDb.description_en, roleInDb.description_ua, roleInDb.description_ru]);
+
+    nameEn.setValue(roleInDb.name_en);
+    nameUa.setValue(roleInDb.name_ua);
+    nameRu.setValue(roleInDb.name_ru);
+
+    descriptionEn.setValue(roleInDb.description_en);
+    descriptionUa.setValue(roleInDb.description_ru);
+    descriptionRu.setValue(roleInDb.description_ru);
   };
 
   const checkedInput = (claim: string) => {
@@ -53,38 +67,30 @@ export default function RoleEditPage() {
     }
   };
 
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>, number: number) => {
-    if (/name/.test(e.target.name)) {
-      setRoleNames((prev) => prev.map((item, i) => (i === number ? e.target.value : item)));
-    } else if (/description/.test(e.target.name)) {
-      setRoleDescriptions((prev) => prev.map((item, i) => (i === number ? e.target.value : item)));
-    }
-  };
-
   const submit = async () => {
     if (role) {
       await roleService.edit({
         id: role.id,
-        name_en: roleNames[0],
-        name_ua: roleNames[1],
-        name_ru: roleNames[2],
-        description_en: roleDescriptions[0],
-        description_ua: roleDescriptions[1],
-        description_ru: roleDescriptions[2],
+        name_en: nameEn.value,
+        name_ua: nameUa.value,
+        name_ru: nameRu.value,
+        description_en: descriptionEn.value,
+        description_ua: descriptionUa.value,
+        description_ru: descriptionRu.value,
         claims: roleClaims,
       });
     } else {
       await roleService.create({
-        name_en: roleNames[0],
-        name_ua: roleNames[1],
-        name_ru: roleNames[2],
-        description_en: roleDescriptions[0],
-        description_ua: roleDescriptions[1],
-        description_ru: roleDescriptions[2],
+        name_en: nameEn.value,
+        name_ua: nameUa.value,
+        name_ru: nameRu.value,
+        description_en: descriptionEn.value,
+        description_ua: descriptionUa.value,
+        description_ru: descriptionRu.value,
         claims: roleClaims,
       });
     }
-    
+
     navigate(PATH_ROLE.LIST);
   };
 
@@ -96,36 +102,26 @@ export default function RoleEditPage() {
 
   return (
     <>
-      <div>
-        <div>
-          <>
-            <input type="text" name="name_en" value={roleNames[0]} onChange={(e) => onChangeInput(e, 0)} />
-            <input type="text" name="name_ua" value={roleNames[1]} onChange={(e) => onChangeInput(e, 1)} />
-            <input type="text" name="name_ru" value={roleNames[2]} onChange={(e) => onChangeInput(e, 2)} />
-            <br />
-            <input
-              type="text"
-              name="description_en"
-              value={roleDescriptions[0]}
-              onChange={(e) => onChangeInput(e, 0)}
-            />
-            <input
-              type="text"
-              name="description_ua"
-              value={roleDescriptions[1]}
-              onChange={(e) => onChangeInput(e, 1)}
-            />
-            <input
-              type="text"
-              name="description_ru"
-              value={roleDescriptions[2]}
-              onChange={(e) => onChangeInput(e, 2)}
-            />
-          </>
-        </div>
-        <br />
+      <div className={style.buttonContainer}>
+        {id && <Button title="Delete" onClick={deleteRole} />}
+        <Button title={id ? 'update' : 'create'} onClick={submit} />
+        <Button title="To list" onClick={() => navigate(PATH_ROLE.LIST)} />
+        {id && <Button title="Close" onClick={() => navigate(`${PATH_ROLE.VIEW}/${id}`)} />}
+      </div>
+
+      <div className={style.main}>
+        <InputText title="Name english" inputHook={nameEn} name="nameEn" />
+        <InputText title="Name ukraine" inputHook={nameUa} name="nameUa" />
+        <InputText title="Name ru" inputHook={nameRu} name="nameRu" />
+        {/*  */}
+        <InputText title="Description english" inputHook={descriptionEn} name="descriptionEn" />
+        <InputText title="Description ukraine" inputHook={descriptionUa} name="descriptionUa" />
+        <InputText title="Description ru" inputHook={descriptionRu} name="descriptionRu" />
+      </div>
+
+      <div className={style.claimContainer}>
         {claimList.map((item, i) => (
-          <div key={i}>
+          <div key={i} className={style[roleClaims.includes(item) ? 'access' : 'close']}>
             <input
               type="checkbox"
               id={item}
@@ -136,15 +132,6 @@ export default function RoleEditPage() {
           </div>
         ))}
       </div>
-
-      <button onClick={submit}>{id ? 'update' : 'create'}</button>
-      {id && (
-        <>
-          <button onClick={() => navigate(`${PATH_ROLE.VIEW}/${id}`)}>Close</button>
-          <button onClick={deleteRole}>Delete</button>
-        </>
-      )}
-      <button onClick={() => navigate(PATH_ROLE.LIST)}>To list</button>
     </>
   );
 }
