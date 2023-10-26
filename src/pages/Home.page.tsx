@@ -3,8 +3,6 @@ import Logo from '../assets/logo.png';
 import style from './home.page.module.scss';
 
 export default function HomePage() {
-  console.log(process.env.REACT_APP_DESCRIPTION);
-  
   return (
     <>
       <div className={style.container}>
