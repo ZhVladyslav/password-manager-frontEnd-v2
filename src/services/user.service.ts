@@ -24,13 +24,6 @@ class UserService {
     return `${API}/${this.rootPath}/${route}`;
   }
 
-  /**
-   * my-account
-   * edit-name
-   * edit-password
-   * delete
-   */
-
   async myAccount() {
     try {
       const res = await axios.get<IUser>(this.path('my-account'));
