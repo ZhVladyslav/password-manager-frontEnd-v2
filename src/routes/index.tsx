@@ -21,8 +21,13 @@ import {
   RegistrationPage,
 
   // User
-  UserViewPage,
   UserSettingsPage,
+  UserSessionPage,
+
+  // Admin
+  UserViewPage,
+  UserEditPage,
+  UserListPage,
 
   // Data
   DataListPage,
@@ -78,8 +83,23 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
-        { path: 'view', element: <UserViewPage /> },
         { path: 'settings', element: <UserSettingsPage /> },
+        { path: 'session', element: <UserSessionPage /> },
+      ],
+    },
+
+    // Admin
+    {
+      path: 'admin',
+      element: (
+        <AuthGuard>
+          <MainLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { path: 'view/:id', element: <UserViewPage /> },
+        { path: 'edit/:id', element: <UserEditPage /> },
+        { path: 'user-list', element: <UserListPage /> },
       ],
     },
 

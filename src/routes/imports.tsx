@@ -50,8 +50,13 @@ export const LoginPage = Loadable(lazy(() => import('../pages/auth/Login.page'))
 export const RegistrationPage = Loadable(lazy(() => import('../pages/auth/Registration.page')));
 
 // User
-export const UserViewPage = Loadable(lazy(() => import('../pages/user/View.page')));
 export const UserSettingsPage = Loadable(lazy(() => import('../pages/user/Settings.page')));
+export const UserSessionPage = Loadable(lazy(() => import('../pages/session/Session.page')));
+
+// Admin
+export const UserViewPage = Loadable(lazy(() => import('../pages/admin/View.page')));
+export const UserListPage = Loadable(lazy(() => import('../pages/admin/UserList.page')));
+export const UserEditPage = Loadable(lazy(() => import('../pages/admin/Edit.page')));
 
 // Data
 export const DataListPage = Loadable(lazy(() => import('../pages/data/List.page')));

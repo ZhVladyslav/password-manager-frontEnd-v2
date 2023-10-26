@@ -1,6 +1,7 @@
 class Routes {
   private ROOT_AUTH: string;
   private ROOT_USER: string;
+  private ROOT_ADMIN: string;
   private ROOT_PASS_COLLECTION: string;
   private ROOT_PASS_COLLECTION_DECRYPT: string;
   private ROOT_ROLE: string;
@@ -9,6 +10,7 @@ class Routes {
   constructor() {
     this.ROOT_AUTH = '/auth';
     this.ROOT_USER = '/user';
+    this.ROOT_ADMIN = '/admin';
     this.ROOT_PASS_COLLECTION = '/passCollection';
     this.ROOT_PASS_COLLECTION_DECRYPT = '/passCollection-decrypt';
     this.ROOT_ROLE = '/role';
@@ -36,8 +38,17 @@ class Routes {
   public user() {
     const root = this.ROOT_USER;
     return {
-      VIEW: this.createPath(root, '/view'),
       SETTINGS: this.createPath(root, '/settings'),
+      SESSION: this.createPath(root, '/session'),
+    };
+  }
+
+  public admin() {
+    const root = this.ROOT_ADMIN;
+    return {
+      VIEW_USER_INFO: this.createPath(root, '/view'),
+      EDIT_USER: this.createPath(root, '/edit'),
+      USER_LIST: this.createPath(root, '/user-list'),
     };
   }
 
@@ -83,6 +94,7 @@ const routes = new Routes();
 export const PATH_HOME = routes.home();
 export const PATH_AUTH = routes.auth();
 export const PATH_USER = routes.user();
+export const PATH_ADMIN = routes.admin();
 export const PATH_PASS_COLLECTION = routes.passCollection();
 export const PATH_PASS_COLLECTION_DECRYPT = routes.passCollectionDecrypt();
 export const PATH_ROLE = routes.role();
