@@ -5,7 +5,7 @@ import { sessionService } from '../services/session.service';
 import { userActions } from '../redux/actions/userActions';
 import { sessionActions } from '../redux/actions/sessionActions';
 import { userSession } from '../auth/userSession';
-import { PATH_HOME, PATH_PASS_COLLECTION, PATH_ROLE, PATH_USER } from '../routes/paths';
+import { PATH_ADMIN, PATH_HOME, PATH_PASS_COLLECTION, PATH_ROLE, PATH_USER } from '../routes/paths';
 import { SvgLogout, SvgUser } from '../assets';
 import Logo from '../assets/logo.png';
 
@@ -39,11 +39,11 @@ export default function MainLayout() {
           {/* OVERVIEW */}
           <ul>
             <h2>Overview</h2>
-            <li
-              onClick={() => navigate(PATH_PASS_COLLECTION.LIST)}
-              className={checkLocation(/^\/passCollection/)}
-            >
+            <li onClick={() => navigate(PATH_PASS_COLLECTION.LIST)} className={checkLocation(/^\/passCollection/)}>
               <span>Password collections</span>
+            </li>
+            <li onClick={() => navigate(PATH_USER.SESSION)} className={checkLocation(/^\/user\/session/)}>
+              <span>Sessions</span>
             </li>
           </ul>
 
@@ -53,8 +53,8 @@ export default function MainLayout() {
             <li onClick={() => navigate(PATH_ROLE.LIST)} className={checkLocation(/^\/role/)}>
               <span>Roles</span>
             </li>
-            <li className={checkLocation(/^\/users\/list/)}>
-              <span>Users</span>
+            <li onClick={() => navigate(PATH_ADMIN.USER_LIST)} className={checkLocation(/^\/admin/)}>
+              <span>User list</span>
             </li>
           </ul>
 
