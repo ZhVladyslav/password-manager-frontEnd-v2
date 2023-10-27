@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { adminService } from '../../services/admin.service';
 import { IUserInfo } from '../../types/user.type';
 import { formatDate } from '../../utils/formatDate';
-import { Button, Table } from '../../components';
+import { Block, Button, HeaderBlock, Table } from '../../components';
 import { PATH_ADMIN } from '../../routes/paths';
 
 export default function UserViewPage() {
@@ -28,25 +28,19 @@ export default function UserViewPage() {
 
   return (
     <>
-      <div>
+      <HeaderBlock leftSpace={<h2>{userInfo.user.name}</h2>}>
         <Button title="Edit" onClick={() => navigate(`${PATH_ADMIN.EDIT_USER}/${id}`)} />
-      </div>
+      </HeaderBlock>
 
-      {/* USER */}
-      <div>
-        <h2>{userInfo.user.name}</h2>
-        <span>{!userInfo.user.role_id ? 'null' : userInfo.user.role_id}</span>
-        <span>{formatDate(userInfo.user.createDate)}</span>
-      </div>
-
-      {/* ROLE */}
-      <div>
-        {userInfo.role && (
-          <>
-            <h2>{userInfo.role.name_en}</h2>
-          </>
-        )}
-      </div>
+      {/* ROLE AND USER */}
+      <Block m="0 0 10px 0 ">
+        <Table head={['Role name', 'Create account']} size={{ width: 'calc(100vw - 300px)', height: '200px' }}>
+          <tr>
+            <td data-size="100px">{userInfo.role ? userInfo.role.name_en : 'null'}</td>
+            <td data-size="100px">{formatDate(userInfo.user.createDate)}</td>
+          </tr>
+        </Table>
+      </Block>
 
       {/* SESSIONS */}
       <Table head={['Number', 'Create date', 'Expire date']} size={{ width: 'calc(100vw - 300px)', height: '200px' }}>

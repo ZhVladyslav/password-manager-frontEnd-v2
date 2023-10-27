@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { adminService } from '../../services/admin.service';
 import { IUserInfo } from '../../types/user.type';
 import { formatDate } from '../../utils/formatDate';
-import { Button } from '../../components';
+import { Button, HeaderBlock, Table } from '../../components';
 import { PATH_ADMIN } from '../../routes/paths';
 import { IRole } from '../../types/role.type';
 import { roleService } from '../../services/role.service';
@@ -56,29 +56,26 @@ export default function UserEditPage() {
 
   return (
     <>
-      <div>
+      <HeaderBlock leftSpace={<h2>{userInfo.user.name}</h2>}>
         <Button title="Close" onClick={() => navigate(`${PATH_ADMIN.VIEW_USER_INFO}/${id}`)} />
         <Button title="Update" onClick={submit} />
-      </div>
+      </HeaderBlock>
 
-      {/* USER */}
-      <div>
-        <h2>{userInfo.user.name}</h2>
-        <span>{!userInfo.role ? 'null' : userInfo.role.name_en}</span>
-        <span>{formatDate(userInfo.user.createDate)}</span>
-      </div>
-
-      {/* ROLE */}
-      <div>
-        <select name="role" id="pet-select" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
-          <option value="">--Please choose an option--</option>
-          {roleList.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name_en}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Table head={['Role', 'Create account']} size={{ width: 'calc(100vw - 300px)', height: '200px' }}>
+        <tr>
+          <td data-size="100px">
+            <select name="role" id="pet-select" value={selectValue} onChange={(e) => setSelectValue(e.target.value)}>
+              <option value="">--Please choose an option--</option>
+              {roleList.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name_en}
+                </option>
+              ))}
+            </select>
+          </td>
+          <td data-size="100px">{formatDate(userInfo.user.createDate)}</td>
+        </tr>
+      </Table>
     </>
   );
 }

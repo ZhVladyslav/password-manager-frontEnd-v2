@@ -39,7 +39,7 @@
 .main {
   display: grid;
   grid-template-columns: 1fr 400px;
-  grid-template-rows: calc(100vh - 90px);
+  grid-template-rows: calc(100vh - 80px);
 
   .sidebar {
     display: flex;

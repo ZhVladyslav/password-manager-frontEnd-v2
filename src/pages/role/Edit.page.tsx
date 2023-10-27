@@ -5,7 +5,7 @@ import { roleService } from '../../services/role.service';
 import { PATH_ERROR, PATH_ROLE } from '../../routes/paths';
 import { uuid } from '../../utils/uuid';
 import style from './edit.page.module.scss';
-import { Button, InputText } from '../../components';
+import { Button, HeaderBlock, InputText } from '../../components';
 import { useInputText } from '../../hooks/useInputText.hook';
 
 export default function RoleEditPage() {
@@ -101,12 +101,12 @@ export default function RoleEditPage() {
 
   return (
     <>
-      <div className={style.buttonContainer}>
+      <HeaderBlock>
         {id && <Button title="Delete" onClick={deleteRole} />}
         <Button title={id ? 'update' : 'create'} onClick={submit} />
         <Button title="To list" onClick={() => navigate(PATH_ROLE.LIST)} />
         {id && <Button title="Close" onClick={() => navigate(`${PATH_ROLE.VIEW}/${id}`)} />}
-      </div>
+      </HeaderBlock>
 
       <div className={style.main}>
         <InputText title="Name english" inputHook={nameEn} name="nameEn" />

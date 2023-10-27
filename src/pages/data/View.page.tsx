@@ -50,7 +50,7 @@ export default function DataViewPage() {
         <div className={style.main}>
           <Table
             head={['Number', 'Name', 'Email', 'Password', '']}
-            size={{ width: 'calc(100vw - 410px)', height: 'calc(100vh - 90px)' }}
+            size={{ width: 'calc(100vw - 410px)', height: 'calc(100vh - 80px)' }}
           >
             {passCollectionContext.decryptCollectionData.collectionData.map((item, i) => (
               <tr key={item.id}>

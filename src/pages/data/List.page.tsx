@@ -43,7 +43,7 @@ export default function DataListPage() {
         {dataList &&
           dataList.map((item, i) => (
             <tr key={item.id}>
-              <td>{i + 1}</td>
+              <td data-size='100px'>{i + 1}</td>
               <td>
                 <span
                   className={style.tableRowName}
@@ -56,7 +56,7 @@ export default function DataListPage() {
               </td>
               <td>{formatDate(item.lastUpdate)}</td>
               <td>{formatDate(item.createDate)}</td>
-              <td>
+              <td data-position='end'>
                 <RadioButton svg={<SvgTrash />} onClick={() => deleteData(item.id)} />
               </td>
             </tr>
