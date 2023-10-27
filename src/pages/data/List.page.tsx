@@ -5,8 +5,8 @@ import { formatDate } from '../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
 import { PATH_HOME, PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT } from '../../routes/paths';
 import style from './list.page.module.scss';
-import Button from '../../components/Button.component';
-import Table from '../../components/Table.component';
+import { Button, HeaderBlock, RadioButton, Table } from '../../components';
+import { SvgTrash } from '../../assets';
 
 export default function DataListPage() {
   const navigate = useNavigate();
@@ -31,33 +31,37 @@ export default function DataListPage() {
 
   return (
     <>
-      <div className={style.contentContainer}>
-        <div className={style.buttonContainer}>
-          <Button type="submit" title="To create" onClick={() => navigate(PATH_PASS_COLLECTION.CREATE)} />
-          <Button type="submit" title="To home" onClick={() => navigate(PATH_HOME.HOME)} />
-        </div>
+      <HeaderBlock>
+        <Button type="submit" title="To create" onClick={() => navigate(PATH_PASS_COLLECTION.CREATE)} />
+        <Button type="submit" title="To home" onClick={() => navigate(PATH_HOME.HOME)} />
+      </HeaderBlock>
 
-        <Table head={['Name', 'Last update', 'Create date', '']} size={{ width: 'calc(100vw - 300px)', height: 'calc(100vh - 90px)' }}>
-          {dataList &&
-            dataList.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <span
-                    className={style.tableRowName}
-                    onClick={() => {
-                      navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
-                    }}
-                  >
-                    {item.name}
-                  </span>
-                </td>
-                <td>{formatDate(item.lastUpdate)}</td>
-                <td>{formatDate(item.createDate)}</td>
-                <td onClick={() => deleteData(item.id)}>DELETE</td>
-              </tr>
-            ))}
-        </Table>
-      </div>
+      <Table
+        head={['Number', 'Name', 'Last update', 'Create date', '']}
+        size={{ width: 'calc(100vw - 300px)', height: 'calc(100vh - 80px)' }}
+      >
+        {dataList &&
+          dataList.map((item, i) => (
+            <tr key={item.id}>
+              <td>{i + 1}</td>
+              <td>
+                <span
+                  className={style.tableRowName}
+                  onClick={() => {
+                    navigate(`${PATH_PASS_COLLECTION_DECRYPT.DECRYPT}/${item.id}`);
+                  }}
+                >
+                  {item.name}
+                </span>
+              </td>
+              <td>{formatDate(item.lastUpdate)}</td>
+              <td>{formatDate(item.createDate)}</td>
+              <td>
+                <RadioButton svg={<SvgTrash />} onClick={() => deleteData(item.id)} />
+              </td>
+            </tr>
+          ))}
+      </Table>
     </>
   );
 }

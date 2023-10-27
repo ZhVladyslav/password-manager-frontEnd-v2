@@ -1,12 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR, PATH_HOME } from '../../routes/paths';
+import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR } from '../../routes/paths';
 import { passCollectionService } from '../../services/passCollection.service';
 import { uuid } from '../../utils/uuid';
-import Button from '../../components/Button.component';
+import { Button, HeaderBlock, Table } from '../../components';
 import style from './view.page.module.scss';
-import Table from '../../components/Table.component';
 import { SvgHiddenPassword } from '../../assets';
 
 export default function DataViewPage() {
@@ -41,15 +40,12 @@ export default function DataViewPage() {
   return (
     <>
       <div className={style.contentContainer}>
-        <div className={style.header}>
-          <h2>{passCollectionContext.collectionInDb.name}</h2>
-          <div className={style.buttonContainer}>
-            <Button type="submit" title="To list" onClick={() => passCollectionContext.clearContext()} />
-            <Button type="submit" title="Delete collection" onClick={() => deleteData()} />
-            <Button type="submit" title="Edit" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.EDIT}/${id}`)} />
-            <Button type="submit" title="Lock" onClick={() => passCollectionContext.clearContext()} />
-          </div>
-        </div>
+        <HeaderBlock leftSpace={<h2>{passCollectionContext.collectionInDb.name}</h2>}>
+          <Button type="submit" title="To list" onClick={() => passCollectionContext.clearContext()} />
+          <Button type="submit" title="Delete collection" onClick={() => deleteData()} />
+          <Button type="submit" title="Edit" onClick={() => navigate(`${PATH_PASS_COLLECTION_DECRYPT.EDIT}/${id}`)} />
+          <Button type="submit" title="Lock" onClick={() => passCollectionContext.clearContext()} />
+        </HeaderBlock>
 
         <div className={style.main}>
           <Table

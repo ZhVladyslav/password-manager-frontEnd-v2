@@ -5,9 +5,8 @@ import { IDecryptData } from '../../types/decryptData.type';
 import { cryptoV1 } from '../../utils/crypto.v1';
 import { passCollectionService } from '../../services/passCollection.service';
 import { PATH_PASS_COLLECTION_DECRYPT, PATH_PASS_COLLECTION } from '../../routes/paths';
-import InputText from '../../components/InputText.component';
+import { InputText, Form } from '../../components';
 import { useInputText } from '../../hooks/useInputText.hook';
-import Form from '../../components/Form_1.component';
 
 export default function DataCreatePage() {
   const navigate = useNavigate();

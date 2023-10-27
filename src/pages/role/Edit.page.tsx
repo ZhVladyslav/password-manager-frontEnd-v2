@@ -5,9 +5,8 @@ import { roleService } from '../../services/role.service';
 import { PATH_ERROR, PATH_ROLE } from '../../routes/paths';
 import { uuid } from '../../utils/uuid';
 import style from './edit.page.module.scss';
-import Button from '../../components/Button.component';
+import { Button, InputText } from '../../components';
 import { useInputText } from '../../hooks/useInputText.hook';
-import InputText from '../../components/InputText.component';
 
 export default function RoleEditPage() {
   const { id } = useParams();

@@ -7,8 +7,7 @@ import { passCollectionService } from '../../services/passCollection.service';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
 import { PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR, PATH_PASS_COLLECTION } from '../../routes/paths';
 import { useInputText } from '../../hooks/useInputText.hook';
-import InputText from '../../components/InputText.component';
-import Form from '../../components/Form_1.component';
+import { InputText, Form } from '../../components';
 
 export default function DataDecryptPage() {
   const { id } = useParams();

@@ -5,8 +5,7 @@ import { roleService } from '../../services/role.service';
 import { PATH_ROLE } from '../../routes/paths';
 import { formatDate } from '../../utils/formatDate';
 import style from './view.page.module.scss';
-import Button from '../../components/Button.component';
-import Table from '../../components/Table.component';
+import { Button, Table } from '../../components';
 
 export default function RoleViewPage() {
   const { id } = useParams();

@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { passCollectionService } from '../../services/passCollection.service';
 import { cryptoV1 } from '../../utils/crypto.v1';
-import { IDecryptData, IDecryptDataMain, IDecryptDataRecord } from '../../types/decryptData.type';
+import { IDecryptData, IDecryptDataRecord } from '../../types/decryptData.type';
 import { uuid } from '../../utils/uuid';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PATH_PASS_COLLECTION, PATH_PASS_COLLECTION_DECRYPT, PATH_ERROR } from '../../routes/paths';
 import { PassCollectionContext } from '../../layouts/Collection.layout';
 import style from './edit.page.module.scss';
-import InputText from '../../components/InputText.component';
+import { InputText, Button, InputTextIndependent, RadioButton, Table } from '../../components';
 import { useInputText } from '../../hooks/useInputText.hook';
-import Table from '../../components/Table.component';
-import Button from '../../components/Button.component';
-import InputTextIndependent from '../../components/InputTextIndependent.component';
-import { SvgHiddenPassword, SvgPlus } from '../../assets';
+import { SvgHiddenPassword, SvgPlus, SvgTrash } from '../../assets';
 
 export default function DataEditPage() {
   const { id } = useParams();
@@ -217,10 +214,14 @@ export default function DataEditPage() {
         >
           {newDataRecords.map((item, i) => (
             <tr key={item.id}>
-              <td data-size='100px'>{i}</td>
-              <td data-size='200px' onClick={() => viewRecord(item.id)}>{item.name}</td>
-              <td data-size='200px'>{item.email}</td>
-              <td data-size='100px' onClick={() => deleteRecord(item.id)}>DELETE</td>
+              <td data-size="100px">{i}</td>
+              <td data-size="200px" onClick={() => viewRecord(item.id)}>
+                {item.name}
+              </td>
+              <td data-size="200px">{item.email}</td>
+              <td data-size="100px">
+                <RadioButton svg={<SvgTrash />} onClick={() => deleteRecord(item.id)} />
+              </td>
             </tr>
           ))}
           <div className={style.addButton} onClick={addRecord}>
@@ -305,7 +306,10 @@ export default function DataEditPage() {
                       size="small"
                     />
 
-                    <Button title="Delete" onClick={() => deleteInput(newDataRecords[viewIndex].id, itemKeys)} />
+                    <RadioButton
+                      svg={<SvgTrash />}
+                      onClick={() => deleteInput(newDataRecords[viewIndex].id, itemKeys)}
+                    />
                   </div>
                 );
               })}
@@ -321,7 +325,7 @@ export default function DataEditPage() {
                   size="small"
                 />
 
-                <Button title="Add" onClick={() => addInput(newDataRecords[viewIndex].id, viewIndex)} />
+                <RadioButton svg={<SvgPlus />} onClick={() => addInput(newDataRecords[viewIndex].id, viewIndex)} />
               </div>
 
               {/* <div className={style.sidebarButtonBlock}>

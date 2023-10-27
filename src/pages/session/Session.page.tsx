@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from '../../redux/store';
-import { IStore } from '../../types/store.type';
-import { userService } from '../../services/user.service';
-import { userActions } from '../../redux/actions/userActions';
 import { useNavigate } from 'react-router-dom';
-import { PATH_HOME } from '../../routes/paths';
-import { sessionActions } from '../../redux/actions/sessionActions';
-import { userSession } from '../../auth/userSession';
-import style from './settings.page.module.scss';
-import InputText from '../../components/InputText.component';
-import { useInputText } from '../../hooks/useInputText.hook';
-import Button from '../../components/Button.component';
-import Table from '../../components/Table.component';
+import { Table } from '../../components';
 import { formatDate } from '../../utils/formatDate';
 import { sessionService } from '../../services/session.service';
 import { ISession } from '../../types/session.type';

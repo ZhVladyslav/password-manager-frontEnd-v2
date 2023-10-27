@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorComponent from '../../components/Error.component';
+import { ErrorComponent } from '../../components';
 
 export default function Error403Page() {
   return (

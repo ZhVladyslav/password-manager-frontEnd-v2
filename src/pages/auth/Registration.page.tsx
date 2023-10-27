@@ -3,9 +3,8 @@ import { authService } from '../../services/auth.service';
 import { useNavigate } from 'react-router-dom';
 import { PATH_AUTH } from '../../routes/paths';
 import { userSession } from '../../auth/userSession';
-import InputText from '../../components/InputText.component';
+import { InputText, Form } from '../../components';
 import { useInputText } from '../../hooks/useInputText.hook';
-import Form from '../../components/Form_1.component';
 
 export default function RegistrationPage() {
   const navigate = useNavigate();

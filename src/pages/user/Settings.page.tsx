@@ -8,9 +8,8 @@ import { PATH_HOME } from '../../routes/paths';
 import { sessionActions } from '../../redux/actions/sessionActions';
 import { userSession } from '../../auth/userSession';
 import style from './settings.page.module.scss';
-import InputText from '../../components/InputText.component';
+import { InputText, Button } from '../../components';
 import { useInputText } from '../../hooks/useInputText.hook';
-import Button from '../../components/Button.component';
 
 export default function UserSettingsPage() {
   const navigate = useNavigate();

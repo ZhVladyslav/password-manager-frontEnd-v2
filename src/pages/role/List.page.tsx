@@ -3,9 +3,8 @@ import { roleService } from '../../services/role.service';
 import { IRole } from '../../types/role.type';
 import { useNavigate } from 'react-router-dom';
 import { PATH_HOME, PATH_ROLE } from '../../routes/paths';
-import Button from '../../components/Button.component';
+import { Button, Table } from '../../components';
 import style from './list.page.module.scss';
-import Table from '../../components/Table.component';
 
 export default function RoleListPage() {
   const navigate = useNavigate();
