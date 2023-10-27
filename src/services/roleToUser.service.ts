@@ -7,6 +7,7 @@ interface IMessage {
 }
 
 interface IGetById extends Pick<IRoleToUser, 'id'> {}
+interface IGetByUserId extends Pick<IRoleToUser, 'userId'> {}
 interface ISet extends Pick<IRoleToUser, 'roleId' | 'userId'> {}
 interface IDelete extends Pick<IRoleToUser, 'userId'> {}
 
@@ -33,6 +34,15 @@ class RoleToUserService {
   async getById(data: IGetById) {
     try {
       const res = await axios.get<IRoleToUser>(this.path('by-id'), { params: data });
+      return res.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async getByUserId(data: IGetByUserId) {
+    try {
+      const res = await axios.get<IRoleToUser>(this.path('by-user-id'), { params: data });
       return res.data;
     } catch (error) {
       return null;

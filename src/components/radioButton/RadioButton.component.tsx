@@ -8,7 +8,7 @@ interface IProps {
 
 export default function RadioButton({ svg, onClick }: IProps) {
   return (
-    <button className={styles.container}>
+    <button className={styles.container} onClick={onClick}>
       <div className={styles.svgContainer}>{svg}</div>
     </button>
   );

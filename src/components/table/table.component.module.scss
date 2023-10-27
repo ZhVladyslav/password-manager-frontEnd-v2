@@ -67,7 +67,6 @@
           padding: 16px;
           color: rgb(255, 255, 255);
           white-space: nowrap;
-          width: 200px;
 
           &[data-size='50px'] {
             width: 50px;
@@ -84,6 +83,18 @@
           &[data-size='200px'] {
             width: 200px;
           }
+
+          &[data-position='end'] {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+          }
+
+          &[data-position='center'] {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
         }
 
         &:hover {
@@ -92,53 +103,4 @@
       }
     }
   }
-
-  // .tableRow_head {
-  //   display: flex;
-  //   align-items: center;
-  //   width: 100%;
-  //   background-color: rgba(145, 158, 171, 0.12);
-
-  //   .tableColumn {
-  //     display: flex;
-  //     align-items: center;
-  //     padding: 16px;
-  //   }
-  // }
-
-  // .tableRow_body {
-  //   display: flex;
-  //   align-items: center;
-  //   flex-direction: column;
-  //   width: 100%;
-
-  //   .tableColumn_container {
-  //     position: relative;
-  //     display: flex;
-  //     align-items: center;
-  //     width: 100%;
-
-  // .tableColumn {
-  //   display: flex;
-  //   align-items: center;
-  //   padding: 16px;
-  // }
-
-  // .tableColumn[data-size='100px'] {
-  //   min-width: 100px;
-  // }
-
-  // .tableColumn[data-position='end'] {
-  //   position: absolute;
-  //   top: 0;
-  //   right: 0;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: end;
-  //   min-width: 100px;
-  //   height: 100%;
-  // }
-
-  //   }
-  // }
 }

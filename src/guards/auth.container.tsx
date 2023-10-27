@@ -6,6 +6,7 @@ import { userService } from '../services/user.service';
 import { userActions } from '../redux/actions/userActions';
 import { roleService } from '../services/role.service';
 import { sessionActions } from '../redux/actions/sessionActions';
+import { roleToUserService } from '../services/roleToUser.service';
 
 interface IAuthContainer {
   children: React.ReactNode;
@@ -25,19 +26,21 @@ export default function AuthContainer(props: IAuthContainer) {
       return;
     }
 
-    if (myAccountRes.roleId) {
-      const RoleClaimsRes = await roleService.getById({ id: myAccountRes.roleId });
+    const roleToUser = await roleToUserService.getByUserId({ userId: myAccountRes.id });
 
-      if (RoleClaimsRes) {
-        userActions.myAccount({
-          name: myAccountRes.name,
-          claims: RoleClaimsRes.claims.map((item) => item.claim),
-          role: myAccountRes.roleId,
-        });
-      }
-    } else {
+    if (!roleToUser) {
       userActions.myAccount({ name: myAccountRes.name, claims: null, role: null });
+      return;
     }
+
+    const userRole = await roleService.getById({ id: roleToUser.roleId });
+    if (!userRole) return;
+
+    userActions.myAccount({
+      name: myAccountRes.name,
+      claims: userRole.claims.map((item) => item.claim),
+      role: roleToUser.roleId,
+    });
   };
 
   // init function for auto login if tokens is present

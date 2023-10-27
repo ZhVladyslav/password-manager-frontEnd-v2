@@ -46,6 +46,7 @@ import {
   Error404Page,
   Error500Page,
 } from './imports';
+import { Claims } from '../config/claims';
 
 export default function Router() {
   return useRoutes([
@@ -93,13 +94,13 @@ export default function Router() {
       path: 'admin',
       element: (
         <AuthGuard>
-          <MainLayout />
+          <MainLayout claims={[Claims.VIEW_ROLE_BY_ID, Claims.EDIT_ROLE_TO_USER, Claims.VIEW_ROLE_TO_USER_ALL]} />
         </AuthGuard>
       ),
       children: [
-        { path: 'view/:id', element: <UserViewPage /> },
-        { path: 'edit/:id', element: <UserEditPage /> },
-        { path: 'user-list', element: <UserListPage /> },
+        { path: 'view/:id', element: <UserViewPage claims={[Claims.VIEW_ROLE_BY_ID]} /> },
+        { path: 'edit/:id', element: <UserEditPage claims={[Claims.EDIT_ROLE_TO_USER]} /> },
+        { path: 'user-list', element: <UserListPage claims={[Claims.VIEW_ROLE_TO_USER_ALL]} /> },
       ],
     },
 
@@ -139,14 +140,14 @@ export default function Router() {
       path: 'role',
       element: (
         <AuthGuard>
-          <MainLayout />
+          <MainLayout claims={[Claims.VIEW_ROLE_ALL, Claims.VIEW_ROLE_BY_ID, Claims.EDIT_ROLE, Claims.CREATE_ROLE]} />
         </AuthGuard>
       ),
       children: [
-        { path: 'list', element: <RoleListPage /> },
-        { path: 'view/:id', element: <RoleViewPage /> },
-        { path: 'edit/:id', element: <RoleEditPage /> },
-        { path: 'create', element: <RoleEditPage /> },
+        { path: 'list', element: <RoleListPage claims={[Claims.VIEW_ROLE_ALL]} /> },
+        { path: 'view/:id', element: <RoleViewPage claims={[Claims.VIEW_ROLE_BY_ID]} /> },
+        { path: 'edit/:id', element: <RoleEditPage claims={[Claims.EDIT_ROLE]} /> },
+        { path: 'create', element: <RoleEditPage claims={[Claims.CREATE_ROLE]} /> },
         // { path: 'list', element: <RoleListPage claims={['test']} /> },
       ],
     },
