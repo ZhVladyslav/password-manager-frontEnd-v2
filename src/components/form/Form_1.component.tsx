@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './form_1.component.module.scss';
-import Button from './Button.component';
+import { Button } from '../index';
 
 interface IForm {
   children: React.ReactNode;

@@ -1,0 +1,24 @@
+.container {
+  $svg-size: 20px;
+  $button-padding: 8px;
+
+  padding: $button-padding;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  .svgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $svg-size;
+    height: $svg-size;
+    color: rgb(145, 158, 171);
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-color: rgba(145, 158, 171, 0.08);
+  }
+}

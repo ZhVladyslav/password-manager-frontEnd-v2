@@ -1,0 +1,11 @@
+.block {
+  display: flex;
+
+  &[data-direction='column'] {
+    flex-direction: column;
+  }
+
+  &[data-direction='row'] {
+    flex-direction: row;
+  }
+}

@@ -1,0 +1,16 @@
+.contentContainer {
+  display: flex;
+  align-items: center;
+
+  .buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 70px;
+
+    & > *:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}

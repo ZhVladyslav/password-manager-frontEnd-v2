@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { PATH_HOME } from '../routes/paths';
+import { PATH_HOME } from '../../routes/paths';
 
 interface IErrorComponent {
   title: string;
