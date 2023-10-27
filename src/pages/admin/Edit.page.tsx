@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { adminService } from '../../services/admin.service';
 import { IUserInfo } from '../../types/user.type';
 import { formatDate } from '../../utils/formatDate';
-import Button from '../../components/Button.component';
+import { Button } from '../../components';
 import { PATH_ADMIN } from '../../routes/paths';
 import { IRole } from '../../types/role.type';
 import { roleService } from '../../services/role.service';

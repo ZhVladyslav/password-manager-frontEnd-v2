@@ -3,8 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { adminService } from '../../services/admin.service';
 import { IUserInfo } from '../../types/user.type';
 import { formatDate } from '../../utils/formatDate';
-import Table from '../../components/Table.component';
-import Button from '../../components/Button.component';
+import { Button, Table } from '../../components';
 import { PATH_ADMIN } from '../../routes/paths';
 
 export default function UserViewPage() {
@@ -23,8 +22,6 @@ export default function UserViewPage() {
     if (!res) return;
     setUserInfo(res);
   };
-
-  // const store = useSelector((state: IStore) => state.user);
 
   if (!userInfo) return <></>;
   if (!id) return <></>;
