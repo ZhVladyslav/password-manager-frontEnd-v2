@@ -42,9 +42,7 @@ import {
   RoleEditPage,
 
   // Errors
-  Error403Page,
-  Error404Page,
-  Error500Page,
+  ErrorPage,
 } from './imports';
 import { Claims } from '../config/claims';
 
@@ -154,11 +152,9 @@ export default function Router() {
 
     // Error routes
     {
-      path: 'error',
+      path: 'error/:code',
       children: [
-        { path: '403', element: <Error403Page /> },
-        { path: '404', element: <Error404Page /> },
-        { path: '500', element: <Error500Page /> },
+        { path: '', element: <ErrorPage /> },
       ],
     },
 

@@ -4,8 +4,7 @@ import ClaimsGuard from '../guards/claim.guard';
 
 interface iLoadable {
   claims?: string[] | undefined;
-  // eslint-disable-next-line
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /* eslint-disable react/display-name */
@@ -71,6 +70,4 @@ export const RoleEditPage = Loadable(lazy(() => import('../pages/role/Edit.page'
 export const RoleViewPage = Loadable(lazy(() => import('../pages/role/View.page')));
 
 // Errors
-export const Error403Page = Loadable(lazy(() => import('../pages/errors/Error403.page')));
-export const Error404Page = Loadable(lazy(() => import('../pages/errors/Error404.page')));
-export const Error500Page = Loadable(lazy(() => import('../pages/errors/Error500.page')));
+export const ErrorPage = Loadable(lazy(() => import('../pages/errors/Error.page')));
