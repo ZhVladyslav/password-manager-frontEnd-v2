@@ -8,10 +8,15 @@ import { userSession } from '../auth/userSession';
 import { PATH_ADMIN, PATH_HOME, PATH_PASS_COLLECTION, PATH_ROLE, PATH_USER } from '../routes/paths';
 import { SvgLogout, SvgUser } from '../assets';
 import Logo from '../assets/logo.png';
+import { useSelector } from 'react-redux';
+import { IStore } from '../types/store.type';
+import { Claims } from '../config/claims';
 
 export default function MainLayout() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const userClaims = useSelector((state: IStore) => state.user.claims);
 
   const logout = async () => {
     await sessionService.logout();
@@ -47,16 +52,24 @@ export default function MainLayout() {
             </li>
           </ul>
 
-          {/* MANAGEMENT */}
-          <ul>
-            <h2>Management</h2>
-            <li onClick={() => navigate(PATH_ROLE.LIST)} className={checkLocation(/^\/role/)}>
-              <span>Roles</span>
-            </li>
-            <li onClick={() => navigate(PATH_ADMIN.USER_LIST)} className={checkLocation(/^\/admin/)}>
-              <span>User list</span>
-            </li>
-          </ul>
+          {userClaims && (
+            <>
+              {/* MANAGEMENT */}
+              <ul>
+                <h2>Management</h2>
+                {userClaims.includes(Claims.VIEW_ROLE_ALL) && (
+                  <li onClick={() => navigate(PATH_ROLE.LIST)} className={checkLocation(/^\/role/)}>
+                    <span>Roles</span>
+                  </li>
+                )}
+                {userClaims.includes(Claims.VIEW_ALL_USER) && (
+                  <li onClick={() => navigate(PATH_ADMIN.USER_LIST)} className={checkLocation(/^\/admin/)}>
+                    <span>User list</span>
+                  </li>
+                )}
+              </ul>
+            </>
+          )}
 
           {/* USER */}
           <div className={style.account_block}>
