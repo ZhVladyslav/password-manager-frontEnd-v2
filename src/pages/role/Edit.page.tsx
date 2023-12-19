@@ -49,11 +49,9 @@ export default function RoleEditPage() {
 
     nameEn.setValue(roleInDb.name_en);
     nameUa.setValue(roleInDb.name_ua);
-    nameRu.setValue(roleInDb.name_ru);
 
     descriptionEn.setValue(roleInDb.description_en);
-    descriptionUa.setValue(roleInDb.description_ru);
-    descriptionRu.setValue(roleInDb.description_ru);
+    descriptionUa.setValue(roleInDb.description_ua);
   };
 
   const checkedInput = (claim: string) => {
@@ -72,20 +70,16 @@ export default function RoleEditPage() {
         id: role.id,
         name_en: nameEn.value,
         name_ua: nameUa.value,
-        name_ru: nameRu.value,
         description_en: descriptionEn.value,
         description_ua: descriptionUa.value,
-        description_ru: descriptionRu.value,
         claims: roleClaims,
       });
     } else {
       await roleService.create({
         name_en: nameEn.value,
         name_ua: nameUa.value,
-        name_ru: nameRu.value,
         description_en: descriptionEn.value,
         description_ua: descriptionUa.value,
-        description_ru: descriptionRu.value,
         claims: roleClaims,
       });
     }

@@ -11,13 +11,13 @@ interface IMessage {
 interface IGetById extends Pick<IRole, 'id'> {}
 interface IGetByName extends Pick<IRole, 'name_en'> {}
 interface ICreate
-  extends Pick<IRole, 'name_en' | 'name_ua' | 'name_ru' | 'description_en' | 'description_ua' | 'description_ru'> {
+  extends Pick<IRole, 'name_en' | 'name_ua' |  'description_en' | 'description_ua' > {
   claims: string[];
 }
 interface IEdit
   extends Pick<
     IRole,
-    'id' | 'name_en' | 'name_ua' | 'name_ru' | 'description_en' | 'description_ua' | 'description_ru'
+    'id' | 'name_en' | 'name_ua' |  'description_en' | 'description_ua' 
   > {
   claims: string[];
 }

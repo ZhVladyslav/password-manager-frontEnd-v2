@@ -56,7 +56,6 @@ export default function RoleViewPage() {
           <td data-size="100px">Name</td>
           <td data-size="200px">{role.name_en}</td>
           <td data-size="200px">{role.name_ua}</td>
-          <td data-size="200px">{role.name_ru}</td>
           <td data-size="200px">{formatDate(role.createDate)}</td>
           <td data-size="200px">{formatDate(role.lastUpdate)}</td>
         </tr>
@@ -64,7 +63,6 @@ export default function RoleViewPage() {
           <td data-size="100px">Description</td>
           <td data-size="200px">{role.description_en}</td>
           <td data-size="200px">{role.description_ua}</td>
-          <td data-size="200px">{role.description_ru}</td>
           <td data-size="200px"></td>
           <td data-size="200px"></td>
         </tr>
